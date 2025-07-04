@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practo - Your Home for Health</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #2563eb;
+            --dark-blue: #1e40af;
+            --light-blue: #3b82f6;
+            --hero-gradient: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        /* Header Styles */
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-blue) !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: #6b7280 !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: var(--primary-blue) !important;
+        }
+
+        .nav-link.active {
+            border-bottom: 2px solid var(--primary-blue);
+            padding-bottom: 0.25rem !important;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: var(--hero-gradient);
+            position: relative;
+            overflow: hidden;
+            min-height: 70vh;
+        }
+
+        .hero-decorations {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .hero-circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .hero-circle-1 {
+            width: 80px;
+            height: 80px;
+            background: #3b82f6;
+            top: 10%;
+            left: 10%;
+        }
+
+        .hero-circle-2 {
+            width: 64px;
+            height: 64px;
+            background: #fbbf24;
+            top: 20%;
+            right: 15%;
+        }
+
+        .hero-circle-3 {
+            width: 48px;
+            height: 48px;
+            background: #f97316;
+            bottom: 25%;
+            left: 25%;
+        }
+
+        .hero-circle-4 {
+            width: 32px;
+            height: 32px;
+            background: #10b981;
+            top: 50%;
+            right: 30%;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .search-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .location-input {
+            background: #f9fafb;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            min-width: 200px;
+        }
+
+        .search-input {
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            font-size: 1.1rem;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+
+        .popular-tag {
+            background: transparent;
+            border: 1px solid #d1d5db;
+            border-radius: 20px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.875rem;
+            color: #374151;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            background: rgba(30, 58, 138, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-item-bottom {
+            text-align: center;
+            color: white;
+            padding: 1rem;
+        }
+
+        .nav-item-bottom i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .nav-item-bottom span {
+            font-size: 0.875rem;
+        }
+
+        /* Sections */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 2rem;
+        }
+
+        .feature-check {
+            color: #10b981;
+            margin-right: 0.75rem;
+        }
+
+        .testimonial-stars {
+            color: #10b981;
+            margin-bottom: 0.5rem;
+        }
+
+        .testimonial-avatar {
+            width: 32px;
+            height: 32px;
+            background: #d1d5db;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        /* Phone Mockup */
+        .phone-mockup {
+            width: 320px;
+            height: 600px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .phone-header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .doctor-avatar {
+            width: 32px;
+            height: 32px;
+            background: white;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .chat-message {
+            margin: 0.5rem 0;
+            padding: 0.75rem;
+            border-radius: 12px;
+            max-width: 80%;
+        }
+
+        .message-sent {
+            background: #dbeafe;
+            margin-left: auto;
+        }
+
+        .message-received {
+            background: #f3f4f6;
+            margin-right: auto;
+        }
+
+        .message-input {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            right: 1rem;
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Articles Carousel */
+        .articles-carousel {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .articles-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .articles-slide {
+            min-width: 100%;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e5e7eb;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-arrow:hover {
+            background: white;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-arrow.prev {
+            left: -25px;
+        }
+
+        .carousel-arrow.next {
+            right: -25px;
+        }
+
+        .carousel-arrow i {
+            color: #6b7280;
+            font-size: 1.2rem;
+        }
+
+        /* Article Cards */
+        .article-card {
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            flex: 1;
+        }
+
+        .article-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .article-image-1 {
+            height: 200px;
+            background: linear-gradient(135deg, #bfdbfe 0%, #fef3c7 100%);
+        }
+
+        .article-image-2 {
+            height: 200px;
+            background: linear-gradient(135deg, #bbf7d0 0%, #fef3c7 100%);
+        }
+
+        .article-image-3 {
+            height: 200px;
+            background: linear-gradient(135deg, #fce7f3 0%, #dbeafe 100%);
+        }
+
+        .article-image-4 {
+            height: 200px;
+            background: linear-gradient(135deg, #fed7d7 0%, #fbb6ce 100%);
+        }
+
+        .article-image-5 {
+            height: 200px;
+            background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%);
+        }
+
+        .article-image-6 {
+            height: 200px;
+            background: linear-gradient(135deg, #bee3f8 0%, #90cdf4 100%);
+        }
+
+        /* Medicine Section Enhanced */
+        .medicine-visual {
+            width: 400px;
+            height: 300px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .medicine-box {
+            width: 300px;
+            height: 200px;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            border-radius: 12px;
+            position: relative;
+            margin: 0 auto;
+            transform: perspective(600px) rotateX(15deg) rotateY(-15deg);
+        }
+
+        .medicine-items {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .medicine-bottle {
+            width: 60px;
+            height: 80px;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border-radius: 8px 8px 12px 12px;
+            position: relative;
+            display: inline-block;
+            margin: 0 5px;
+        }
+
+        .medicine-bottle::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 12px;
+            background: #374151;
+            border-radius: 4px;
+        }
+
+        .medicine-pills {
+            position: absolute;
+            top: -30px;
+            right: -20px;
+            width: 40px;
+            height: 60px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            border-radius: 20px;
+        }
+
+        .floating-pills {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #fbbf24;
+            border-radius: 50%;
+        }
+
+        .pill-1 { top: 20px; right: 50px; }
+        .pill-2 { top: 60px; right: 80px; }
+        .pill-3 { top: 40px; left: 20px; }
+
+        .delivery-status {
+            background: #e0f2fe;
+            border-left: 4px solid #0ea5e9;
+            padding: 0.75rem 1rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+        }
+
+        /* Medical Records Section */
+        .records-visual {
+            width: 400px;
+            height: 300px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .records-folder {
+            width: 200px;
+            height: 150px;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            border-radius: 8px;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            transform: perspective(600px) rotateX(10deg) rotateY(-20deg);
+        }
+
+        .records-folder::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 0;
+            width: 60px;
+            height: 15px;
+            background: #f59e0b;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .records-documents {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .records-lines {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+        }
+
+        .records-line {
+            height: 2px;
+            background: #e5e7eb;
+            margin: 8px 0;
+            border-radius: 1px;
+        }
+
+        .records-line:nth-child(2) { width: 80%; }
+        .records-line:nth-child(3) { width: 60%; }
+
+        .security-badge {
+            position: absolute;
+            top: 10px;
+            right: -20px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-heading {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Buttons */
+        .btn-primary-custom {
+            background: var(--primary-blue);
+            border: none;
+            padding: 0.75rem 2rem;
+            color:#dbeafe;
+            font-size: 1.1rem;
+            border-radius: 8px;
+        }
+
+        .btn-primary-custom:hover {
+            background: var(--dark-blue);
+        }
+
+        .online-indicator {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .phone-mockup {
+                width: 280px;
+                height: 500px;
+            }
+
+            .articles-slide {
+                flex-direction: column;
+            }
+
+            .carousel-arrow {
+                display: none;
+            }
+
+            .medicine-visual,
+            .records-visual {
+                width: 300px;
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container">
+            <a class="navbar-brand" href="#">practo</a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Find Doctors</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Video Consult</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Medicines</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Lab Tests</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Surgeries</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex align-items-center">
+                    <span class="badge bg-primary me-3">NEW</span>
+                    <span class="text-muted me-3">For Corporates</span>
+                    <span class="text-muted me-3">For Providers</span>
+                    <span class="text-muted me-3">Security & help</span>
+                    <span class="text-muted">Login / Signup</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-decorations">
+            <div class="hero-circle hero-circle-1"></div>
+            <div class="hero-circle hero-circle-2"></div>
+            <div class="hero-circle hero-circle-3"></div>
+            <div class="hero-circle hero-circle-4"></div>
+        </div>
+        
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h1 class="hero-title">Your home for health</h1>
+                
+                <div class="search-card mx-auto" style="max-width: 800px;">
+                    <h2 class="h3 mb-4 text-dark">Find and Book</h2>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-3">
+                            <div class="location-input">
+                                <i class="fas fa-map-marker-alt text-muted me-2"></i>
+                                <span>Bangalore</span>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="search-input-wrapper">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" class="form-control search-input" placeholder="Search doctors, clinics, hospitals, etc.">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <span class="text-muted me-2">Popular searches:</span>
+                        <button class="btn popular-tag">Dermatologist</button>
+                        <button class="btn popular-tag">Pediatrician</button>
+                        <button class="btn popular-tag">Gynecologist/Obstetrician</button>
+                        <button class="btn popular-tag">Others</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="container py-3">
+                <div class="row">
+                    <div class="col-6 col-md-2">
+                        <div class="nav-item-bottom">
+                            <i class="fas fa-comments"></i>
+                            <span>Consult with a doctor</span>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-2">
+                        <div class="nav-item-bottom">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Order Medicines</span>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-2">
+                        <div class="nav-item-bottom">
+                            <i class="fas fa-file-alt"></i>
+                            <span>View medical records</span>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-2">
+                        <div class="nav-item-bottom position-relative">
+                            <i class="fas fa-vial"></i>
+                            <span>Book test</span>
+                            <span class="position-absolute top-0 translate-middle badge rounded-pill bg-success" style="font-size: 0.6rem;">New</span>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-2">
+                        <div class="nav-item-bottom">
+                            <i class="fas fa-book-open"></i>
+                            <span>Read articles</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instant Appointment Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="section-title">
+                        Instant appointment with doctors.<span class="text-primary">Guaranteed.</span>
+                    </h2>
+                    
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-check feature-check"></i>
+                            <span><strong>100,000</strong> Verified doctors</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-check feature-check"></i>
+                            <span><strong>3M+</strong> Patient recommendations</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-check feature-check"></i>
+                            <span><strong>25M</strong> Patients/year</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary-custom mb-4">Find me the right doctor</button>
+                    
+                    <div>
+                        <div class="testimonial-stars mb-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-muted mb-2">
+                            Very helpful. Far easier than doing same things on computer. Allows quick and easy search with speedy booking. Even maintains history of doctors visited.
+                        </p>
+                        <div class="d-flex align-items-center">
+                            <div class="testimonial-avatar"></div>
+                            <span>Amit Sharma</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 text-center">
+                    <video class="rh5v-DefaultPlayer_video"
+                        poster="//www.practostatic.com/web-assets/home/assets/images/book.875ca26a3c4283c777660377e421e99b.png"
+                        width="250" height="480" loading="false" autoplay loop>
+                        <source src="https://www.practostatic.com/web-assets/home/assets/videos/appointment.700ce682eaec91bf93b6574cb8f09cd0.webm"
+                            type="video/webm">
+                    </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consultation Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-center mb-4 mb-lg-0">
+                    <div class="phone-mockup mx-auto">
+                        <div class="phone-header">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-chevron-left me-2"></i>
+                                <div class="doctor-avatar"></div>
+                                <div>
+                                    <div class="fw-bold">Dr. Mathili Pal</div>
+                                    <div style="font-size: 0.8rem; opacity: 0.8;">Consultation active</div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-phone me-2"></i>
+                                <span>12:30</span>
+                            </div>
+                        </div>
+                        
+                        <div class="p-3">
+                            <div class="chat-message message-sent">
+                                <p class="mb-1" style="font-size: 0.9rem;">Hello doctor, I recently got a full body health checkup done. I wanted to know your opinion regarding some of the results in the report.</p>
+                                <small class="text-muted">10:11 AM</small>
+                            </div>
+                            
+                            <div class="chat-message message-received">
+                                <p class="mb-1" style="font-size: 0.9rem;">Hey akshay. Send me the report. I'll have a look.</p>
+                                <small class="text-muted">10:12 AM</small>
+                            </div>
+                            
+                            <div class="chat-message message-sent">
+                                <div class="d-flex align-items-center mb-1">
+                                    <i class="fas fa-file-alt me-2"></i>
+                                    <span style="font-size: 0.9rem;">Body checkup report</span>
+                                </div>
+                                <small class="text-muted">10:13 AM</small>
+                            </div>
+                            
+                            <div class="chat-message message-received">
+                                <p class="mb-1" style="font-size: 0.9rem;">Seems like you have vitamin D deficiency. Rest all seems ok.</p>
+                                <small class="text-muted">10:20 AM</small>
+                            </div>
+                        </div>
+                        
+                        <div class="message-input">
+                            <i class="fas fa-paperclip text-muted me-2"></i>
+                            <i class="fas fa-image text-muted me-2"></i>
+                            <input type="text" class="form-control border-0 bg-transparent" placeholder="Write Message">
+                            <button class="btn btn-primary btn-sm">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <h2 class="section-title">
+                        Skip the waiting room.<br>
+                        Consult with a doctor
+                    </h2>
+                    
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-check feature-check"></i>
+                            <span>Fees starting at <strong>₹99</strong></span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-check feature-check"></i>
+                            <span>Verified doctors respond in <strong>5 minutes</strong></span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-check feature-check"></i>
+                            <span><strong>100%</strong> Private and confidential</span>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-4">
+                        <button class="btn btn-primary-custom me-4">Consult now</button>
+                        <div class="d-flex align-items-center">
+                            <div class="online-indicator"></div>
+                            <span class="text-muted">88434 doctors online</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="testimonial-stars mb-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-muted mb-2">
+                            Good initiative. The doctors are responsive and provide you a brief consultation
+                        </p>
+                        <div class="d-flex align-items-center">
+                            <div class="testimonial-avatar"></div>
+                            <span>Aaron Moitra</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Articles Section with Carousel -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">Read top articles from health experts</h2>
+
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="card article-card h-100">
+                        <div class="article-image-1"></div>
+                        <div class="card-body">
+                            <h5 class="card-title">5 Ways to Burn Calories Without Exercising!</h5>
+                            <p class="text-muted mb-3">Ms.Swati Kapoor, Dietitian/Nutritionist</p>
+                            <div class="d-flex align-items-center text-muted">
+                                <span>275Likes</span>
+                                <span class="mx-2">•</span>
+                                <span>35800Views</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mb-4">
+                    <div class="card article-card h-100">
+                        <div class="article-image-2"></div>
+                        <div class="card-body">
+                            <h5 class="card-title">Do Mangoes Make You Gain Weight?</h5>
+                            <p class="text-muted mb-3">Ms.Swati Kapoor, Dietitian/Nutritionist</p>
+                            <div class="d-flex align-items-center text-muted">
+                                <span>211Likes</span>
+                                <span class="mx-2">•</span>
+                                <span>750741Views</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mb-4">
+                    <div class="card article-card h-100">
+                        <div class="article-image-3"></div>
+                        <div class="card-body">
+                            <h5 class="card-title">5 Small Changes for a Good Body</h5>
+                            <p class="text-muted mb-3">Ms.Swati Kapoor, Dietitian/Nutritionist</p>
+                            <div class="d-flex align-items-center text-muted">
+                                <span>205Likes</span>
+                                <span class="mx-2">•</span>
+                                <span>8551Views</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button class="btn btn-primary-custom">More articles</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Medicine Section Enhanced -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="section-title">
+                        Get all your medicines.<br>
+                        Everytime. On time.
+                    </h2>
+                    
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-check feature-check"></i>
+                            <span>Guaranteed availability</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-check feature-check"></i>
+                            <span>Over <strong>130,000+</strong> genuine medicines</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-check feature-check"></i>
+                            <span>Home delivery in <strong>24hrs</strong></span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary-custom mb-4">Order Medicines</button>
+
+                    <div class="delivery-status">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-info-circle text-info me-2"></i>
+                            <span><strong>Last order delivered 4 hours 12 mins ago</strong> in Musakhedi, Indore</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <p class="text-muted mb-2">
+                            Very Helpful! I hope a lot more doctors come onboard soon. The Doctor's tool is also very helpful, apart from the app. The prescriptions are all on mail, and messages, which makes things very easy to use and track. Great job overall!
+                        </p>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-chevron-left text-muted me-2"></i>
+                            <i class="fas fa-chevron-right text-muted"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 text-center">
+                    <div class="medicine-visual">
+                        <div class="medicine-box">
+                            <div class="medicine-items">
+                                <div class="medicine-bottle"></div>
+                                <div class="medicine-bottle"></div>
+                                <div class="medicine-pills"></div>
+                            </div>
+                        </div>
+                        <div class="floating-pills pill-1"></div>
+                        <div class="floating-pills pill-2"></div>
+                        <div class="floating-pills pill-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Medical Records Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-center mb-4 mb-lg-0">
+                    <div class="records-visual">
+                        <div class="records-folder">
+                            <div class="records-documents">
+                                <div class="records-lines">
+                                    <div class="records-line"></div>
+                                    <div class="records-line"></div>
+                                    <div class="records-line"></div>
+                                    <div class="records-line"></div>
+                                </div>
+                            </div>
+                            <div class="security-badge">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <h2 class="section-title">
+                        All your medical records<br>
+                        In one secure app.
+                    </h2>
+                    
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-check feature-check"></i>
+                            <span><strong>256-bit</strong> end to end encryption</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-check feature-check"></i>
+                            <span>Records are accessible <strong>only by you</strong></span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-check feature-check"></i>
+                            <span>Access your records across <strong>8000+ centers</strong></span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary-custom mb-4">Order Medicines</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">
+                <span style="color: #60a5fa;">●</span>practo<span style="color: #60a5fa;">●</span>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <h6 class="footer-heading">Practo</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <h6 class="footer-heading">For patients</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Ask free health questions</a></li>
+                        <li><a href="#">Search for doctors</a></li>
+                        <li><a href="#">Search for clinics</a></li>
+                        <li><a href="#">Search for hospitals</a></li>
+                        <li><a href="#">Book Diagnostic Tests</a></li>
+                        <li><a href="#">Book Full Body Checkups</a></li>
+                        <li><a href="#">Read health articles</a></li>
+                        <li><a href="#">Consult a doctor</a></li>
+                        <li><a href="#">Order medicines</a></li>
+                        <li><a href="#">Read about medicines</a></li>
+                        <li><a href="#">Practo drive</a></li>
+                        <li><a href="#">Health app</a></li>
+                        <li><a href="#">Practo Plus</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <h6 class="footer-heading">For doctors</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Practo Consult</a></li>
+                        <li><a href="#">Practo Health Feed</a></li>
+                        <li><a href="#">Practo Profile</a></li>
+                    </ul>
+                    
+                    <h6 class="footer-heading mt-4">For clinics</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Practo Prime</a></li>
+                        <li><a href="#">Ray by Practo</a></li>
+                        <li><a href="#">Practo Reach</a></li>
+                        <li><a href="#">Ray Tab</a></li>
+                        <li><a href="#">Practo Pro</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <h6 class="footer-heading">For hospitals</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Insta by Practo</a></li>
+                        <li><a href="#">Qikwell by Practo</a></li>
+                        <li><a href="#">Practo Profile</a></li>
+                        <li><a href="#">Practo Reach</a></li>
+                        <li><a href="#">Practo Drive</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <h6 class="footer-heading">More</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Developers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">PCS T&C</a></li>
+                        <li><a href="#">Healthcare Directory</a></li>
+                        <li><a href="#">Practo Health Wiki</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <h6 class="footer-heading">Social</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">Youtube</a></li>
+                        <li><a href="#">Github</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-copyright">
+                Copyright © 2017, Practo. All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
