@@ -13,9 +13,9 @@ const AdminLayout = () => {
           <nav className="nav-links">
             <Link to="/dashboard">Dashboard</Link>
             <div className="dropdown">
-              <a href="/doctorList">Doctors ▾</a>
+              <a href="">Doctors ▾</a>
               <div className="dropdown-content">
-                <Link href="#">Add Doctor</Link>
+                <a href="/doctorAdd">Add Doctor</a>
                 <a href="/doctorList">View Doctors</a>
               </div>
             </div>
