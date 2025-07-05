@@ -15,8 +15,8 @@ const AdminLayout = () => {
             <div className="dropdown">
               <a href="">Doctors ▾</a>
               <div className="dropdown-content">
-                <a href="/doctorAdd">Add Doctor</a>
-                <a href="/doctorList">View Doctors</a>
+                <Link to="/doctorAdd">Add Doctor</Link>
+                <Link to="/doctorList">View Doctors</Link>
               </div>
             </div>
             <a href="#">Video Consult</a>

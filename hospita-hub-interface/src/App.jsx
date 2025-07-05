@@ -1,3 +1,4 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 // src/App.jsx
 import AdminLayout from "./Layouts/AdminLayout";
 import Dashboard from "./Pages/Admin/Dashboard";
@@ -5,7 +6,6 @@ import DoctorList from "./Pages/Admin/DoctorList";
 import DoctorAdd from "./Pages/Admin/DoctorAdd";
 
 import Patient from "./Layouts/PatientLayout";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PatientDashboard from "./Pages/Patient/PatientDashboard";
 
 function App() {

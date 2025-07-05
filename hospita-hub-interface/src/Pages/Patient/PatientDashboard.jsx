@@ -130,7 +130,7 @@ const PatientDashboard = () => {
             </section>
 
             {/* <!-- Consultation Section --> */}
-            <section className="py-5">
+            <section className="py-5 bg-body">
                 <div className="container">
                     <div className="row align-items-center">
                         <div className="col-lg-6 text-center mb-4 mb-lg-0">
@@ -294,7 +294,7 @@ const PatientDashboard = () => {
             </section>
 
             {/* <!-- Medicine Section Enhanced --> */}
-            <section className="py-5">
+            <section className="py-5 bg-body">
                 <div className="container">
                     <div className="row align-items-center">
                         <div className="col-lg-6">
