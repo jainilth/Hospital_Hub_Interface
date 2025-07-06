@@ -58,7 +58,7 @@ const PatientDashboard = () => {
                             </div>
                             <div className="col-6 col-md-2 d-flex flex-column align-items-center py-3">
                                 <i className="fas fa-file-alt fa-2x mb-2 text-white"></i>
-                                <span className="text-white">View medical records</span>
+                                <span className="text-white">Book Appointment</span>
                             </div>
                             <div className="col-6 col-md-2 d-flex flex-column align-items-center py-3">
                                 <i className="fas fa-vial fa-2x mb-2 text-white"></i>

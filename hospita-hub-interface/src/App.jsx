@@ -20,6 +20,12 @@ function App() {
 
         <Route path="/patient" element={<Patient/>} >
           <Route path="home" element={<PatientDashboard />} />
+          <Route path="consult" element={<div>consult</div>} />
+          <Route path="ordermedic" element={<div>order medicine</div>} />
+          <Route path="bookappointment" element={<div>bookappointment</div>} />
+          <Route path="labtestbook" element={<div>labtestbook</div>} />
+          <Route path="readarticles" element={<div>readarticles</div>} />
+          <Route path="surgeries" element={<div>surgeries</div>} />
         </Route>
       </Routes>
     </BrowserRouter>
