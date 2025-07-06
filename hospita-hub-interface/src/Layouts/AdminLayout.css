@@ -60,15 +60,14 @@ body {
 }
 
 .dropdown-content {
-  display: none;
   position: absolute;
   top: 100%;
   left: 0;
   background: white;
+  min-width: 200px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  padding: 10px;
-  min-width: 150px;
-  z-index: 1001;
+  z-index: 9999;
+  display: none;
 }
 
 .dropdown-content a {
@@ -117,7 +116,9 @@ body {
 /* Let main content expand to fill space between header and footer */
 .main-content {
   flex: 1;
+  width: 100%;
   padding: 2rem;
   background: #f9f9f9;
+  padding: 0px;
 }
 

@@ -49,7 +49,7 @@ const AdminLayout = () => {
       {/*Header End*/}
 
       {/* Main content area where nested routes will be rendered */}
-      <main className="main-content">
+      <main className="main-content" style={{ padding: "0px" }}>
         <Outlet />
       </main>
       {/*Main Content End*/}
