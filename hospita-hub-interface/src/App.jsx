@@ -4,6 +4,15 @@ import AdminLayout from "./Layouts/AdminLayout";
 import Dashboard from "./Pages/Admin/Dashboard";
 import DoctorList from "./Pages/Admin/DoctorList";
 import DoctorAdd from "./Pages/Admin/DoctorAdd";
+import AppointmantOverView from "./Pages/Admin/SubHeaderComponent/AppointmantOverView";
+import DepartmentOverView from "./Pages/Admin/SubHeaderComponent/DepartmentOverView";
+import DoctorOverView from "./Pages/Admin/SubHeaderComponent/DoctorOverView";
+import HospitalOverView from "./Pages/Admin/SubHeaderComponent/HospitalOverView";
+import OverView from "./Pages/Admin/SubHeaderComponent/OverView";
+import PatientOverView from "./Pages/Admin/SubHeaderComponent/PatientOverView";
+import MedicineOverView from "./Pages/Admin/SubHeaderComponent/MedicineOverView";
+import LabOverView from "./Pages/Admin/SubHeaderComponent/LabOverView";
+import EmergencyOverView from "./Pages/Admin/SubHeaderComponent/EmergencyOverView";
 
 import Patient from "./Layouts/PatientLayout";
 import PatientDashboard from "./Pages/Patient/PatientDashboard";
@@ -13,7 +22,19 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<AdminLayout />}>
-          <Route path="dashboard" element={<Dashboard />} />
+
+          <Route path="dashboard" element={<Dashboard />}>
+            <Route path="overview" element={<OverView />} />
+            <Route path="patientOverview" element={<PatientOverView />} />
+            <Route path="doctorOverview" element={<DoctorOverView />} />
+            <Route path="hospitalOverview" element={<HospitalOverView />} />
+            <Route path="departmentOverview" element={<DepartmentOverView />} />
+            <Route path="appointmentOverview" element={<AppointmantOverView />} />
+            <Route path="medicineOverview" element={<MedicineOverView />} />
+            <Route path="labOverview" element={<LabOverView />} />
+            <Route path="emergencyOverview" element={<EmergencyOverView />} />
+          </Route>
+        
           <Route path="doctorList" element={<DoctorList />} />
           <Route path="doctorAdd" element={<DoctorAdd />} />
         </Route>
