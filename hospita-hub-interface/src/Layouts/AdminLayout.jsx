@@ -13,33 +13,37 @@ const AdminLayout = () => {
           <nav className="nav-links">
             <Link to="/dashboard">Dashboard</Link>
             <div className="dropdown">
-              <a href="">Doctors ▾</a>
+              <Link href="">Doctors ▾</Link>
               <div className="dropdown-content">
                 <Link to="/doctorAdd">Add Doctor</Link>
                 <Link to="/doctorList">View Doctors</Link>
               </div>
             </div>
-            <a href="#">Video Consult</a>
-            <a href="#">Surgeries</a>
+            <Link href="/emergency">Emergency</Link>
+            <Link href="#">Medicines</Link>
+            <Link href="#">Users</Link>
+            <Link href="#">Hospitals</Link>
+            <Link href="#">Appointments</Link>
+            <Link href="#">Labs</Link>
             <div className="dropdown">
-              <a href="#">For Corporates ▾</a>
+              <Link href="#">For Corporates ▾</Link>
               <div className="dropdown-content">
-                <a href="#">Health Plans</a>
-                <a href="#">Employee Benefits</a>
+                <Link href="#">Health Plans</Link>
+                <Link href="#">Employee Benefits</Link>
               </div>
             </div>
             <div className="dropdown">
-              <a href="#">For Providers ▾</a>
+              <Link href="#">For Providers ▾</Link>
               <div className="dropdown-content">
-                <a href="#">Dashboard</a>
-                <a href="#">Login</a>
+                <Link href="#">Dashboard</Link>
+                <Link href="#">Login</Link>
               </div>
             </div>
             <div className="dropdown">
-              <a href="#">Security & Help ▾</a>
+              <Link href="#">Security & Help ▾</Link>
               <div className="dropdown-content">
-                <a href="#">Privacy</a>
-                <a href="#">Contact</a>
+                <Link href="#">Privacy</Link>
+                <Link href="#">Contact</Link>
               </div>
             </div>
           </nav>
@@ -49,7 +53,7 @@ const AdminLayout = () => {
       {/*Header End*/}
 
       {/* Main content area where nested routes will be rendered */}
-      <main className="main-content">
+      <main className="main-content" style={{ padding: "0px" }}>
         <Outlet />
       </main>
       {/*Main Content End*/}

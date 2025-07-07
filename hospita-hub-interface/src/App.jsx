@@ -4,7 +4,9 @@ import AdminLayout from "./Layouts/AdminLayout";
 import Dashboard from "./Pages/Admin/Dashboard";
 import DoctorList from "./Pages/Admin/DoctorList";
 import DoctorAdd from "./Pages/Admin/DoctorAdd";
+import Emergency from "./Pages/Admin/Emergency";
 
+// src/Layouts/PatientLayout.jsx
 import Patient from "./Layouts/PatientLayout";
 import PatientDashboard from "./Pages/Patient/PatientDashboard";
 
@@ -16,9 +18,11 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="doctorList" element={<DoctorList />} />
           <Route path="doctorAdd" element={<DoctorAdd />} />
+          <Route path="emergency" element={<Emergency />} />
+          {/* Add more admin routes as needed */}
         </Route>
 
-        <Route path="/patient" element={<Patient/>} >
+        <Route path="/patient" element={<Patient />}>
           <Route path="home" element={<PatientDashboard />} />
           <Route path="consult" element={<div>consult</div>} />
           <Route path="ordermedic" element={<div>order medicine</div>} />
