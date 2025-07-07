@@ -12,42 +12,44 @@ const AdminLayout = () => {
           <div className="logo">•Helth Hub•</div>
           <nav className="nav-links">
             <Link to="/dashboard">Dashboard</Link>
+            
             <div className="dropdown">
-              <Link href="">Doctors ▾</Link>
+              <Link to="">Doctors ▾</Link>
               <div className="dropdown-content">
                 <Link to="/doctorAdd">Add Doctor</Link>
                 <Link to="/doctorList">View Doctors</Link>
               </div>
             </div>
-            <Link href="/emergency">Emergency</Link>
-            <Link href="#">Medicines</Link>
-            <Link href="#">Users</Link>
-            <Link href="#">Hospitals</Link>
-            <Link href="#">Appointments</Link>
-            <Link href="#">Labs</Link>
-            <div className="dropdown">
-              <Link href="#">For Corporates ▾</Link>
+            
+            <Link to="/emergency">Emergency</Link>
+            <Link to="/medicine">Medicines</Link>
+            <Link to="/user">Users</Link>
+            <Link to="/hospital">Hospitals</Link>
+            <Link to="/appointment">Appointments</Link>
+            <Link to="#">Labs</Link>
+            {/* <div className="dropdown">
+              <Link to="#">For Corporates ▾</Link>
               <div className="dropdown-content">
-                <Link href="#">Health Plans</Link>
-                <Link href="#">Employee Benefits</Link>
+                <Link to="#">Health Plans</Link>
+                <Link to="#">Employee Benefits</Link>
               </div>
-            </div>
-            <div className="dropdown">
-              <Link href="#">For Providers ▾</Link>
+            </div> */}
+            {/* <div className="dropdown">
+              <Link to="#">For Providers ▾</Link>
               <div className="dropdown-content">
-                <Link href="#">Dashboard</Link>
-                <Link href="#">Login</Link>
+                <Link to="#">Dashboard</Link>
+                <Link to="#">Login</Link>
               </div>
-            </div>
+            </div> */}
             <div className="dropdown">
-              <Link href="#">Security & Help ▾</Link>
+              <Link to="#">Security & Help ▾</Link>
               <div className="dropdown-content">
-                <Link href="#">Privacy</Link>
-                <Link href="#">Contact</Link>
+                <Link to="#">Privacy</Link>
+                <Link to="#">Contact</Link>
               </div>
             </div>
           </nav>
-          <button className="login-btn">Login / Signup</button>
+          {/* <button className="login-btn">Login / Signup</button> */}
         </div>
       </header>
       {/*Header End*/}
