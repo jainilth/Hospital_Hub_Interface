@@ -47,7 +47,6 @@ export default function DoctorList() {
       <div className="search-filter-section">
         <div className="search-box">
           <input type="text" placeholder="Search doctors by name or specialization..." className="search-input" />
-          <span className="search-icon">🔍</span>
         </div>
         <div className="filters">
           <select className="filter-select">
