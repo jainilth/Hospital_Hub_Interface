@@ -5,6 +5,10 @@ import Dashboard from "./Pages/Admin/Dashboard";
 import DoctorList from "./Pages/Admin/DoctorList";
 import DoctorAdd from "./Pages/Admin/DoctorAdd";
 import Emergency from "./Pages/Admin/Emergency";
+import Medicine from "./Pages/Admin/Medicine";
+import User from "./Pages/Admin/User";
+import Hospital from "./Pages/Admin/Hospital"; 
+import Appointment from "./Pages/Admin/Appointment";
 
 // src/Layouts/PatientLayout.jsx
 import Patient from "./Layouts/PatientLayout";
@@ -19,7 +23,10 @@ function App() {
           <Route path="doctorList" element={<DoctorList />} />
           <Route path="doctorAdd" element={<DoctorAdd />} />
           <Route path="emergency" element={<Emergency />} />
-          {/* Add more admin routes as needed */}
+          <Route path="medicine" element={<Medicine />} />
+          <Route path="user" element={<User />} />
+          <Route path="hospital" element={<Hospital />} />
+          <Route path="appointment" element={<Appointment />} />
         </Route>
 
         <Route path="/patient" element={<Patient />}>

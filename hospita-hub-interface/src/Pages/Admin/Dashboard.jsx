@@ -1,5 +1,5 @@
-import React from 'react'
-import './Dashboard.css';
+import React from "react";
+import "./Dashboard.css";
 
 export default function AdminDashboard() {
   return (
@@ -8,18 +8,21 @@ export default function AdminDashboard() {
       <div className="dashboard-header">
         <div className="header-content">
           <h1 className="dashboard-title">Health Hub Admin Portal</h1>
-          <p className="dashboard-subtitle">Comprehensive Healthcare Management System</p>
+          <p className="dashboard-subtitle">
+            Comprehensive Healthcare Management System
+          </p>
         </div>
         <div className="header-actions">
-          <button className="btn-primary">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-            Quick Add
-          </button>
           <button className="btn-secondary">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
             </svg>
             Export Data
           </button>
@@ -31,10 +34,17 @@ export default function AdminDashboard() {
         <div className="metrics-grid">
           <div className="metric-card hospitals">
             <div className="metric-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                <path d="M2 17l10 5 10-5"/>
-                <path d="M2 12l10 5 10-5"/>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                <path d="M2 17l10 5 10-5" />
+                <path d="M2 12l10 5 10-5" />
               </svg>
             </div>
             <div className="metric-content">
@@ -46,9 +56,16 @@ export default function AdminDashboard() {
 
           <div className="metric-card doctors">
             <div className="metric-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                <circle cx="12" cy="7" r="4"/>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
               </svg>
             </div>
             <div className="metric-content">
@@ -60,27 +77,43 @@ export default function AdminDashboard() {
 
           <div className="metric-card appointments">
             <div className="metric-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                <line x1="16" y1="2" x2="16" y2="6"/>
-                <line x1="8" y1="2" x2="8" y2="6"/>
-                <line x1="3" y1="10" x2="21" y2="10"/>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
               </svg>
             </div>
             <div className="metric-content">
               <h3>Today's Appointments</h3>
               <p className="metric-number">2,341</p>
-              <span className="metric-change positive">+15% from yesterday</span>
+              <span className="metric-change positive">
+                +15% from yesterday
+              </span>
             </div>
           </div>
 
           <div className="metric-card patients">
             <div className="metric-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
               </svg>
             </div>
             <div className="metric-content">
@@ -92,9 +125,16 @@ export default function AdminDashboard() {
 
           <div className="metric-card revenue">
             <div className="metric-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="12" y1="1" x2="12" y2="23"/>
-                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <line x1="12" y1="1" x2="12" y2="23" />
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
               </svg>
             </div>
             <div className="metric-content">
@@ -106,8 +146,15 @@ export default function AdminDashboard() {
 
           <div className="metric-card emergency">
             <div className="metric-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
               </svg>
             </div>
             <div className="metric-content">
@@ -127,9 +174,16 @@ export default function AdminDashboard() {
           <div className="management-card">
             <div className="card-header">
               <div className="card-icon location">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                  <circle cx="12" cy="10" r="3"/>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
                 </svg>
               </div>
               <h3>Location Management</h3>
@@ -157,10 +211,17 @@ export default function AdminDashboard() {
           <div className="management-card">
             <div className="card-header">
               <div className="card-icon hospital">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                  <path d="M2 17l10 5 10-5"/>
-                  <path d="M2 12l10 5 10-5"/>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                  <path d="M2 17l10 5 10-5" />
+                  <path d="M2 12l10 5 10-5" />
                 </svg>
               </div>
               <h3>Hospital System</h3>
@@ -188,9 +249,16 @@ export default function AdminDashboard() {
           <div className="management-card">
             <div className="card-header">
               <div className="card-icon doctor">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                  <circle cx="12" cy="7" r="4"/>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
                 </svg>
               </div>
               <h3>Doctor System</h3>
@@ -218,11 +286,18 @@ export default function AdminDashboard() {
           <div className="management-card">
             <div className="card-header">
               <div className="card-icon appointment">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                  <line x1="16" y1="2" x2="16" y2="6"/>
-                  <line x1="8" y1="2" x2="8" y2="6"/>
-                  <line x1="3" y1="10" x2="21" y2="10"/>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
                 </svg>
               </div>
               <h3>Appointment System</h3>
@@ -250,9 +325,16 @@ export default function AdminDashboard() {
           <div className="management-card">
             <div className="card-header">
               <div className="card-icon medicine">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M4.5 16.5c-1.5 1.5-1.5 3.5 0 5s3.5 1.5 5 0l4-4a3 3 0 0 0-3-3l-6 2z"/>
-                  <path d="M13.5 6.5a3 3 0 0 0-3 3l-4 4c-1.5 1.5-1.5 3.5 0 5s3.5 1.5 5 0l4-4a3 3 0 0 0-3-3z"/>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M4.5 16.5c-1.5 1.5-1.5 3.5 0 5s3.5 1.5 5 0l4-4a3 3 0 0 0-3-3l-6 2z" />
+                  <path d="M13.5 6.5a3 3 0 0 0-3 3l-4 4c-1.5 1.5-1.5 3.5 0 5s3.5 1.5 5 0l4-4a3 3 0 0 0-3-3z" />
                 </svg>
               </div>
               <h3>Medicine System</h3>
@@ -280,10 +362,17 @@ export default function AdminDashboard() {
           <div className="management-card">
             <div className="card-header">
               <div className="card-icon lab">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M9 2v6l3 1 3-1V2"/>
-                  <path d="M12 17.5L9 15l3-2.5L15 15z"/>
-                  <path d="M6 8h12l-1 9H7z"/>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M9 2v6l3 1 3-1V2" />
+                  <path d="M12 17.5L9 15l3-2.5L15 15z" />
+                  <path d="M6 8h12l-1 9H7z" />
                 </svg>
               </div>
               <h3>Laboratory System</h3>
@@ -311,9 +400,16 @@ export default function AdminDashboard() {
           <div className="management-card">
             <div className="card-header">
               <div className="card-icon payment">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-                  <line x1="1" y1="10" x2="23" y2="10"/>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                  <line x1="1" y1="10" x2="23" y2="10" />
                 </svg>
               </div>
               <h3>Payment System</h3>
@@ -341,11 +437,18 @@ export default function AdminDashboard() {
           <div className="management-card">
             <div className="card-header">
               <div className="card-icon user">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                  <circle cx="9" cy="7" r="4"/>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                 </svg>
               </div>
               <h3>User Management</h3>
@@ -373,8 +476,15 @@ export default function AdminDashboard() {
           <div className="management-card">
             <div className="card-header">
               <div className="card-icon emergency">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
                 </svg>
               </div>
               <h3>Emergency System</h3>
@@ -415,13 +525,41 @@ export default function AdminDashboard() {
             </div>
             <div className="chart-content">
               <div className="chart-bars">
-                <div className="bar" style={{height: '60%'}} data-value="₹45,000"></div>
-                <div className="bar" style={{height: '80%'}} data-value="₹60,000"></div>
-                <div className="bar" style={{height: '45%'}} data-value="₹35,000"></div>
-                <div className="bar" style={{height: '90%'}} data-value="₹70,000"></div>
-                <div className="bar" style={{height: '70%'}} data-value="₹55,000"></div>
-                <div className="bar" style={{height: '85%'}} data-value="₹65,000"></div>
-                <div className="bar" style={{height: '95%'}} data-value="₹75,000"></div>
+                <div
+                  className="bar"
+                  style={{ height: "60%" }}
+                  data-value="₹45,000"
+                ></div>
+                <div
+                  className="bar"
+                  style={{ height: "80%" }}
+                  data-value="₹60,000"
+                ></div>
+                <div
+                  className="bar"
+                  style={{ height: "45%" }}
+                  data-value="₹35,000"
+                ></div>
+                <div
+                  className="bar"
+                  style={{ height: "90%" }}
+                  data-value="₹70,000"
+                ></div>
+                <div
+                  className="bar"
+                  style={{ height: "70%" }}
+                  data-value="₹55,000"
+                ></div>
+                <div
+                  className="bar"
+                  style={{ height: "85%" }}
+                  data-value="₹65,000"
+                ></div>
+                <div
+                  className="bar"
+                  style={{ height: "95%" }}
+                  data-value="₹75,000"
+                ></div>
               </div>
               <div className="chart-labels">
                 <span>Mon</span>
@@ -444,62 +582,107 @@ export default function AdminDashboard() {
             <div className="activities-list">
               <div className="activity-item">
                 <div className="activity-icon new-hospital">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
                   </svg>
                 </div>
                 <div className="activity-content">
-                  <p><strong>New Hospital</strong> added to database</p>
+                  <p>
+                    <strong>New Hospital</strong> added to database
+                  </p>
                   <span className="activity-time">2 minutes ago</span>
                 </div>
               </div>
 
               <div className="activity-item">
                 <div className="activity-icon new-doctor">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
                   </svg>
                 </div>
                 <div className="activity-content">
-                  <p><strong>Dr. Sarah Wilson</strong> profile updated</p>
+                  <p>
+                    <strong>Dr. Sarah Wilson</strong> profile updated
+                  </p>
                   <span className="activity-time">15 minutes ago</span>
                 </div>
               </div>
 
               <div className="activity-item">
                 <div className="activity-icon appointment">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                   </svg>
                 </div>
                 <div className="activity-content">
-                  <p><strong>1,234 appointments</strong> processed today</p>
+                  <p>
+                    <strong>1,234 appointments</strong> processed today
+                  </p>
                   <span className="activity-time">30 minutes ago</span>
                 </div>
               </div>
 
               <div className="activity-item">
                 <div className="activity-icon medicine">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M4.5 16.5c-1.5 1.5-1.5 3.5 0 5s3.5 1.5 5 0l4-4a3 3 0 0 0-3-3l-6 2z"/>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M4.5 16.5c-1.5 1.5-1.5 3.5 0 5s3.5 1.5 5 0l4-4a3 3 0 0 0-3-3l-6 2z" />
                   </svg>
                 </div>
                 <div className="activity-content">
-                  <p><strong>Medicine inventory</strong> updated</p>
+                  <p>
+                    <strong>Medicine inventory</strong> updated
+                  </p>
                   <span className="activity-time">45 minutes ago</span>
                 </div>
               </div>
 
               <div className="activity-item">
                 <div className="activity-icon payment">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <line x1="12" y1="1" x2="12" y2="23"/>
-                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <line x1="12" y1="1" x2="12" y2="23" />
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                   </svg>
                 </div>
                 <div className="activity-content">
-                  <p><strong>₹45,678</strong> payment processed</p>
+                  <p>
+                    <strong>₹45,678</strong> payment processed
+                  </p>
                   <span className="activity-time">1 hour ago</span>
                 </div>
               </div>
@@ -533,7 +716,10 @@ export default function AdminDashboard() {
                   <tr>
                     <td>
                       <div className="patient-info">
-                        <img src="/placeholder.svg?height=32&width=32" alt="Patient" />
+                        <img
+                          src="/placeholder.svg?height=32&width=32"
+                          alt="Patient"
+                        />
                         <div>
                           <p className="patient-name">Amit Patel</p>
                           <span className="patient-id">#P001234</span>
@@ -553,13 +739,20 @@ export default function AdminDashboard() {
                         <span>10:30 AM</span>
                       </div>
                     </td>
-                    <td><span className="status-badge scheduled">Scheduled</span></td>
-                    <td><span className="payment-badge success">₹500</span></td>
+                    <td>
+                      <span className="status-badge scheduled">Scheduled</span>
+                    </td>
+                    <td>
+                      <span className="payment-badge success">₹500</span>
+                    </td>
                   </tr>
                   <tr>
                     <td>
                       <div className="patient-info">
-                        <img src="/placeholder.svg?height=32&width=32" alt="Patient" />
+                        <img
+                          src="/placeholder.svg?height=32&width=32"
+                          alt="Patient"
+                        />
                         <div>
                           <p className="patient-name">Priya Singh</p>
                           <span className="patient-id">#P001235</span>
@@ -579,13 +772,20 @@ export default function AdminDashboard() {
                         <span>02:15 PM</span>
                       </div>
                     </td>
-                    <td><span className="status-badge completed">Completed</span></td>
-                    <td><span className="payment-badge success">₹800</span></td>
+                    <td>
+                      <span className="status-badge completed">Completed</span>
+                    </td>
+                    <td>
+                      <span className="payment-badge success">₹800</span>
+                    </td>
                   </tr>
                   <tr>
                     <td>
                       <div className="patient-info">
-                        <img src="/placeholder.svg?height=32&width=32" alt="Patient" />
+                        <img
+                          src="/placeholder.svg?height=32&width=32"
+                          alt="Patient"
+                        />
                         <div>
                           <p className="patient-name">Rohit Sharma</p>
                           <span className="patient-id">#P001236</span>
@@ -605,8 +805,12 @@ export default function AdminDashboard() {
                         <span>09:00 AM</span>
                       </div>
                     </td>
-                    <td><span className="status-badge cancelled">Cancelled</span></td>
-                    <td><span className="payment-badge refund">₹600</span></td>
+                    <td>
+                      <span className="status-badge cancelled">Cancelled</span>
+                    </td>
+                    <td>
+                      <span className="payment-badge refund">₹600</span>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -634,7 +838,10 @@ export default function AdminDashboard() {
                   <tr>
                     <td>
                       <div className="patient-info">
-                        <img src="/placeholder.svg?height=32&width=32" alt="Patient" />
+                        <img
+                          src="/placeholder.svg?height=32&width=32"
+                          alt="Patient"
+                        />
                         <div>
                           <p className="patient-name">Rohit Sharma</p>
                           <span className="patient-id">#E001</span>
@@ -643,13 +850,18 @@ export default function AdminDashboard() {
                     </td>
                     <td>Apollo Hospital</td>
                     <td>Cardiac Emergency</td>
-                    <td><span className="status-badge critical">Critical</span></td>
+                    <td>
+                      <span className="status-badge critical">Critical</span>
+                    </td>
                     <td>3.2 mins</td>
                   </tr>
                   <tr>
                     <td>
                       <div className="patient-info">
-                        <img src="/placeholder.svg?height=32&width=32" alt="Patient" />
+                        <img
+                          src="/placeholder.svg?height=32&width=32"
+                          alt="Patient"
+                        />
                         <div>
                           <p className="patient-name">Meera Joshi</p>
                           <span className="patient-id">#E002</span>
@@ -658,13 +870,18 @@ export default function AdminDashboard() {
                     </td>
                     <td>Max Hospital</td>
                     <td>Accident</td>
-                    <td><span className="status-badge stable">Stable</span></td>
+                    <td>
+                      <span className="status-badge stable">Stable</span>
+                    </td>
                     <td>2.8 mins</td>
                   </tr>
                   <tr>
                     <td>
                       <div className="patient-info">
-                        <img src="/placeholder.svg?height=32&width=32" alt="Patient" />
+                        <img
+                          src="/placeholder.svg?height=32&width=32"
+                          alt="Patient"
+                        />
                         <div>
                           <p className="patient-name">Arjun Patel</p>
                           <span className="patient-id">#E003</span>
@@ -673,7 +890,11 @@ export default function AdminDashboard() {
                     </td>
                     <td>Fortis Hospital</td>
                     <td>Respiratory Emergency</td>
-                    <td><span className="status-badge under-treatment">Under Treatment</span></td>
+                    <td>
+                      <span className="status-badge under-treatment">
+                        Under Treatment
+                      </span>
+                    </td>
                     <td>4.1 mins</td>
                   </tr>
                 </tbody>
@@ -709,5 +930,5 @@ export default function AdminDashboard() {
         </div>
       </div>
     </div>
-  )
+  );
 }
