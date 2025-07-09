@@ -9,6 +9,9 @@ import Medicine from "./Pages/Admin/Medicine";
 import User from "./Pages/Admin/User";
 import Hospital from "./Pages/Admin/Hospital"; 
 import Appointment from "./Pages/Admin/Appointment";
+import LocationManagement from "./Pages/Admin/DashboardSubComponent/LocationManagement";
+
+import Country from "./Pages/Admin/Country";
 
 // src/Layouts/PatientLayout.jsx
 import Patient from "./Layouts/PatientLayout";
@@ -27,6 +30,9 @@ function App() {
           <Route path="user" element={<User />} />
           <Route path="hospital" element={<Hospital />} />
           <Route path="appointment" element={<Appointment />} />
+          <Route path="country" element={<Country />} />
+          <Route path="locationmanagement" element={<LocationManagement />} />
+          {/* Add more admin routes as needed */}
         </Route>
 
         <Route path="/patient" element={<Patient />}>

@@ -26,6 +26,7 @@ const AdminLayout = () => {
             <Link to="/user">Users</Link>
             <Link to="/hospital">Hospitals</Link>
             <Link to="/appointment">Appointments</Link>
+            <Link to="/country">Country</Link>
             <Link to="#">Labs</Link>
             {/* <div className="dropdown">
               <Link to="#">For Corporates ▾</Link>
