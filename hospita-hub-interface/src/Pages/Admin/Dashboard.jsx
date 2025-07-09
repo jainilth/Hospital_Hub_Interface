@@ -1,5 +1,6 @@
 import React from "react";
 import "./Dashboard.css";
+import { Link } from "react-router-dom";
 
 export default function AdminDashboard() {
   return (
@@ -203,7 +204,7 @@ export default function AdminDashboard() {
               </div>
             </div>
             <div className="card-actions">
-              <button className="action-btn">Manage Locations</button>
+              <Link to={"/locationmanagement"} className="action-btn">Manage Locations</Link>
             </div>
           </div>
 
