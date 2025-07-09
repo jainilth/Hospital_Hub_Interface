@@ -13,6 +13,7 @@ import Appointment from "./Pages/Admin/Appointment";
 // src/Layouts/PatientLayout.jsx
 import Patient from "./Layouts/PatientLayout";
 import PatientDashboard from "./Pages/Patient/PatientDashboard";
+import Consult from "./Pages/Patient/Consult";
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
 
         <Route path="/patient" element={<Patient />}>
           <Route path="home" element={<PatientDashboard />} />
-          <Route path="consult" element={<div>consult</div>} />
+          <Route path="consult" element={<Consult/>} />
           <Route path="ordermedic" element={<div>order medicine</div>} />
           <Route path="bookappointment" element={<div>bookappointment</div>} />
           <Route path="labtestbook" element={<div>labtestbook</div>} />

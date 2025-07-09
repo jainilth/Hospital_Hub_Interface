@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import "./PatientLayout.css";
 
 export default function Patient() {
@@ -29,9 +29,9 @@ export default function Patient() {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <Link className="nav-link" to='consult'>
                   Video Consult
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#">
@@ -55,7 +55,7 @@ export default function Patient() {
               <span className="text-muted me-3">For Corporates</span>
               <span className="text-muted me-3">For Providers</span>
               <span className="text-muted me-3">Security & help</span>
-              <span className="text-muted">Login / Signup</span>
+              <span className="text-muted btn">Login / Signup</span>
             </div>
           </div>
         </div>
