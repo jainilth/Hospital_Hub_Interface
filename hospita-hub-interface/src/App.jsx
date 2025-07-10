@@ -10,6 +10,7 @@ import User from "./Pages/Admin/User";
 import Hospital from "./Pages/Admin/Hospital"; 
 import Appointment from "./Pages/Admin/Appointment";
 import LocationManagement from "./Pages/Admin/DashboardSubComponent/LocationManagement";
+import HospitalManagement from "./Pages/Admin/DashboardSubComponent/HospitalManagement";
 
 import Country from "./Pages/Admin/Country";
 
@@ -33,6 +34,7 @@ function App() {
           <Route path="appointment" element={<Appointment />} />
           <Route path="country" element={<Country />} />
           <Route path="locationmanagement" element={<LocationManagement />} />
+          <Route path="hospitalmanagemeent" element={<HospitalManagement/>}/>
           {/* Add more admin routes as needed */}
         </Route>
 
