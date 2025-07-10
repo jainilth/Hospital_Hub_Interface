@@ -208,7 +208,7 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          {/* Hospital Management */}
+          {/* ment */}
           <div className="management-card">
             <div className="card-header">
               <div className="card-icon hospital">
@@ -242,7 +242,7 @@ export default function AdminDashboard() {
               </div>
             </div>
             <div className="card-actions">
-              <button className="action-btn">Manage Hospitals</button>
+              <Link to={"/hospitalmanagemeent"} className="action-btn">Manage Hospitals</Link>
             </div>
           </div>
 

@@ -6,7 +6,7 @@ export default function Country() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5210/api/Country")
+      .get("http://localhost:̥/api/Country")
       .then((response) => {
         console.log("Countries fetched:", response.data);
         setCountries(response.data);
