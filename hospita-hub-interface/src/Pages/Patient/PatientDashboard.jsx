@@ -3,78 +3,80 @@ import './PatientDashboard.css'; // Assuming you have a CSS file for styles
 const PatientDashboard = () => {
     return (
         <div className='className-wrapper'>
-            <section className="hero-section">
-                <div className="hero-decorations">
-                    <div className="hero-circle hero-circle-1"></div>
-                    <div className="hero-circle hero-circle-2"></div>
-                    <div className="hero-circle hero-circle-3"></div>
-                    <div className="hero-circle hero-circle-4"></div>
-                </div>
+            <div style={{ backgroundColor: '#blue' }}>
+                <section className="hero-section">
+                    <div className="hero-decorations">
+                        <div className="hero-circle hero-circle-1"></div>
+                        <div className="hero-circle hero-circle-2"></div>
+                        <div className="hero-circle hero-circle-3"></div>
+                        <div className="hero-circle hero-circle-4"></div>
+                    </div>
 
-                <div className="container d-flex flex-column justify-content-center align-items-center h-100">
-                    <div className="text-center mb-5">
-                        <h1 className="hero-title mt-3">Your home for health</h1>
+                    <div className="container d-flex flex-column justify-content-center align-items-center h-100">
+                        <div className="text-center mb-5">
+                            <h1 className="hero-title mt-3">Your home for health</h1>
 
-                        <div className="search-card mx-auto" style={{ maxWidth: "800px" }}>
-                            <h2 className="h3 mb-4 text-dark">Find and Book</h2>
+                            <div className="search-card mx-auto" style={{ maxWidth: "800px" }}>
+                                <h2 className="h3 mb-4 text-dark">Find and Book</h2>
 
-                            <div className="row g-3 mb-4">
-                                <div className="col-md-3">
-                                    <div className="location-input">
-                                        <i className="fas fa-map-marker-alt text-muted me-2"></i>
-                                        <span>Bangalore</span>
+                                <div className="row g-3 mb-4">
+                                    <div className="col-md-3">
+                                        <div className="location-input">
+                                            <i className="fas fa-map-marker-alt text-muted me-2"></i>
+                                            <span>Bangalore</span>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-9">
+                                        <div className="search-input-wrapper">
+                                            <i className="fas fa-search search-icon d-flex justify-content"></i>
+                                            <input type="text" className="form-control search-input" placeholder="Search doctors, clinics, hospitals, etc." />
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="col-md-9">
-                                    <div className="search-input-wrapper">
-                                        <i className="fas fa-search search-icon"></i>
-                                        <input type="text" className="form-control search-input" placeholder="Search doctors, clinics, hospitals, etc." />
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div className="d-flex flex-wrap align-items-center gap-2">
-                                <span className="text-muted me-2">Popular searches:</span>
-                                <button className="btn popular-tag">Dermatologist</button>
-                                <button className="btn popular-tag">Pediatrician</button>
-                                <button className="btn popular-tag">Gynecologist/Obstetrician</button>
-                                <button className="btn popular-tag">Others</button>
+                                <div className="d-flex flex-wrap align-items-center gap-2">
+                                    <span className="text-muted me-2">Popular searches:</span>
+                                    <button className="btn popular-tag">Dermatologist</button>
+                                    <button className="btn popular-tag">Pediatrician</button>
+                                    <button className="btn popular-tag">Gynecologist/Obstetrician</button>
+                                    <button className="btn popular-tag">Others</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                {/* <!-- Bottom Navigation --> */}
-                <div className="bottom-nav py-4" style={{ background: "#2341a6" }}>
-                    <div className="container-fluid">
-                        <div className="row justify-content-center">
-                            <div className="col-6 col-md-2 d-flex flex-column align-items-center py-3">
-                                <i className="fas fa-comments fa-2x mb-2 text-white"></i>
-                                <span className="text-white">Consult with a doctor</span>
-                            </div>
-                            <div className="col-6 col-md-2 d-flex flex-column align-items-center py-3">
-                                <i className="fas fa-shopping-cart fa-2x mb-2 text-white"></i>
-                                <span className="text-white">Order Medicines</span>
-                            </div>
-                            <div className="col-6 col-md-2 d-flex flex-column align-items-center py-3">
-                                <i className="fas fa-file-alt fa-2x mb-2 text-white"></i>
-                                <span className="text-white">Book Appointment</span>
-                            </div>
-                            <div className="col-6 col-md-2 d-flex flex-column align-items-center py-3">
-                                <i className="fas fa-vial fa-2x mb-2 text-white"></i>
-                                <span className="text-white">Book test</span>
-                            </div>
-                            <div className="col-6 col-md-2 d-flex flex-column align-items-center py-3">
-                                <i className="fas fa-book-open fa-2x mb-2 text-white"></i>
-                                <span className="text-white">Read articles</span>
+                    {/* <!-- Bottom Navigation --> */}
+                    <div className="bottom-nav py-4" style={{ background: "#2341a6" }}>
+                        <div className="container-fluid">
+                            <div className="row justify-content-center">
+                                <div className="col-6 col-md-2 d-flex flex-column align-items-center py-3">
+                                    <i className="fas fa-comments fa-2x mb-2 text-white"></i>
+                                    <span className="text-white">Consult with a doctor</span>
+                                </div>
+                                <div className="col-6 col-md-2 d-flex flex-column align-items-center py-3">
+                                    <i className="fas fa-shopping-cart fa-2x mb-2 text-white"></i>
+                                    <span className="text-white">Order Medicines</span>
+                                </div>
+                                <div className="col-6 col-md-2 d-flex flex-column align-items-center py-3">
+                                    <i className="fas fa-file-alt fa-2x mb-2 text-white"></i>
+                                    <span className="text-white">Book Appointment</span>
+                                </div>
+                                <div className="col-6 col-md-2 d-flex flex-column align-items-center py-3">
+                                    <i className="fas fa-vial fa-2x mb-2 text-white"></i>
+                                    <span className="text-white">Book test</span>
+                                </div>
+                                <div className="col-6 col-md-2 d-flex flex-column align-items-center py-3">
+                                    <i className="fas fa-book-open fa-2x mb-2 text-white"></i>
+                                    <span className="text-white">Read articles</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
 
             {/* <!-- Instant Appointment Section --> */}
-            <section className="py-5 bg-light">
+            <section className="py-5 bg-body">
                 <div className="container">
                     <div className="row align-items-center">
                         <div className="col-lg-6">
@@ -130,7 +132,7 @@ const PatientDashboard = () => {
             </section>
 
             {/* <!-- Consultation Section --> */}
-            <section className="py-5 bg-body">
+            <section className="py-5 bg-light">
                 <div className="container">
                     <div className="row align-items-center">
                         <div className="col-lg-6 text-center mb-4 mb-lg-0">
@@ -237,7 +239,7 @@ const PatientDashboard = () => {
 
 
             {/* <!-- Articles Section with Carousel --> */}
-            <section className="py-5 bg-light">
+            <section className="py-5 bg-body">
                 <div className="container">
                     <div className="row">
                         <h2 className="section-title text-center mb-5">Read top articles from health experts</h2>
@@ -294,7 +296,7 @@ const PatientDashboard = () => {
             </section>
 
             {/* <!-- Medicine Section Enhanced --> */}
-            <section className="py-5 bg-body">
+            <section className="py-5 bg-light">
                 <div className="container">
                     <div className="row align-items-center">
                         <div className="col-lg-6">
@@ -357,7 +359,7 @@ const PatientDashboard = () => {
             </section>
 
             {/* <!-- Medical Records Section --> */}
-            <section className="py-5 bg-light">
+            <section className="py-5 bg-body">
                 <div className="container">
                     <div className="row align-items-center">
                         <div className="col-lg-6 text-center mb-4 mb-lg-0">
