@@ -11,7 +11,7 @@ export default function LocationManagement() {
   // Load Countries
   useEffect(() => {
     axios
-      .get("http://localhost:5220/api/Country/GetAllCountries")
+      .get("https://localhost:5220/api/Country/GetAllCountries")
       .then((res) => setCountries(res.data))
       .catch((err) => console.error(err));
   }, []);
@@ -19,7 +19,7 @@ export default function LocationManagement() {
   // Load States
   useEffect(() => {
     axios
-      .get("http://localhost:5220/api/State")
+      .get("https://localhost:5220/api/State/GetALlSatate")
       .then((res) => setStates(res.data))
       .catch((err) => console.error(err));
   }, []);
