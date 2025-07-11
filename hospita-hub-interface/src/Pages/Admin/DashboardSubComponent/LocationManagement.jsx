@@ -11,7 +11,7 @@ export default function LocationManagement() {
   // Load Countries
   useEffect(() => {
     axios
-      .get("http://localhost:5220/api/Country")
+      .get("http://localhost:5220/api/Country/GetAllCountries")
       .then((res) => setCountries(res.data))
       .catch((err) => console.error(err));
   }, []);
