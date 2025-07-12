@@ -242,7 +242,7 @@ export default function AdminDashboard() {
               </div>
             </div>
             <div className="card-actions">
-              <Link to={"/hospitalmanagemeent"} className="action-btn">Manage Hospitals</Link>
+              <Link to={"/hospital"} className="action-btn">Manage Hospitals</Link>
             </div>
           </div>
 
@@ -279,7 +279,7 @@ export default function AdminDashboard() {
               </div>
             </div>
             <div className="card-actions">
-              <button className="action-btn">Manage Doctors</button>
+              <Link to={"/doctorList"} className="action-btn">Manage Doctors</Link>
             </div>
           </div>
 
@@ -318,7 +318,7 @@ export default function AdminDashboard() {
               </div>
             </div>
             <div className="card-actions">
-              <button className="action-btn">Manage Appointments</button>
+              <Link to={"/appointment"} className="action-btn">Manage Appointments</Link>
             </div>
           </div>
 
