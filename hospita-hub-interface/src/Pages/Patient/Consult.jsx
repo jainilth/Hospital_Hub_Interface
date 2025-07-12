@@ -1,5 +1,7 @@
+import { Link, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-import React, { useState } from 'react';
 import {
     Heart,
     Brain,
@@ -14,21 +16,52 @@ import {
     Users,
     Clock,
     Shield,
-    PhoneCall
+    PhoneCall,
 } from 'lucide-react';
 import './Consult.css';
+
+
+const Specialisties = () => {
+    const [specializations, setSpecializations] = useState([])
+
+    useEffect(() => {
+        axios.get('https://localhost:5220/api/Specialization/GetAllSpecializations')
+            .then((res) => setSpecializations(res.data))
+            .catch((err) => console.error(err));
+    }, [])
+    return (
+        <>
+            <div className="specialties-grid">
+                {specializations.map((specialty, index) => (
+                    <div key={index} className="specialty-card">
+                        <div className="specialty-icon">
+                            {/* <specialty.icon size={32} /> */}
+                        </div>
+                        <h3>{specialty.specializationName}</h3>
+                        {/* <p>{specialty.patients} patients</p> */}
+                        <Link>consult now{'>'}</Link>
+                    </div>
+                ))}
+            </div>
+        </>
+    )
+}
+
+const Departments=()=>{
+    
+}
 
 const Consult = () => {
     const [activeTestimonial, setActiveTestimonial] = useState(0);
 
-    const specialties = [
-        { name: 'Cardiology', icon: Heart, patients: '2.5k+' },
-        { name: 'Neurology', icon: Brain, patients: '1.8k+' },
-        { name: 'Ophthalmology', icon: Eye, patients: '3.2k+' },
-        { name: 'General Medicine', icon: Stethoscope, patients: '5.1k+' },
-        { name: 'Pediatrics', icon: Baby, patients: '2.9k+' },
-        { name: 'Psychiatry', icon: Activity, patients: '1.5k+' }
-    ];
+    // const specialties = [
+    //     { name: 'Cardiology', icon: Heart, patients: '2.5k+' },
+    //     { name: 'Neurology', icon: Brain, patients: '1.8k+' },
+    //     { name: 'Ophthalmology', icon: Eye, patients: '3.2k+' },
+    //     { name: 'General Medicine', icon: Stethoscope, patients: '5.1k+' },
+    //     { name: 'Pediatrics', icon: Baby, patients: '2.9k+' },
+    //     { name: 'Psychiatry', icon: Activity, patients: '1.5k+' }
+    // ];
 
     const healthConcerns = [
         { title: 'Cold & Flu', description: 'Get quick relief from common symptoms', image: '/api/placeholder/300/200' },
@@ -147,17 +180,7 @@ const Consult = () => {
                     <p >Consult with top doctors across all specialities</p>
                     <button className="view-all-btn">View All</button>
                 </div>
-                <div className="specialties-grid">
-                    {specialties.map((specialty, index) => (
-                        <div key={index} className="specialty-card">
-                            <div className="specialty-icon">
-                                <specialty.icon size={32} />
-                            </div>
-                            <h3>{specialty.name}</h3>
-                            <p>{specialty.patients} patients</p>
-                        </div>
-                    ))}
-                </div>
+                <Specialisties />
             </section>
 
             {/* Health Concerns Section */}
