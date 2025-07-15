@@ -25,7 +25,7 @@ const Specialisties = () => {
     const [specializations, setSpecializations] = useState([])
 
     useEffect(() => {
-        axios.get('https://localhost:5220/api/Specialization/GetAllSpecializations')
+        axios.get('http://localhost:5220/api/Specialization/GetAllSpecializations')
             .then((res) => setSpecializations(res.data))
             .catch((err) => console.error(err));
     }, [])

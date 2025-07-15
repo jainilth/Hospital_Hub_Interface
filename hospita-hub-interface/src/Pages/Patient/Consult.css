@@ -837,3 +837,8 @@
     flex-direction: column;
   }
 }
+
+
+p {
+    margin-top: 26px;
+}
