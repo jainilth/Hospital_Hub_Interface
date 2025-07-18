@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./LocationManagement.css";
+import { Link } from "react-router-dom";
 
 export default function LocationManagement() {
   const [activeTab, setActiveTab] = useState("countries");
@@ -238,7 +239,7 @@ export default function LocationManagement() {
               <h3>City Management</h3>
               <div className="table-actions">
                 <button className="action-btn secondary">Bulk Import</button>
-                <button className="action-btn primary">Add City</button>
+                <Link to="">Add City</Link>
               </div>
             </div>
             <div className="table-wrapper">
