@@ -239,7 +239,7 @@ export default function LocationManagement() {
               <h3>City Management</h3>
               <div className="table-actions">
                 <button className="action-btn secondary">Bulk Import</button>
-                <Link to="">Add City</Link>
+                <Link to="/locationmanagement/addCity">Add City</Link>
               </div>
             </div>
             <div className="table-wrapper">
@@ -268,7 +268,12 @@ export default function LocationManagement() {
                       <td>{city.hospitalCount}</td>
                       <td>
                         <div className="action-buttons">
-                          <button className="edit-btn">Edit</button>
+                          <Link
+                            className="edit-btn"
+                            to={`/locationmanagement/addCity/${city.cityId}`}
+                          >
+                            Edit
+                          </Link>
                           <button
                             className="delete-btn"
                             onClick={() => handleDeleteCity(city.cityId)}
