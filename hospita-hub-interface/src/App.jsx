@@ -13,6 +13,7 @@ import Appointment from "./Pages/Admin/Appointment";
 import LocationManagement from "./Pages/Admin/DashboardSubComponent/LocationManagement";
 import HospitalManagement from "./Pages/Admin/DashboardSubComponent/HospitalManagement";
 import AddCity from "./Pages/Admin/LocationSubComponent/AddCity";
+import GetCityDetailsById from "./Pages/Admin/DashboardSubComponent/LocationManagementComponent/GetCityDetailsById";
 
 import Country from "./Pages/Admin/Country";
 
@@ -37,10 +38,8 @@ function App() {
           <Route path="country" element={<Country />} />
           <Route path="locationmanagement" element={<LocationManagement />} />
           <Route path="locationmanagement/addCity" element={<AddCity />} />
-          <Route
-            path="locationmanagement/addCity/:cityId"
-            element={<AddCity />}
-          />
+          <Route path="locationmanagement/addCity/:cityId" element={<AddCity />}/>
+          <Route path="locationmanagement/getCity/:cityId" element={<GetCityDetailsById />} />
           <Route path="hospitalmanagemeent" element={<HospitalManagement />} />
           {/* Add more admin routes as needed */}
         </Route>

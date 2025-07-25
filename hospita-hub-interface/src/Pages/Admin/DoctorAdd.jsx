@@ -1,44 +1,49 @@
-import React, { useState } from 'react';
-import './DoctorAdd.css';
+import React, { useState } from "react";
+import axios from "axios";
+import "./DoctorAdd.css";
 
 export default function DoctorAdd() {
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    specialization: '',
-    hospital: '',
-    experience: '',
-    qualification: '',
-    consultationFee: '',
-    address: '',
-    city: '',
-    state: '',
-    country: '',
-    licenseNumber: '',
-    about: '',
-    languages: '',
-    profilePhoto: null
+    fullName: "",
+    email: "",
+    phone: "",
+    specialization: "",
+    hospital: "",
+    experience: "",
+    qualification: "",
+    consultationFee: "",
+    address: "",
+    city: "",
+    state: "",
+    country: "",
+    licenseNumber: "",
+    about: "",
+    languages: "",
+    profilePhoto: null,
+    availabilityStatus: "NOT AVAILABLE",
+    nextAvailable: "",
+    totalPatients: "",
+    rating: "",
   });
 
   const [previewImage, setPreviewImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        profilePhoto: file
+        profilePhoto: file,
       }));
-      
       const reader = new FileReader();
       reader.onload = (e) => {
         setPreviewImage(e.target.result);
@@ -47,10 +52,66 @@ export default function DoctorAdd() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Handle form submission here
+    setLoading(true);
+    try {
+      const submitData = new FormData();
+      submitData.append("FullName", formData.fullName);
+      submitData.append("Qualification", formData.qualification);
+      submitData.append("Specialization", formData.specialization);
+      submitData.append("ExperienceYears", formData.experience);
+      submitData.append("Location_City", formData.city);
+      submitData.append("Location_State", formData.state);
+      submitData.append("AvailabilityStatus", formData.availabilityStatus);
+      submitData.append("ConsultationFee", formData.consultationFee);
+      submitData.append("NextAvailable", formData.nextAvailable);
+      submitData.append("TotalPatients", formData.totalPatients);
+      submitData.append("Rating", formData.rating);
+      submitData.append("PhoneNumber", formData.phone);
+      submitData.append("Email", formData.email);
+      submitData.append("ProfileImageUrl", formData.profilePhoto);
+      // Optionally add other fields if needed by backend
+      // submitData.append('Hospital', formData.hospital);
+      // submitData.append('Country', formData.country);
+      // submitData.append('LicenseNumber', formData.licenseNumber);
+      // submitData.append('About', formData.about);
+      // submitData.append('Languages', formData.languages);
+
+      await axios.post("http://localhost:5220/api/Doctors", submitData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      alert("Doctor added successfully!");
+      setFormData({
+        fullName: "",
+        email: "",
+        phone: "",
+        specialization: "",
+        hospital: "",
+        experience: "",
+        qualification: "",
+        consultationFee: "",
+        address: "",
+        city: "",
+        state: "",
+        country: "",
+        licenseNumber: "",
+        about: "",
+        languages: "",
+        profilePhoto: null,
+        availabilityStatus: "NOT AVAILABLE",
+        nextAvailable: "",
+        totalPatients: "",
+        rating: "",
+      });
+      setPreviewImage(null);
+    } catch (error) {
+      alert("Failed to add doctor. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -59,12 +120,21 @@ export default function DoctorAdd() {
       <div className="form-header">
         <div className="header-content">
           <h1 className="form-title">Add New Doctor</h1>
-          <p className="form-subtitle">Register a new doctor to the healthcare platform</p>
+          <p className="form-subtitle">
+            Register a new doctor to the healthcare platform
+          </p>
         </div>
         <div className="header-icon">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
+          <svg
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
           </svg>
         </div>
       </div>
@@ -77,63 +147,66 @@ export default function DoctorAdd() {
             <div className="section-header">
               <h3 className="section-title">Personal Information</h3>
               <div className="section-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                  <circle cx="12" cy="7" r="4"/>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
                 </svg>
               </div>
             </div>
-            
             <div className="form-grid">
               <div className="form-group">
                 <label className="form-label">Full Name *</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   name="fullName"
                   className="form-input"
-                  placeholder="Enter doctor's full name" 
+                  placeholder="Enter doctor's full name"
                   value={formData.fullName}
                   onChange={handleInputChange}
-                  required 
+                  required
                 />
               </div>
-
               <div className="form-group">
                 <label className="form-label">Email Address *</label>
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   name="email"
                   className="form-input"
-                  placeholder="doctor@example.com" 
+                  placeholder="doctor@example.com"
                   value={formData.email}
                   onChange={handleInputChange}
-                  required 
+                  required
                 />
               </div>
-
               <div className="form-group">
                 <label className="form-label">Phone Number *</label>
-                <input 
-                  type="tel" 
+                <input
+                  type="tel"
                   name="phone"
                   className="form-input"
-                  placeholder="+91 98765 43210" 
+                  placeholder="+91 98765 43210"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  required 
+                  required
                 />
               </div>
-
               <div className="form-group">
                 <label className="form-label">Medical License Number *</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   name="licenseNumber"
                   className="form-input"
-                  placeholder="Enter license number" 
+                  placeholder="Enter license number"
                   value={formData.licenseNumber}
                   onChange={handleInputChange}
-                  required 
+                  required
                 />
               </div>
             </div>
@@ -144,18 +217,24 @@ export default function DoctorAdd() {
             <div className="section-header">
               <h3 className="section-title">Professional Information</h3>
               <div className="section-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                  <path d="M2 17l10 5 10-5"/>
-                  <path d="M2 12l10 5 10-5"/>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                  <path d="M2 17l10 5 10-5" />
+                  <path d="M2 12l10 5 10-5" />
                 </svg>
               </div>
             </div>
-
             <div className="form-grid">
               <div className="form-group">
                 <label className="form-label">Specialization *</label>
-                <select 
+                <select
                   name="specialization"
                   className="form-select"
                   value={formData.specialization}
@@ -173,70 +252,112 @@ export default function DoctorAdd() {
                   <option value="Gynecologist">Gynecologist</option>
                 </select>
               </div>
-
               <div className="form-group">
                 <label className="form-label">Qualification *</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   name="qualification"
                   className="form-input"
-                  placeholder="e.g. MBBS, MD - Cardiology" 
+                  placeholder="e.g. MBBS, MD - Cardiology"
                   value={formData.qualification}
                   onChange={handleInputChange}
-                  required 
+                  required
                 />
               </div>
-
               <div className="form-group">
                 <label className="form-label">Experience (Years) *</label>
-                <input 
-                  type="number" 
+                <input
+                  type="number"
                   name="experience"
                   className="form-input"
-                  placeholder="e.g. 5" 
+                  placeholder="e.g. 5"
                   min="0"
                   max="50"
                   value={formData.experience}
                   onChange={handleInputChange}
-                  required 
+                  required
                 />
               </div>
-
               <div className="form-group">
                 <label className="form-label">Consultation Fee (₹) *</label>
-                <input 
-                  type="number" 
+                <input
+                  type="number"
                   name="consultationFee"
                   className="form-input"
-                  placeholder="e.g. 500" 
+                  placeholder="e.g. 500"
                   min="0"
                   value={formData.consultationFee}
                   onChange={handleInputChange}
-                  required 
+                  required
                 />
               </div>
-
               <div className="form-group">
                 <label className="form-label">Hospital/Clinic *</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   name="hospital"
                   className="form-input"
-                  placeholder="Enter hospital or clinic name" 
+                  placeholder="Enter hospital or clinic name"
                   value={formData.hospital}
                   onChange={handleInputChange}
-                  required 
+                  required
                 />
               </div>
-
               <div className="form-group">
                 <label className="form-label">Languages Spoken</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   name="languages"
                   className="form-input"
-                  placeholder="e.g. English, Hindi, Gujarati" 
+                  placeholder="e.g. English, Hindi, Gujarati"
                   value={formData.languages}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Availability Status *</label>
+                <select
+                  name="availabilityStatus"
+                  className="form-select"
+                  value={formData.availabilityStatus}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="AVAILABLE">AVAILABLE</option>
+                  <option value="NOT AVAILABLE">NOT AVAILABLE</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Next Available</label>
+                <input
+                  type="datetime-local"
+                  name="nextAvailable"
+                  className="form-input"
+                  value={formData.nextAvailable}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Total Patients</label>
+                <input
+                  type="number"
+                  name="totalPatients"
+                  className="form-input"
+                  min="0"
+                  value={formData.totalPatients}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Rating</label>
+                <input
+                  type="number"
+                  name="rating"
+                  className="form-input"
+                  min="0"
+                  max="5"
+                  step="0.1"
+                  value={formData.rating}
                   onChange={handleInputChange}
                 />
               </div>
@@ -248,43 +369,47 @@ export default function DoctorAdd() {
             <div className="section-header">
               <h3 className="section-title">Location Information</h3>
               <div className="section-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                  <circle cx="12" cy="10" r="3"/>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
                 </svg>
               </div>
             </div>
-
             <div className="form-grid">
               <div className="form-group full-width">
                 <label className="form-label">Address *</label>
-                <textarea 
+                <textarea
                   name="address"
                   className="form-textarea"
-                  placeholder="Enter complete address" 
+                  placeholder="Enter complete address"
                   rows="3"
                   value={formData.address}
                   onChange={handleInputChange}
                   required
                 ></textarea>
               </div>
-
               <div className="form-group">
                 <label className="form-label">City *</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   name="city"
                   className="form-input"
-                  placeholder="Enter city" 
+                  placeholder="Enter city"
                   value={formData.city}
                   onChange={handleInputChange}
-                  required 
+                  required
                 />
               </div>
-
               <div className="form-group">
                 <label className="form-label">State *</label>
-                <select 
+                <select
                   name="state"
                   className="form-select"
                   value={formData.state}
@@ -302,10 +427,9 @@ export default function DoctorAdd() {
                   <option value="Uttar Pradesh">Uttar Pradesh</option>
                 </select>
               </div>
-
               <div className="form-group">
                 <label className="form-label">Country *</label>
-                <select 
+                <select
                   name="country"
                   className="form-select"
                   value={formData.country}
@@ -326,48 +450,73 @@ export default function DoctorAdd() {
           {/* Profile & Additional Information Section */}
           <div className="form-section">
             <div className="section-header">
-              <h3 className="section-title">Profile & Additional Information</h3>
+              <h3 className="section-title">
+                Profile & Additional Information
+              </h3>
               <div className="section-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                  <circle cx="9" cy="9" r="2"/>
-                  <path d="M21 15l-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                  <circle cx="9" cy="9" r="2" />
+                  <path d="M21 15l-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
                 </svg>
               </div>
             </div>
-
             <div className="form-grid">
               <div className="form-group full-width">
                 <label className="form-label">About Doctor</label>
-                <textarea 
+                <textarea
                   name="about"
                   className="form-textarea"
-                  placeholder="Brief description about the doctor's expertise and experience..." 
+                  placeholder="Brief description about the doctor's expertise and experience..."
                   rows="4"
                   value={formData.about}
                   onChange={handleInputChange}
                 ></textarea>
               </div>
-
               <div className="form-group photo-upload">
                 <label className="form-label">Profile Photo</label>
                 <div className="photo-upload-container">
                   <div className="photo-preview">
                     {previewImage ? (
-                      <img src={previewImage || "/placeholder.svg"} alt="Preview" className="preview-image" />
+                      <img
+                        src={previewImage || "/placeholder.svg"}
+                        alt="Preview"
+                        className="preview-image"
+                      />
                     ) : (
                       <div className="photo-placeholder">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                          <circle cx="9" cy="9" r="2"/>
-                          <path d="M21 15l-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                        <svg
+                          width="48"
+                          height="48"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <rect
+                            x="3"
+                            y="3"
+                            width="18"
+                            height="18"
+                            rx="2"
+                            ry="2"
+                          />
+                          <circle cx="9" cy="9" r="2" />
+                          <path d="M21 15l-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
                         </svg>
                         <p>Upload Photo</p>
                       </div>
                     )}
                   </div>
-                  <input 
-                    type="file" 
+                  <input
+                    type="file"
                     name="profilePhoto"
                     className="file-input"
                     accept="image/*"
@@ -385,17 +534,31 @@ export default function DoctorAdd() {
 
           {/* Form Actions */}
           <div className="form-actions">
-            <button type="button" className="btn-secondary">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            <button type="button" className="btn-secondary" disabled={loading}>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
               Cancel
             </button>
-            <button type="submit" className="btn-primary">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M20 6L9 17l-5-5"/>
+            <button type="submit" className="btn-primary" disabled={loading}>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M20 6L9 17l-5-5" />
               </svg>
-              Add Doctor
+              {loading ? "Adding..." : "Add Doctor"}
             </button>
           </div>
         </form>
