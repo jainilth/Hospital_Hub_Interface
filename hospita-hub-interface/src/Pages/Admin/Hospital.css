@@ -3,7 +3,7 @@
   padding: 24px;
   background-color: #f8fafc;
   min-height: 100vh;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .hospital-header {
@@ -75,9 +75,9 @@
   background: white;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e2e8f0;
-  margin-bottom: 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.1);
+  margin-bottom: 40px;
 }
 
 .table-header {
@@ -92,8 +92,9 @@
 .table-header h2 {
   margin: 0;
   color: #1e293b;
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
 }
 
 .table-actions {
@@ -105,11 +106,14 @@
 .export-btn {
   padding: 10px 20px;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-family: inherit;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.10);
+  transition: box-shadow 0.2s, transform 0.15s;
 }
 
 .add-hospital-btn {
@@ -119,7 +123,12 @@
 
 .add-hospital-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.add-hospital-btn:hover, .export-btn:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.18);
 }
 
 .export-btn {
@@ -146,11 +155,14 @@
 .hospital-table th {
   padding: 16px;
   text-align: left;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.03em;
   color: white;
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+  border-bottom: 2px solid #bae6fd;
 }
 
 .hospital-table td {
@@ -161,8 +173,27 @@
   vertical-align: top;
 }
 
-.hospital-table tbody tr:hover {
+.hospital-table tbody tr:nth-child(even) {
   background-color: #f8fafc;
+}
+
+.hospital-table tbody tr {
+  transition: background 0.2s, transform 0.15s;
+}
+
+.hospital-table tbody tr:hover {
+  background-color: #e0f2fe;
+  transform: scale(1.01);
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.08);
+}
+
+.hospital-table tr th:first-child, .hospital-table tr td:first-child {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+.hospital-table tr th:last-child, .hospital-table tr td:last-child {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 .hospital-table tbody tr:last-child td {

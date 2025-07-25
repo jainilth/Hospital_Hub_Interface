@@ -3,7 +3,7 @@
   padding: 24px;
   background-color: #f8fafc;
   min-height: 100vh;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .medicine-header {
@@ -13,8 +13,9 @@
 
 .medicine-header h1 {
   color: #1e293b;
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: 2.7rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
   margin-bottom: 8px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
@@ -156,9 +157,9 @@
   background: white;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e2e8f0;
-  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.1);
+  margin-bottom: 40px;
 }
 
 .medicine-table {
@@ -167,13 +168,15 @@
 }
 
 .medicine-table thead {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0ea5e9, #06b6d4);
 }
 
 .medicine-table th {
   padding: 16px;
   text-align: left;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  border-bottom: 2px solid #bae6fd;
   color: white;
   font-size: 14px;
   text-transform: uppercase;
@@ -187,8 +190,27 @@
   color: #374151;
 }
 
-.medicine-table tbody tr:hover {
+.medicine-table tbody tr:nth-child(even) {
   background-color: #f8fafc;
+}
+
+.medicine-table tbody tr {
+  transition: background 0.2s, transform 0.15s;
+}
+
+.medicine-table tbody tr:hover {
+  background-color: #e0f2fe;
+  transform: scale(1.01);
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.08);
+}
+
+.medicine-table tr th:first-child, .medicine-table tr td:first-child {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+.medicine-table tr th:last-child, .medicine-table tr td:last-child {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 .medicine-table tbody tr:last-child td {
@@ -229,6 +251,8 @@
   cursor: pointer;
   font-size: 14px;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.10);
+  transition: box-shadow 0.2s, transform 0.15s;
 }
 
 .edit-btn {
@@ -239,6 +263,11 @@
 .edit-btn:hover {
   background: #0369a1;
   color: white;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.18);
 }
 
 .delete-btn {

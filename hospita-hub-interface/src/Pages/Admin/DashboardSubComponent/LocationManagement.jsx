@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./LocationManagement.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import LocationHeader from "../../Admin/DashboardSubComponent/LocationManagementComponent/LocationTableHeader";
 
 export default function LocationManagement() {
   const [activeTab, setActiveTab] = useState("countries");
@@ -9,11 +10,10 @@ export default function LocationManagement() {
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const navigate = useNavigate();
 
-  // Correct Base API URL
-  const API_BASE_URL = "http://localhost:5220/api"; // Use the actual port your API runs on
+  const API_BASE_URL = "http://localhost:5220/api";
 
-  // Load Countries
   useEffect(() => {
     axios
       .get(`${API_BASE_URL}/Country/GetAllCountries`)
@@ -21,7 +21,6 @@ export default function LocationManagement() {
       .catch((err) => console.error("Error loading countries:", err));
   }, []);
 
-  // Load States
   useEffect(() => {
     axios
       .get(`${API_BASE_URL}/State/GetALlSatate`)
@@ -29,7 +28,6 @@ export default function LocationManagement() {
       .catch((err) => console.error("Error loading states:", err));
   }, []);
 
-  //Load Cities
   useEffect(() => {
     axios
       .get(`${API_BASE_URL}/City`)
@@ -37,58 +35,78 @@ export default function LocationManagement() {
       .catch((err) => console.error("Error loading cities:", err));
   }, []);
 
-  //Delete City
-  const handleDeleteCity = (cityId) => {
-    if (!window.confirm("Are you sure you want to delete this city?")) return;
+  const handleExportData = async () => {
+    try {
+      let url = "";
+      if (activeTab === "countries")
+        url = `${API_BASE_URL}/Country/ExportToExcel`;
+      else if (activeTab === "states")
+        url = `${API_BASE_URL}/State/ExportToExcel`;
+      else url = `${API_BASE_URL}/City/ExportToExcel`;
 
-    axios;
-    axios
-      .delete(`${API_BASE_URL}/City/${cityId}`)
-      .then(() => {
-        alert("City deleted successfully");
-        setCities((prevCities) =>
-          prevCities.filter((city) => city.cityId !== cityId)
-        );
-      })
-      .catch((err) => {
-        console.error("Failed to delete city:", err);
-        alert("Failed to delete city");
-      });
+      const response = await axios.get(url, { responseType: "blob" });
+      const fileName = `${activeTab}_data.xlsx`;
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(new Blob([response.data]));
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error("Export failed:", error);
+      alert("Failed to export data.");
+    }
   };
+
+  const handleDeleteCity = (id) => {
+    if (!window.confirm("Are you sure?")) return;
+    axios
+      .delete(`${API_BASE_URL}/City/${id}`)
+      .then(() => {
+        alert("City Deleted");
+        setCities((prev) => prev.filter((c) => c.cityId !== id));
+      })
+      .catch(() => alert("Delete failed"));
+  };
+
+  const handleDeleteCountry = (id) => {
+    if (!window.confirm("Are you sure?")) return;
+    // Add API call here
+    alert("Country delete not implemented");
+  };
+
+  const handleDeleteState = (id) => {
+    if (!window.confirm("Are you sure?")) return;
+    // Add API call here
+    alert("State delete not implemented");
+  };
+
+  const getHeaderProps = () => {
+    if (activeTab === "countries") {
+      return {
+        title: "Country Management",
+        subtitle: "Manage Countries and Their Data",
+        addButtonLabel: "Add Country",
+      };
+    } else if (activeTab === "states") {
+      return {
+        title: "State Management",
+        subtitle: "Manage States under Countries",
+        addButtonLabel: "Add State",
+      };
+    } else {
+      return {
+        title: "City Management",
+        subtitle: "Manage Cities, States, and Countries",
+        addButtonLabel: "Add City",
+      };
+    }
+  };
+
+  const { title, subtitle, addButtonLabel } = getHeaderProps();
 
   return (
     <div className="location-management">
-      {/* Header */}
-      <div className="dashboard-header">
-        <div className="header-content">
-          <h1 className="dashboard-title">Location Management</h1>
-          <p className="dashboard-subtitle">
-            Manage Countries, States, and Cities Database
-          </p>
-        </div>
-        <div className="header-actions">
-          <button className="btn-secondary">Export Data</button>
-          <button className="btn-primary" onClick={() => setShowAddModal(true)}>
-            Add Location
-          </button>
-        </div>
-      </div>
-
-      {/* Stats */}
-      <div className="location-stats">
-        <div className="stats-grid">
-          <div className="stat-card countries">
-            <div className="stat-icon">🌍</div>
-            <div className="stat-content">
-              <h3>Total Countries</h3>
-              <p className="stat-number">{countries.length}</p>
-              <span className="stat-change positive">+2 this month</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Tabs */}
       <div className="location-tabs">
         <div className="tab-buttons">
           <button
@@ -101,203 +119,160 @@ export default function LocationManagement() {
             className={`tab-btn ${activeTab === "states" ? "active" : ""}`}
             onClick={() => setActiveTab("states")}
           >
-            States({states.length})
+            States ({states.length})
           </button>
           <button
             className={`tab-btn ${activeTab === "cities" ? "active" : ""}`}
             onClick={() => setActiveTab("cities")}
           >
-            Cities({cities.length})
+            Cities ({cities.length})
           </button>
         </div>
       </div>
 
-      {/* Tables */}
+      <LocationHeader
+        title={title}
+        subtitle={subtitle}
+        onExport={handleExportData}
+        onAddClick={() => setShowAddModal(true)}
+        addButtonLabel={addButtonLabel}
+      />
+
       <div className="location-tables">
-        {/* Countries Table */}
         {activeTab === "countries" && (
           <div className="table-container">
-            <div className="table-header">
-              <h3>Countries Management</h3>
-              <div className="table-actions">
-                <button className="action-btn secondary">Bulk Import</button>
-                <button className="action-btn primary">Add Country</button>
-              </div>
-            </div>
-            <div className="table-wrapper">
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Country Name</th>
+                  <th>States</th>
+                  <th>Cities</th>
+                  <th>Hospitals</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {countries.map((country) => (
+                  <tr key={country.countryId}>
+                    <td>
                       <input type="checkbox" />
-                    </th>
-                    <th>Country Name</th>
-                    <th>States</th>
-                    <th>Cities</th>
-                    <th>Hospitals</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {countries.map((country, index) => (
-                    <tr key={index}>
-                      <td>
-                        <input type="checkbox" />
-                      </td>
-                      <td>{country.countryName}</td>
-                      <td>{country.stateCount}</td>
-                      <td>{country.cityCount}</td>
-                      <td>{country.hospitalCount}</td>
-                      <td>
-                        <div className="action-buttons">
-                          <button className="edit-btn">Edit</button>
-                          <button className="delete-btn">Delete</button>
-                          <button className="edit-btn">Read More</button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                  {countries.length === 0 && (
-                    <tr>
-                      <td
-                        colSpan="6"
-                        style={{ textAlign: "center", padding: "1rem" }}
+                    </td>
+                    <td>{country.countryName}</td>
+                    <td>{country.stateCount}</td>
+                    <td>{country.cityCount}</td>
+                    <td>{country.hospitalCount}</td>
+                    <td>
+                      <button
+                        onClick={() =>
+                          navigate(`/edit-country/${country.countryId}`)
+                        }
                       >
-                        No countries found.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteCountry(country.countryId)}
+                      >
+                        Delete
+                      </button>
+                      <Link to={`/country/${country.countryId}`}>
+                        <button>Read More</button>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
 
-        {/* States Table */}
         {activeTab === "states" && (
           <div className="table-container">
-            <div className="table-header">
-              <h3>States Management</h3>
-              <div className="table-actions">
-                <button className="action-btn secondary">Bulk Import</button>
-                <button className="action-btn primary">Add State</button>
-              </div>
-            </div>
-            <div className="table-wrapper">
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>State Name</th>
+                  <th>Country</th>
+                  <th>Cities</th>
+                  <th>Hospitals</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {states.map((state) => (
+                  <tr key={state.stateId}>
+                    <td>
                       <input type="checkbox" />
-                    </th>
-                    <th>State Name</th>
-                    <th>Country</th>
-                    <th>Cities</th>
-                    <th>Hospitals</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {states.map((state, index) => (
-                    <tr key={index}>
-                      <td>
-                        <input type="checkbox" />
-                      </td>
-                      <td>{state.stateName}</td>
-                      <td>{state.countryName}</td>
-                      <td>{state.cityCount}</td>
-                      <td>{state.hospitalCount}</td>
-                      <td>
-                        <div className="action-buttons">
-                          <button className="edit-btn">Edit</button>
-                          <button className="delete-btn">Delete</button>
-                          <button className="readmore-btn">Read More</button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                  {states.length === 0 && (
-                    <tr>
-                      <td
-                        colSpan="5"
-                        style={{ textAlign: "center", padding: "1rem" }}
+                    </td>
+                    <td>{state.stateName}</td>
+                    <td>{state.countryName}</td>
+                    <td>{state.cityCount}</td>
+                    <td>{state.hospitalCount}</td>
+                    <td>
+                      <button
+                        onClick={() => navigate(`/edit-state/${state.stateId}`)}
                       >
-                        No states found.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                        Edit
+                      </button>
+                      <button onClick={() => handleDeleteState(state.stateId)}>
+                        Delete
+                      </button>
+                      <Link to={`/state/${state.stateId}`}>
+                        <button>Read More</button>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
 
-        {/* City Table */}
         {activeTab === "cities" && (
           <div className="table-container">
-            <div className="table-header">
-              <h3>City Management</h3>
-              <div className="table-actions">
-                <button className="action-btn secondary">Bulk Import</button>
-                <Link to="/locationmanagement/addCity">Add City</Link>
-              </div>
-            </div>
-            <div className="table-wrapper">
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>City Name</th>
+                  <th>State Name</th>
+                  <th>Country Name</th>
+                  <th>Hospitals</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cities.map((city) => (
+                  <tr key={city.cityId}>
+                    <td>
                       <input type="checkbox" />
-                    </th>
-                    <th>City Name</th>
-                    <th>State Name</th>
-                    <th>Country Name</th>
-                    <th>Hospitals</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {cities.map((city, index) => (
-                    <tr key={index}>
-                      <td>
-                        <input type="checkbox" />
-                      </td>
-                      <td>{city.cityName}</td>
-                      <td>{city.stateName}</td>
-                      <td>{city.countryName}</td>
-                      <td>{city.hospitalCount}</td>
-                      <td>
-                        <div className="action-buttons">
-                          <Link
-                            className="edit-btn"
-                            to={`/locationmanagement/addCity/${city.cityId}`}
-                          >
-                            Edit
-                          </Link>
-                          <button
-                            className="delete-btn"
-                            onClick={() => handleDeleteCity(city.cityId)}
-                          >
-                            Delete
-                          </button>
-                          <button className="readmore-btn">Read More</button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                  {cities.length === 0 && (
-                    <tr>
-                      <td
-                        colSpan="6"
-                        style={{ textAlign: "center", padding: "1rem" }}
+                    </td>
+                    <td>{city.cityName}</td>
+                    <td>{city.stateName}</td>
+                    <td>{city.countryName}</td>
+                    <td>{city.hospitalCount}</td>
+                    <td>
+                      <Link
+                        className="edit-btn"
+                        to={`/locationmanagement/addCity/${city.cityId}`}
                       >
-                        No cities found.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                        Edit
+                      </Link>
+                      <button onClick={() => handleDeleteCity(city.cityId)}>
+                        Delete
+                      </button>
+                      <Link
+                        className="readmore-btn"
+                        to={`/locationmanagement/getCity/${city.cityId}`}
+                      >
+                        Read More
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>
