@@ -20,16 +20,16 @@ const PatientDashboard = () => {
                                 <h2 className="h3 mb-4 text-dark">Find and Book</h2>
 
                                 <div className="row g-3 mb-4">
-                                    <div className="col-md-3">
-                                        <div className="location-input">
-                                            <i className="fas fa-map-marker-alt text-muted me-2"></i>
-                                            <span>Bangalore</span>
-                                        </div>
-                                    </div>
                                     <div className="col-md-9">
                                         <div className="search-input-wrapper">
                                             <i className="fas fa-search search-icon d-flex justify-content"></i>
                                             <input type="text" className="form-control search-input" placeholder="Search doctors, clinics, hospitals, etc." />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-3">
+                                        <div className="location-input">
+                                            <i className="fas fa-map-marker-alt text-muted me-2"></i>
+                                            <span>Bangalore</span>
                                         </div>
                                     </div>
                                 </div>
