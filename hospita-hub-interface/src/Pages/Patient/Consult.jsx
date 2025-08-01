@@ -83,7 +83,7 @@ export default function Consult() {
                             <div className="specialty-practo-card" key={i}>
                                 <img className="specialty-practo-icon" src={s.iconUrl || "https://img.icons8.com/color/96/000000/medical-doctor.png"} alt={s.specializationName} />
                                 <div className="specialty-practo-name">{s.specializationName}</div>
-                                <Link className="specialty-practo-link" to={`/consult/${encodeURIComponent(s.specializationName)}`}>Consult now &gt;</Link>
+                                <Link className="specialty-practo-link" to='chat'>Consult now &gt;</Link>
                             </div>
                         ))
                     ) : (

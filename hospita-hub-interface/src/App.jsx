@@ -21,6 +21,7 @@ import Country from "./Pages/Admin/Country";
 import Patient from "./Layouts/PatientLayout";
 import PatientDashboard from "./Pages/Patient/PatientDashboard";
 import Consult from "./Pages/Patient/Consult";
+import ChatConnect from "./Pages/Patient/chat/ChatConnect";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
         <Route path="/patient" element={<Patient />}>
           <Route path="home" element={<PatientDashboard />} />
           <Route path="consult" element={<Consult />} />
+          <Route path="consult/chat" element={<ChatConnect/>} />
           <Route path="ordermedic" element={<div>order medicine</div>} />
           <Route path="bookappointment" element={<div>bookappointment</div>} />
           <Route path="labtestbook" element={<div>labtestbook</div>} />

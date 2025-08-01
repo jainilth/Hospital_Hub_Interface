@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./DoctorAdd.css";
 
@@ -31,6 +31,7 @@ export default function DoctorAdd() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log(`Field ${name} changed to: ${value}`); // Debug log
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -113,6 +114,25 @@ export default function DoctorAdd() {
       setLoading(false);
     }
   };
+
+  function Specialities() {
+    const [specializations, setSpecializations] = useState([]);
+
+    useEffect(() => {
+      axios
+        .get("http://localhost:5220/api/Specialization/GetAllSpecializations")
+        .then((res) => setSpecializations(res.data))
+        .catch(() => setSpecializations([]));
+    }, []);
+
+    return (
+      <>
+        {specializations.map((spec, index) => (
+          <option key={index} value={spec.specializationName}>{spec.specializationName}</option>
+        ))}
+      </>
+    );
+  }
 
   return (
     <div className="doctor-add-container">
@@ -197,7 +217,7 @@ export default function DoctorAdd() {
                   required
                 />
               </div>
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label className="form-label">Medical License Number *</label>
                 <input
                   type="text"
@@ -208,7 +228,8 @@ export default function DoctorAdd() {
                   onChange={handleInputChange}
                   required
                 />
-              </div>
+              </div> */}
+              gender
             </div>
           </div>
 
@@ -242,14 +263,7 @@ export default function DoctorAdd() {
                   required
                 >
                   <option value="">Select specialization</option>
-                  <option value="Cardiologist">Cardiologist</option>
-                  <option value="Neurologist">Neurologist</option>
-                  <option value="Pediatrician">Pediatrician</option>
-                  <option value="Orthopedist">Orthopedist</option>
-                  <option value="Dermatologist">Dermatologist</option>
-                  <option value="Psychiatrist">Psychiatrist</option>
-                  <option value="General Physician">General Physician</option>
-                  <option value="Gynecologist">Gynecologist</option>
+                  <Specialities />
                 </select>
               </div>
               <div className="form-group">
@@ -336,6 +350,10 @@ export default function DoctorAdd() {
                   value={formData.nextAvailable}
                   onChange={handleInputChange}
                 />
+              </div>
+              <div className="form-group">
+                <label className="form-label">starting time</label>
+                <input type="time" id="appointment-time" name="appointment-time" />
               </div>
               <div className="form-group">
                 <label className="form-label">Total Patients</label>
