@@ -1,138 +1,109 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import "./DoctorAdd.css";
 
-export default function DoctorAdd() {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    specialization: "",
-    hospital: "",
-    experience: "",
-    qualification: "",
-    consultationFee: "",
-    address: "",
-    city: "",
-    state: "",
-    country: "",
-    licenseNumber: "",
-    about: "",
-    languages: "",
-    profilePhoto: null,
-    availabilityStatus: "NOT AVAILABLE",
-    nextAvailable: "",
-    totalPatients: "",
-    rating: "",
-  });
+const initialState = {
+  DoctorName: "",
+  ConsultationFee: "",
+  DoctorEmail: "",
+  DoctorContectNo: "",
+  DoctorGender: "",
+  SpecializationId: "",
+  DepartmentId: "",
+  HospitalId: "",
+  DoctorExperienceYears: "",
+  Rating: "",
+  UserId: "",
+  ProfilePhoto: null,
+  Qualification: "",
+  AvailabilityStatus: "",
+  StartWorkTime: "",
+  EndWorkTime: "",
+  TotalPatient: "",
+  DoctorAddress: "",
+  DoctorCityId: "",
+  DoctorStateId: "",
+  DoctorCountryId: ""
+};
 
+export default function DoctorAdd() {
+  const [formData, setFormData] = useState(initialState);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState(false);
+  const [fileName, setFileName] = useState("");
+  const [specializations, setSpecializations] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [hospitals, setHospitals] = useState([]);
+  const [users, setUsers] = useState([]);
   const [previewImage, setPreviewImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const fileInputRef = useRef();
+
+  useEffect(() => {
+    axios.get("http://localhost:5220/api/Specialization/GetAllSpecializations")
+      .then(res => setSpecializations(res.data))
+      .catch(() => setSpecializations([]));
+    axios.get("http://localhost:5220/api/Department/GetAllDepartment")
+      .then(res => setDepartments(res.data))
+      .catch(() => setDepartments([]));
+    axios.get("http://localhost:5220/api/Hospital/GetAllHospitals")
+      .then(res => setHospitals(res.data))
+      .catch(() => setHospitals([]));
+    axios.get("http://localhost:5220/api/User/GetAllUsers")
+      .then(res => setUsers(res.data))
+      .catch(() => setUsers([]));
+  }, []);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    console.log(`Field ${name} changed to: ${value}`); // Debug log
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData((prev) => ({
-        ...prev,
-        profilePhoto: file,
-      }));
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setPreviewImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
+    const { name, value, type, files } = e.target;
+    if (type === "file") {
+      setFormData((prev) => ({ ...prev, [name]: files[0] }));
+      setFileName(files[0] ? files[0].name : "");
+      if (files[0]) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setPreviewImage(e.target.result);
+        };
+        reader.readAsDataURL(files[0]);
+      }
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      const submitData = new FormData();
-      submitData.append("FullName", formData.fullName);
-      submitData.append("Qualification", formData.qualification);
-      submitData.append("Specialization", formData.specialization);
-      submitData.append("ExperienceYears", formData.experience);
-      submitData.append("Location_City", formData.city);
-      submitData.append("Location_State", formData.state);
-      submitData.append("AvailabilityStatus", formData.availabilityStatus);
-      submitData.append("ConsultationFee", formData.consultationFee);
-      submitData.append("NextAvailable", formData.nextAvailable);
-      submitData.append("TotalPatients", formData.totalPatients);
-      submitData.append("Rating", formData.rating);
-      submitData.append("PhoneNumber", formData.phone);
-      submitData.append("Email", formData.email);
-      submitData.append("ProfileImageUrl", formData.profilePhoto);
-      // Optionally add other fields if needed by backend
-      // submitData.append('Hospital', formData.hospital);
-      // submitData.append('Country', formData.country);
-      // submitData.append('LicenseNumber', formData.licenseNumber);
-      // submitData.append('About', formData.about);
-      // submitData.append('Languages', formData.languages);
+    setMessage("");
+    setError(false);
 
-      await axios.post("http://localhost:5220/api/Doctors", submitData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      alert("Doctor added successfully!");
-      setFormData({
-        fullName: "",
-        email: "",
-        phone: "",
-        specialization: "",
-        hospital: "",
-        experience: "",
-        qualification: "",
-        consultationFee: "",
-        address: "",
-        city: "",
-        state: "",
-        country: "",
-        licenseNumber: "",
-        about: "",
-        languages: "",
-        profilePhoto: null,
-        availabilityStatus: "NOT AVAILABLE",
-        nextAvailable: "",
-        totalPatients: "",
-        rating: "",
-      });
+    const submitData = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value !== null && value !== "") submitData.append(key, value);
+    });
+
+    try {
+      await axios.post(
+        "http://localhost:5220/api/Doctor/AddDoctor",
+        submitData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      setMessage("Doctor added successfully!");
+      setFormData(initialState);
+      setFileName("");
       setPreviewImage(null);
-    } catch (error) {
-      alert("Failed to add doctor. Please try again.");
+    } catch (err) {
+      setMessage("Error adding doctor.");
+      setError(true);
     } finally {
       setLoading(false);
     }
   };
 
-  function Specialities() {
-    const [specializations, setSpecializations] = useState([]);
-
-    useEffect(() => {
-      axios
-        .get("http://localhost:5220/api/Specialization/GetAllSpecializations")
-        .then((res) => setSpecializations(res.data))
-        .catch(() => setSpecializations([]));
-    }, []);
-
-    return (
-      <>
-        {specializations.map((spec, index) => (
-          <option key={index} value={spec.specializationName}>{spec.specializationName}</option>
-        ))}
-      </>
-    );
-  }
+  const handleFileButtonClick = (e) => {
+    e.preventDefault();
+    fileInputRef.current.click();
+  };
 
   return (
     <div className="doctor-add-container">
@@ -185,51 +156,50 @@ export default function DoctorAdd() {
                 <label className="form-label">Full Name *</label>
                 <input
                   type="text"
-                  name="fullName"
+                  name="DoctorName"
                   className="form-input"
                   placeholder="Enter doctor's full name"
-                  value={formData.fullName}
+                  value={formData.DoctorName}
                   onChange={handleInputChange}
                   required
                 />
               </div>
               <div className="form-group">
+                <label className="form-label">Gender</label>
+                <select
+                  name="DoctorGender"
+                  className="form-select"
+                  value={formData.DoctorGender}
+                  onChange={handleInputChange}
+                >
+                  <option value="">Select gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div className="form-group">
                 <label className="form-label">Email Address *</label>
                 <input
                   type="email"
-                  name="email"
+                  name="DoctorEmail"
                   className="form-input"
                   placeholder="doctor@example.com"
-                  value={formData.email}
+                  value={formData.DoctorEmail}
                   onChange={handleInputChange}
-                  required
                 />
               </div>
               <div className="form-group">
                 <label className="form-label">Phone Number *</label>
                 <input
                   type="tel"
-                  name="phone"
+                  name="DoctorContectNo"
                   className="form-input"
                   placeholder="+91 98765 43210"
-                  value={formData.phone}
+                  value={formData.DoctorContectNo}
                   onChange={handleInputChange}
-                  required
                 />
               </div>
-              {/* <div className="form-group">
-                <label className="form-label">Medical License Number *</label>
-                <input
-                  type="text"
-                  name="licenseNumber"
-                  className="form-input"
-                  placeholder="Enter license number"
-                  value={formData.licenseNumber}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div> */}
-              gender
             </div>
           </div>
 
@@ -256,113 +226,87 @@ export default function DoctorAdd() {
               <div className="form-group">
                 <label className="form-label">Specialization *</label>
                 <select
-                  name="specialization"
+                  name="SpecializationId"
                   className="form-select"
-                  value={formData.specialization}
+                  value={formData.SpecializationId}
                   onChange={handleInputChange}
                   required
                 >
                   <option value="">Select specialization</option>
-                  <Specialities />
+                  {specializations.map((spec) => (
+                    <option key={spec.specializationId || spec.SpecializationId} value={spec.specializationId || spec.SpecializationId}>
+                      {spec.specializationName || spec.SpecializationName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Department *</label>
+                <select
+                  name="DepartmentId"
+                  className="form-select"
+                  value={formData.DepartmentId}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="">Select department</option>
+                  {departments.map((dep) => (
+                    <option key={dep.departmentId || dep.DepartmentId} value={dep.departmentId || dep.DepartmentId}>
+                      {dep.departmentName || dep.DepartmentName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Hospital *</label>
+                <select
+                  name="HospitalId"
+                  className="form-select"
+                  value={formData.HospitalId}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="">Select hospital</option>
+                  {hospitals.map((hos) => (
+                    <option key={hos.hospitalId || hos.HospitalId} value={hos.hospitalId || hos.HospitalId}>
+                      {hos.hospitalName || hos.HospitalName}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="form-group">
                 <label className="form-label">Qualification *</label>
                 <input
                   type="text"
-                  name="qualification"
+                  name="Qualification"
                   className="form-input"
                   placeholder="e.g. MBBS, MD - Cardiology"
-                  value={formData.qualification}
+                  value={formData.Qualification}
                   onChange={handleInputChange}
-                  required
                 />
               </div>
               <div className="form-group">
                 <label className="form-label">Experience (Years) *</label>
                 <input
                   type="number"
-                  name="experience"
+                  name="DoctorExperienceYears"
                   className="form-input"
                   placeholder="e.g. 5"
                   min="0"
                   max="50"
-                  value={formData.experience}
+                  value={formData.DoctorExperienceYears}
                   onChange={handleInputChange}
-                  required
                 />
               </div>
               <div className="form-group">
                 <label className="form-label">Consultation Fee (₹) *</label>
                 <input
                   type="number"
-                  name="consultationFee"
+                  name="ConsultationFee"
                   className="form-input"
                   placeholder="e.g. 500"
                   min="0"
-                  value={formData.consultationFee}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Hospital/Clinic *</label>
-                <input
-                  type="text"
-                  name="hospital"
-                  className="form-input"
-                  placeholder="Enter hospital or clinic name"
-                  value={formData.hospital}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Languages Spoken</label>
-                <input
-                  type="text"
-                  name="languages"
-                  className="form-input"
-                  placeholder="e.g. English, Hindi, Gujarati"
-                  value={formData.languages}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Availability Status *</label>
-                <select
-                  name="availabilityStatus"
-                  className="form-select"
-                  value={formData.availabilityStatus}
-                  onChange={handleInputChange}
-                  required
-                >
-                  <option value="AVAILABLE">AVAILABLE</option>
-                  <option value="NOT AVAILABLE">NOT AVAILABLE</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label className="form-label">Next Available</label>
-                <input
-                  type="datetime-local"
-                  name="nextAvailable"
-                  className="form-input"
-                  value={formData.nextAvailable}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">starting time</label>
-                <input type="time" id="appointment-time" name="appointment-time" />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Total Patients</label>
-                <input
-                  type="number"
-                  name="totalPatients"
-                  className="form-input"
-                  min="0"
-                  value={formData.totalPatients}
+                  value={formData.ConsultationFee}
                   onChange={handleInputChange}
                 />
               </div>
@@ -370,14 +314,75 @@ export default function DoctorAdd() {
                 <label className="form-label">Rating</label>
                 <input
                   type="number"
-                  name="rating"
+                  name="Rating"
                   className="form-input"
                   min="0"
                   max="5"
                   step="0.1"
-                  value={formData.rating}
+                  placeholder="e.g. 4.5"
+                  value={formData.Rating}
                   onChange={handleInputChange}
                 />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Availability Status</label>
+                <input
+                  type="text"
+                  name="AvailabilityStatus"
+                  className="form-input"
+                  placeholder="e.g. Available"
+                  value={formData.AvailabilityStatus}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Total Patients</label>
+                <input
+                  type="number"
+                  name="TotalPatient"
+                  className="form-input"
+                  min="0"
+                  placeholder="e.g. 100"
+                  value={formData.TotalPatient}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Start Work Time</label>
+                <input
+                  type="time"
+                  name="StartWorkTime"
+                  className="form-input"
+                  value={formData.StartWorkTime}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">End Work Time</label>
+                <input
+                  type="time"
+                  name="EndWorkTime"
+                  className="form-input"
+                  value={formData.EndWorkTime}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">User *</label>
+                <select
+                  name="UserId"
+                  className="form-select"
+                  value={formData.UserId}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="">Select user</option>
+                  {users.map((user) => (
+                    <option key={user.userId || user.UserId} value={user.userId || user.UserId}>
+                      {user.userName || user.UserName || (user.email || user.Email)}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>
@@ -402,65 +407,48 @@ export default function DoctorAdd() {
             </div>
             <div className="form-grid">
               <div className="form-group full-width">
-                <label className="form-label">Address *</label>
-                <textarea
-                  name="address"
-                  className="form-textarea"
-                  placeholder="Enter complete address"
-                  rows="3"
-                  value={formData.address}
-                  onChange={handleInputChange}
-                  required
-                ></textarea>
-              </div>
-              <div className="form-group">
-                <label className="form-label">City *</label>
+                <label className="form-label">Address</label>
                 <input
                   type="text"
-                  name="city"
+                  name="DoctorAddress"
                   className="form-input"
-                  placeholder="Enter city"
-                  value={formData.city}
+                  placeholder="Enter complete address"
+                  value={formData.DoctorAddress}
                   onChange={handleInputChange}
-                  required
                 />
               </div>
               <div className="form-group">
-                <label className="form-label">State *</label>
-                <select
-                  name="state"
-                  className="form-select"
-                  value={formData.state}
+                <label className="form-label">City ID</label>
+                <input
+                  type="number"
+                  name="DoctorCityId"
+                  className="form-input"
+                  placeholder="e.g. 1"
+                  value={formData.DoctorCityId}
                   onChange={handleInputChange}
-                  required
-                >
-                  <option value="">Select state</option>
-                  <option value="Maharashtra">Maharashtra</option>
-                  <option value="Delhi">Delhi</option>
-                  <option value="Karnataka">Karnataka</option>
-                  <option value="Gujarat">Gujarat</option>
-                  <option value="Tamil Nadu">Tamil Nadu</option>
-                  <option value="West Bengal">West Bengal</option>
-                  <option value="Rajasthan">Rajasthan</option>
-                  <option value="Uttar Pradesh">Uttar Pradesh</option>
-                </select>
+                />
               </div>
               <div className="form-group">
-                <label className="form-label">Country *</label>
-                <select
-                  name="country"
-                  className="form-select"
-                  value={formData.country}
+                <label className="form-label">State ID</label>
+                <input
+                  type="number"
+                  name="DoctorStateId"
+                  className="form-input"
+                  placeholder="e.g. 2"
+                  value={formData.DoctorStateId}
                   onChange={handleInputChange}
-                  required
-                >
-                  <option value="">Select country</option>
-                  <option value="India">India</option>
-                  <option value="USA">USA</option>
-                  <option value="UK">UK</option>
-                  <option value="Canada">Canada</option>
-                  <option value="Australia">Australia</option>
-                </select>
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Country ID</label>
+                <input
+                  type="number"
+                  name="DoctorCountryId"
+                  className="form-input"
+                  placeholder="e.g. 3"
+                  value={formData.DoctorCountryId}
+                  onChange={handleInputChange}
+                />
               </div>
             </div>
           </div>
@@ -487,24 +475,13 @@ export default function DoctorAdd() {
               </div>
             </div>
             <div className="form-grid">
-              <div className="form-group full-width">
-                <label className="form-label">About Doctor</label>
-                <textarea
-                  name="about"
-                  className="form-textarea"
-                  placeholder="Brief description about the doctor's expertise and experience..."
-                  rows="4"
-                  value={formData.about}
-                  onChange={handleInputChange}
-                ></textarea>
-              </div>
               <div className="form-group photo-upload">
                 <label className="form-label">Profile Photo</label>
                 <div className="photo-upload-container">
                   <div className="photo-preview">
                     {previewImage ? (
                       <img
-                        src={previewImage || "/placeholder.svg"}
+                        src={previewImage}
                         alt="Preview"
                         className="preview-image"
                       />
@@ -535,16 +512,20 @@ export default function DoctorAdd() {
                   </div>
                   <input
                     type="file"
-                    name="profilePhoto"
+                    name="ProfilePhoto"
                     className="file-input"
                     accept="image/*"
-                    onChange={handleFileChange}
+                    ref={fileInputRef}
+                    style={{ display: "none" }}
+                    onChange={handleInputChange}
                     id="photo-upload"
                   />
-                  <label htmlFor="photo-upload" className="file-upload-btn">
+                  <label htmlFor="photo-upload" className="file-upload-btn" onClick={handleFileButtonClick}>
                     Choose Photo
                   </label>
-                  <p className="file-help-text">JPG, PNG or GIF (max. 5MB)</p>
+                  <p className="file-help-text">
+                    {fileName ? (fileName.length > 22 ? fileName.slice(0, 19) + "..." : fileName) : "JPG, PNG or GIF (max. 5MB)"}
+                  </p>
                 </div>
               </div>
             </div>
@@ -581,6 +562,22 @@ export default function DoctorAdd() {
           </div>
         </form>
       </div>
+
+      {message && (
+        <div className={`doctor-form-message${error ? " error" : ""}`} style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          padding: '15px 20px',
+          borderRadius: '8px',
+          color: 'white',
+          fontWeight: '500',
+          zIndex: 1000,
+          backgroundColor: error ? '#ef4444' : '#10b981'
+        }}>
+          {message}
+        </div>
+      )}
     </div>
   );
 }

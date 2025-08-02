@@ -1,5 +1,6 @@
 import React from 'react'
 import './PatientDashboard.css'; // Assuming you have a CSS file for styles
+import { Link } from 'react-router-dom';
 const PatientDashboard = () => {
     return (
         <div className='className-wrapper'>
@@ -210,7 +211,7 @@ const PatientDashboard = () => {
                             </div>
 
                             <div className="d-flex align-items-center mb-4">
-                                <button className="btn btn-primary-custom me-4">Consult now</button>
+                                <Link className="btn btn-primary-custom me-4" to='/patient/consult'>Consult now</Link>
                                 <div className="d-flex align-items-center">
                                     <div className="online-indicator"></div>
                                     <span className="text-muted">88434 doctors online</span>
