@@ -197,18 +197,6 @@ export default function DoctorAdd() {
                   required
                 />
               </div>
-              <div className="form-group">
-                <label className="form-label">Medical License Number *</label>
-                <input
-                  type="text"
-                  name="licenseNumber"
-                  className="form-input"
-                  placeholder="Enter license number"
-                  value={formData.licenseNumber}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
             </div>
           </div>
 
@@ -328,36 +316,12 @@ export default function DoctorAdd() {
                 </select>
               </div>
               <div className="form-group">
-                <label className="form-label">Next Available</label>
+                <label className="form-label">Working Time</label>
                 <input
                   type="datetime-local"
                   name="nextAvailable"
                   className="form-input"
                   value={formData.nextAvailable}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Total Patients</label>
-                <input
-                  type="number"
-                  name="totalPatients"
-                  className="form-input"
-                  min="0"
-                  value={formData.totalPatients}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Rating</label>
-                <input
-                  type="number"
-                  name="rating"
-                  className="form-input"
-                  min="0"
-                  max="5"
-                  step="0.1"
-                  value={formData.rating}
                   onChange={handleInputChange}
                 />
               </div>
@@ -469,7 +433,7 @@ export default function DoctorAdd() {
               </div>
             </div>
             <div className="form-grid">
-              <div className="form-group full-width">
+              {/* <div className="form-group full-width">
                 <label className="form-label">About Doctor</label>
                 <textarea
                   name="about"
@@ -479,7 +443,7 @@ export default function DoctorAdd() {
                   value={formData.about}
                   onChange={handleInputChange}
                 ></textarea>
-              </div>
+              </div> */}
               <div className="form-group photo-upload">
                 <label className="form-label">Profile Photo</label>
                 <div className="photo-upload-container">
