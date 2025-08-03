@@ -1,839 +1,517 @@
-
-.consult-container {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  line-height: 1.6;
-  color: #333;
+/* Practo-style Consult Page */
+.consult-practo-template {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #22223b;
+  background: #f8fafc;
+  margin: 0;
+  padding: 0;
 }
 
 /* Hero Section */
-.hero-section1 {
-  background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
-  padding: 80px 20px 60px;
-  min-height: 600px;
-}
-
-.hero-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
+.hero-practo {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-}
-
-.hero-text h1 {
-  font-size: 3.5rem;
-  font-weight: 700;
-  color: #2c5aa0;
-  margin-bottom: 0.5rem;
-  line-height: 1.2;
-}
-
-.hero-text h2 {
-  font-size: 2.8rem;
-  font-weight: 600;
-  color: #1a365d;
-  margin-bottom: 1rem;
-  line-height: 1.2;
-}
-
-.hero-text p {
-  font-size: 1.2rem;
-  color: #4a5568;
-  margin-bottom: 2rem;
-  max-width: 500px;
-}
-
-.rating-info {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.stars {
-  display: flex;
-  gap: 2px;
-}
-
-.star-filled {
-  color: #fbbf24;
-  fill: #fbbf24;
-}
-
-.rating-info span {
-  font-size: 0.9rem;
-  color: #6b7280;
-}
-
-.cta-button {
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-  color: white;
-  border: none;
-  padding: 16px 32px;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-}
-
-.cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
-}
-
-.hero-image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.hero-image img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
-
-/* Section Headers */
-.section-header {
-  text-align: center;
-  margin-bottom: 3rem;
-  position: relative;
-}
-
-.section-header h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1a365d;
-  margin-bottom: 0.5rem;
-}
-
-.section-header p {
-  font-size: 1.1rem;
-  color: #6b7280;
-  margin-bottom: 1.5rem;
-}
-
-.view-all-btn {
-  background: transparent;
-  color: #3b82f6;
-  border: 2px solid #3b82f6;
-  padding: 10px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.view-all-btn:hover {
-  background: #3b82f6;
-  color: white;
-}
-
-/* Specialties Section */
-.specialties-section {
-  padding: 80px 20px;
-  background: white;
-}
-
-.specialties-grid {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 2rem;
-}
-
-.specialty-card {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem 1.5rem;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  border: 1px solid #f1f5f9;
-}
-
-.specialty-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-}
-
-.specialty-icon {
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1rem;
-  color: #3b82f6;
-}
-
-.specialty-card h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #1a365d;
-  margin-bottom: 0.5rem;
-}
-
-.specialty-card p {
-  font-size: 0.9rem;
-  color: #6b7280;
-}
-
-/* Health Concerns Section */
-.health-concerns-section {
-  padding: 80px 20px;
-  background: #f8fafc;
-}
-
-.concerns-grid {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-}
-
-.concern-card {
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-}
-
-.concern-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-}
-
-.concern-image {
-  height: 180px;
-  overflow: hidden;
-}
-
-.concern-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.concern-content {
-  padding: 1.5rem;
-}
-
-.concern-content h3 {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #1a365d;
-  margin-bottom: 0.5rem;
-}
-
-.concern-content p {
-  color: #6b7280;
-  margin-bottom: 1.5rem;
-}
-
-.consult-btn {
-  background: #3b82f6;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.consult-btn:hover {
-  background: #2563eb;
-}
-
-/* Offers Section */
-.offers-section {
-  padding: 80px 20px;
-  background: white;
-}
-
-.offers-section h2 {
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1a365d;
-  margin-bottom: 3rem;
-}
-
-.offers-grid {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
-}
-
-.offer-card {
-  border-radius: 20px;
-  padding: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.offer-card.primary {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
-}
-
-.offer-card.secondary {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  color: white;
-}
-
-.offer-content h3 {
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.offer-content p {
-  margin-bottom: 1.5rem;
-  opacity: 0.9;
-}
-
-.download-btn {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  padding: 12px 24px;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: all 0.3s ease;
-}
-
-.download-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* Doctors Section */
-.doctors-section {
-  padding: 80px 20px;
-  background: #f8fafc;
-}
-
-.doctors-section h2 {
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1a365d;
-  margin-bottom: 3rem;
-}
-
-.doctors-grid {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-}
-
-.doctor-card {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-}
-
-.doctor-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-}
-
-.doctor-image {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin: 0 auto 1rem;
-  border: 3px solid #e5e7eb;
-}
-
-.doctor-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.doctor-info h3 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #1a365d;
-  margin-bottom: 0.5rem;
-}
-
-.specialty {
-  color: #3b82f6;
-  font-weight: 500;
-  margin-bottom: 0.3rem;
-}
-
-.experience {
-  color: #6b7280;
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-}
-
-.doctor-stats {
-  display: flex;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
-  font-size: 0.85rem;
+  background: linear-gradient(120deg, #f0f4ff 60%, #f8fafc 100%);
+  /* border-radius: 1.2rem; */
+  /* margin: 2rem auto 1.5rem auto; */
+  padding: 2.5rem 2rem 2.5rem 2rem;
+  box-shadow: 0 2px 8px rgba(30, 64, 175, 0.04);
+  max-width: 100%;
 }
 
-.rating {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: #fbbf24;
-  font-weight: 600;
+.hero-practo-left {
+  flex: 1 1 350px;
+  min-width: 270px;
 }
 
-.consultations {
-  color: #6b7280;
-}
-
-.book-btn {
-  background: #3b82f6;
-  color: white;
-  border: none;
-  padding: 10px 24px;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-  width: 100%;
-  transition: all 0.3s ease;
-}
-
-.book-btn:hover {
-  background: #2563eb;
-}
-
-/* How it Works Section */
-.how-it-works-section {
-  padding: 80px 20px;
-  background: white;
-}
-
-.how-it-works-section h2 {
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1a365d;
-  margin-bottom: 3rem;
-}
-
-.steps-grid {
-  max-width: 1000px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 3rem;
-}
-
-.step {
-  text-align: center;
-}
-
-.step-icon {
-  width: 80px;
-  height: 80px;
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1.5rem;
-  color: #3b82f6;
-}
-
-.step h3 {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #1a365d;
-  margin-bottom: 0.5rem;
-}
-
-.step p {
-  color: #6b7280;
-}
-
-/* Statistics Section */
-.stats-section {
-  padding: 60px 20px;
-  background: #1e40af;
-  color: white;
-}
-
-.stats-grid {
-  max-width: 1000px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-  text-align: center;
-}
-
-.stat h3 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
-.stat p {
-  font-size: 1.1rem;
-  opacity: 0.9;
-}
-
-/* Benefits Section */
-.benefits-section {
-  padding: 80px 20px;
-  background: #f8fafc;
-}
-
-.benefits-section h2 {
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1a365d;
-  margin-bottom: 3rem;
-}
-
-.benefits-grid {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-}
-
-.benefit {
-  background: white;
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.benefit-icon {
-  color: #10b981;
-  margin-bottom: 1rem;
-}
-
-.benefit h3 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #1a365d;
-  margin-bottom: 0.5rem;
-}
-
-.benefit p {
-  color: #6b7280;
-  line-height: 1.6;
-}
-
-/* Testimonials Section */
-.testimonials-section {
-  padding: 80px 20px;
-  background: white;
-}
-
-.testimonials-section h2 {
-  text-align: center;
+.hero-practo-left h1 {
   font-size: 2.2rem;
   font-weight: 700;
+  margin-bottom: 0.7rem;
   color: #1a365d;
-  margin-bottom: 3rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
-.testimonials-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
-}
-
-.testimonial-card {
-  background: #f8fafc;
-  padding: 2rem;
-  border-radius: 16px;
-  border-left: 4px solid #3b82f6;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.testimonial-card:hover,
-.testimonial-card.active {
-  background: white;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
-}
-
-.testimonial-rating {
-  display: flex;
-  gap: 2px;
-  margin-bottom: 1rem;
-}
-
-.testimonial-card p {
-  font-style: italic;
+.hero-practo-sub {
   color: #4a5568;
-  margin-bottom: 1.5rem;
-  line-height: 1.6;
-}
-
-.testimonial-author strong {
-  color: #1a365d;
-  display: block;
-  margin-bottom: 0.3rem;
-}
-
-.testimonial-author span {
-  color: #6b7280;
-  font-size: 0.9rem;
-}
-
-/* FAQ Section */
-.faq-section {
-  padding: 80px 20px;
-  background: #f8fafc;
-}
-
-.faq-section h2 {
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1a365d;
-  margin-bottom: 3rem;
-}
-
-.faq-grid {
-  max-width: 1000px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-  gap: 2rem;
-}
-
-.faq-item {
-  background: white;
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.faq-item h3 {
   font-size: 1.1rem;
-  font-weight: 600;
-  color: #1a365d;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
 }
 
-.faq-item p {
-  color: #6b7280;
-  line-height: 1.6;
-}
-
-/* App Download Section */
-.app-download-section {
-  padding: 80px 20px;
-  background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
-  color: white;
-}
-
-.app-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
-}
-
-.app-info h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-.app-info p {
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
-  opacity: 0.9;
-}
-
-.phone-input {
+.hero-practo-rating {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.phone-input input {
-  flex: 1;
-  padding: 12px 16px;
-  border: none;
-  border-radius: 8px;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
   font-size: 1rem;
 }
 
-.phone-input button {
-  background: #10b981;
-  color: white;
+.hero-practo-rating img {
+  height: 22px;
+}
+
+.cta {
+  background: #2563eb;
+  color: #fff;
   border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
+  padding: 0.8rem 2rem;
+  border-radius: 0.7rem;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12);
+  transition: background 0.2s;
+}
+
+.cta:hover {
+  background: #1e40af;
+}
+
+.hero-practo-tags {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 0.7rem;
+}
+
+.hero-practo-tags span {
+  background: #e0e7ff;
+  color: #2563eb;
+  border-radius: 0.7rem;
+  padding: 0.3rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.hero-practo-right {
+  flex: 1 1 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 220px;
+}
+
+.hero-practo-right img {
+  /* max-width: 320px; */
+  width: 100%;
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px rgba(30, 64, 175, 0.08);
+}
+
+/* Specialties Section */
+.specialties-practo {
+  background: #fff;
+  border-radius: 1.2rem;
+  margin: 0 auto 1.5rem auto;
+  max-width: 100%;
+  margin-top: 2rem;
+  box-shadow: 0 2px 8px rgba(30, 64, 175, 0.04);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+}
+
+.specialties-practo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.specialties-practo-header h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1a365d;
+  margin: 0;
+}
+
+.specialties-practo-header p {
+  color: #4a5568;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.see-all-btn {
+  background: transparent;
+  color: #2563eb;
+  border: 2px solid #2563eb;
+  padding: 0.5rem 1.2rem;
+  border-radius: 0.7rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  font-size: 1rem;
+  transition: all 0.2s;
 }
 
-.phone-input button:hover {
-  background: #059669;
+.see-all-btn:hover {
+  background: #2563eb;
+  color: #fff;
 }
 
-.download-links {
+.specialties-practo-list {
   display: flex;
-  gap: 1rem;
+  gap: 1.2rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scrollbar-width: thin;
 }
 
-.download-links img {
-  height: 50px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.download-links img:hover {
-  transform: scale(1.05);
-}
-
-.app-mockup {
+.specialty-practo-card {
+  background: #f1f5f9;
+  border-radius: 0.8rem;
+  padding: 1.2rem 0.7rem;
   text-align: center;
+  min-width: 170px;
+  height: 180px;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 1px 4px rgba(30, 64, 175, 0.04);
 }
 
-.app-mockup img {
+.specialty-practo-icon {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  margin-bottom: 0.3rem;
+  border-radius: 50%;
+  background: #e0e7ff;
+}
+
+.specialty-practo-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a365d;
+  margin-bottom: 0.2rem;
+}
+
+.specialty-practo-link {
+  color: #2563eb;
+  font-size: 0.97rem;
+  font-weight: 500;
+  text-decoration: none;
+  /* margin-top: 1rem; */
+  transition: color 0.2s;
+}
+
+.specialty-practo-link:hover {
+  color: #1e40af;
+  text-decoration: underline;
+}
+
+/* Health Concerns Section */
+.health-concerns-practo {
+  background: #fff;
+  border-radius: 1.2rem;
+  margin: 0 auto 1.5rem auto;
   max-width: 100%;
-  height: auto;
-  max-height: 500px;
+  box-shadow: 0 2px 8px rgba(30, 64, 175, 0.04);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+}
+
+.health-concerns-practo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  min-width: 100%;
+  margin-bottom: 1.2rem;
+}
+
+.health-concerns-practo-list {
+  display: flex;
+  gap: 1.2rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scrollbar-width: thin;
+}
+
+.health-concern-practo-card {
+  background: #e0e7ff;
+  border-radius: 0.8rem;
+  padding: 1rem 0.7rem;
+  text-align: center;
+  min-width: 160px;
+  max-width: 180px;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 1px 4px rgba(30, 64, 175, 0.04);
+}
+
+.health-concern-practo-card img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  margin-bottom: 0.3rem;
+}
+
+.health-concern-practo-title {
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+  color: #1a365d;
+}
+
+.health-concern-practo-desc {
+  color: #334155;
+  font-size: 0.97rem;
+  margin-bottom: 0.5rem;
+}
+
+.health-concern-practo-link {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 0.7rem;
+  font-size: 0.97rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: auto;
+  transition: background 0.2s;
+}
+
+.health-concern-practo-link:hover {
+  background: #1e40af;
+}
+
+/* Offers Section */
+.offers-practo {
+  background: #fff;
+  border-radius: 1.2rem;
+  margin: 0 auto 1.5rem auto;
+  max-width: 100%;
+  box-shadow: 0 2px 8px rgba(30, 64, 175, 0.04);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+}
+
+.offers-practo-list {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.offer-practo-card {
+  background: linear-gradient(120deg, #e0e7ff 60%, #f8fafc 100%);
+  border-radius: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.5rem 2rem;
+  min-width: 260px;
+  flex: 1 1 320px;
+  box-shadow: 0 1px 4px rgba(30, 64, 175, 0.04);
+}
+
+.offer-practo-content h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+  color: #1a365d;
+}
+
+.offer-practo-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 0.7rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.2s;
+}
+
+.offer-practo-btn:hover {
+  background: #1e40af;
+}
+
+.offer-practo-card img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  border-radius: 0.7rem;
+  background: #fff;
+}
+
+/* Doctors Section */
+.doctors-practo {
+  background: #fff;
+  border-radius: 1.2rem;
+  margin: 0 auto 1.5rem auto;
+  max-width: 100%;
+  box-shadow: 0 2px 8px rgba(30, 64, 175, 0.04);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+}
+
+.doctors-practo-list {
+  display: flex;
+  gap: 1.2rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scrollbar-width: thin;
+}
+
+.doctor-practo-card {
+  background: #f1f5f9;
+  border-radius: 0.8rem;
+  padding: 1.2rem 0.7rem;
+  text-align: center;
+  min-width: 120px;
+  max-width: 140px;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 1px 4px rgba(30, 64, 175, 0.04);
+}
+
+.doctor-practo-card img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 0.3rem;
+}
+
+.doctor-practo-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a365d;
+  margin-bottom: 0.2rem;
+}
+
+.doctor-practo-specialty {
+  color: #2563eb;
+  font-size: 0.97rem;
+}
+
+/* How it Works Section */
+.how-it-works-practo {
+  background: #fff;
+  border-radius: 1.2rem;
+  margin: 0 auto 2rem auto;
+  max-width: 100%;
+  box-shadow: 0 2px 8px rgba(30, 64, 175, 0.04);
+  padding: 2rem 1.5rem 2rem 1.5rem;
+}
+
+.how-it-works-practo-list {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.how-it-works-practo-card {
+  background: #e0e7ff;
+  border-radius: 0.8rem;
+  padding: 1rem 0.7rem;
+  text-align: center;
+  min-width: 120px;
+  max-width: 160px;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 1px 4px rgba(30, 64, 175, 0.04);
+}
+
+.how-it-works-practo-card img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin-bottom: 0.3rem;
+}
+
+.how-it-works-practo-title {
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+  color: #1a365d;
+}
+
+.how-it-works-practo-desc {
+  color: #334155;
+  font-size: 0.97rem;
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-  .hero-content {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 3rem;
+@media (max-width: 900px) {
+
+  .hero-practo,
+  .specialties-practo,
+  .health-concerns-practo,
+  .offers-practo,
+  .doctors-practo,
+  .how-it-works-practo {
+    max-width: 99vw;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
-  
-  .hero-text h1 {
-    font-size: 2.5rem;
-  }
-  
-  .hero-text h2 {
-    font-size: 2rem;
-  }
-  
-  .specialties-grid {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1.5rem;
-  }
-  
-  .concerns-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .offers-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .offer-card {
+
+  .hero-practo {
     flex-direction: column;
+    gap: 2rem;
     text-align: center;
   }
-  
-  .doctors-grid {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+  .hero-practo-left,
+  .hero-practo-right {
+    min-width: 0;
+    width: 100%;
   }
-  
-  .steps-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .benefits-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .testimonials-container {
-    grid-template-columns: 1fr;
-  }
-  
-  .faq-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .app-content {
-    grid-template-columns: 1fr;
-    text-align: center;
+
+  .specialties-practo-list,
+  .health-concerns-practo-list,
+  .doctors-practo-list {
+    gap: 0.7rem;
   }
 }
 
-@media (max-width: 480px) {
-  .hero-text h1 {
-    font-size: 2rem;
+@media (max-width: 600px) {
+  .hero-practo {
+    padding: 1.2rem 0.3rem;
   }
-  
-  .hero-text h2 {
-    font-size: 1.8rem;
+
+  .specialties-practo,
+  .health-concerns-practo,
+  .offers-practo,
+  .doctors-practo,
+  .how-it-works-practo {
+    padding: 1.2rem 0.3rem;
   }
-  
-  .section-header h2 {
-    font-size: 2rem;
+
+  .specialty-practo-card,
+  .doctor-practo-card,
+  .health-concern-practo-card,
+  .how-it-works-practo-card {
+    min-width: 100px;
+    max-width: 120px;
+    padding: 0.7rem 0.3rem;
   }
-  
-  .specialties-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .phone-input {
+
+  .offer-practo-card {
     flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 1rem 0.7rem;
   }
+
+  .offer-practo-card img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+
+p {
+  margin-top: 26px;
 }

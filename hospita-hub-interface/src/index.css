@@ -1,3 +1,28 @@
+html,
+body,
+#root,
+.class-wrapper {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100vw !important;
+  min-width: 100vw !important;
+  box-sizing: border-box;
+  overflow-x: hidden !important;
+  background: #f8fafc !important;
+}
+
+.consult-practo-template,
+.hero-practo,
+.specialties-practo,
+.health-concerns-practo,
+.offers-practo,
+.doctors-practo,
+.how-it-works-practo {
+  box-shadow: none !important;
+  border: none !important;
+  background: #f8fafc !important;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -18,6 +43,7 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
@@ -46,9 +72,11 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -59,9 +87,11 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }

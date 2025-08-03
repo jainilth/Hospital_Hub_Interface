@@ -35,10 +35,7 @@
   background: linear-gradient(90deg, #0ea5e9, #06b6d4);
 }
 
-.stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-}
+/* Hover effects removed */
 
 .stat-content {
   display: flex;
@@ -176,9 +173,7 @@
   box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
 }
 
-.filter-select:hover {
-  border-color: #cbd5e1;
-}
+/* Hover effects removed */
 
 /* Doctors List */
 .doctors-list {
@@ -211,10 +206,7 @@
   background: linear-gradient(90deg, #0ea5e9, #06b6d4);
 }
 
-.doctor-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(14, 165, 233, 0.15);
-}
+/* Hover effects removed */
 
 /* Doctor Card Left Section */
 .doctor-card-left {
@@ -233,10 +225,7 @@
   transition: all 0.3s ease;
 }
 
-.doctor-card:hover .doctor-image {
-  border-color: #0ea5e9;
-  transform: scale(1.05);
-}
+/* Hover effects removed */
 
 .doctor-image img {
   width: 100%;
@@ -452,11 +441,7 @@
   box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
 }
 
-.view-btn:hover {
-  background: linear-gradient(135deg, #0284c7, #0891b2);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(14, 165, 233, 0.4);
-}
+/* Hover effects removed */
 
 .edit-btn {
   background: linear-gradient(135deg, #10b981, #059669);
@@ -464,11 +449,7 @@
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
-.edit-btn:hover {
-  background: linear-gradient(135deg, #059669, #047857);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
-}
+/* Hover effects removed */
 
 .delete-btn {
   background: linear-gradient(135deg, #ef4444, #dc2626);
@@ -476,18 +457,14 @@
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
-.delete-btn:hover {
-  background: linear-gradient(135deg, #dc2626, #b91c1c);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
-}
+/* Hover effects removed */
 
 /* Responsive Design */
 @media (max-width: 1200px) {
   .doctor-details {
     grid-template-columns: 1fr;
   }
-  
+
   .doctor-stats {
     gap: 20px;
   }
@@ -498,37 +475,37 @@
     flex-direction: column;
     gap: 20px;
   }
-  
+
   .doctor-card-left {
     width: 100%;
     justify-content: flex-start;
   }
-  
+
   .doctor-card-center {
     width: 100%;
   }
-  
+
   .doctor-card-right {
     width: 100%;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
   }
-  
+
   .doctor-actions {
     flex-direction: row;
     width: auto;
   }
-  
+
   .search-filter-section {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .search-box {
     min-width: auto;
   }
-  
+
   .filters {
     justify-content: center;
   }
@@ -538,41 +515,41 @@
   .doctor-list-container {
     padding: 16px;
   }
-  
+
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
-  
+
   .doctor-card {
     padding: 20px;
   }
-  
+
   .doctor-card-left {
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
-  
+
   .doctor-image {
     width: 80px;
     height: 80px;
   }
-  
+
   .doctor-stats {
     justify-content: center;
     gap: 24px;
   }
-  
+
   .contact-info {
     align-items: center;
   }
-  
+
   .search-input {
     padding: 14px 45px 14px 16px;
     font-size: 14px;
   }
-  
+
   .filter-select {
     min-width: 140px;
     padding: 10px 12px;
@@ -583,60 +560,60 @@
   .stats-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .stat-card {
     padding: 20px;
   }
-  
+
   .stat-icon {
     width: 48px;
     height: 48px;
     font-size: 20px;
   }
-  
+
   .stat-value {
     font-size: 28px;
   }
-  
+
   .doctor-name {
     font-size: 18px;
   }
-  
+
   .doctor-details {
     gap: 8px;
   }
-  
+
   .detail-row {
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
   }
-  
+
   .doctor-stats {
     gap: 16px;
   }
-  
+
   .stat-number {
     font-size: 18px;
   }
-  
+
   .contact-text {
     font-size: 12px;
   }
-  
+
   .doctor-actions {
     gap: 6px;
   }
-  
+
   .action-btn {
     padding: 8px 12px;
     font-size: 12px;
   }
-  
+
   .filters {
     gap: 12px;
   }
-  
+
   .filter-select {
     min-width: 120px;
   }
@@ -644,9 +621,12 @@
 
 /* Animation for loading states */
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
@@ -677,9 +657,7 @@ html {
   border-radius: 4px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
+/* Hover effects removed */
 
 /* Focus states for accessibility */
 .search-input:focus,
@@ -689,26 +667,7 @@ html {
   outline-offset: 2px;
 }
 
-/* Enhanced hover effects */
-.doctor-card:hover .doctor-name {
-  background: linear-gradient(135deg, #0284c7, #0891b2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.doctor-card:hover .specialization-badge {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
-}
-
-.doctor-card:hover .stat-number {
-  color: #0284c7;
-}
-
-.doctor-card:hover .rating {
-  transform: scale(1.1);
-}
+/* Hover effects removed */
 
 /* Enhanced visual hierarchy */
 .doctor-card::after {
@@ -724,9 +683,7 @@ html {
   pointer-events: none;
 }
 
-.doctor-card:hover::after {
-  opacity: 1;
-}
+/* Hover effects removed */
 
 /* Status badge animations */
 .status-badge.available {
@@ -745,22 +702,16 @@ html {
   transition: left 0.5s ease;
 }
 
-.doctor-card:hover .status-badge.available::before {
-  left: 100%;
-}
+/* Hover effects removed */
 
 /* Enhanced card shadows */
 .doctor-card {
-  box-shadow: 
+  box-shadow:
     0 4px 20px rgba(0, 0, 0, 0.08),
     0 0 0 1px rgba(14, 165, 233, 0.1);
 }
 
-.doctor-card:hover {
-  box-shadow: 
-    0 20px 40px rgba(14, 165, 233, 0.15),
-    0 0 0 1px rgba(14, 165, 233, 0.2);
-}
+/* Hover effects removed */
 
 /* Gradient text effects */
 .doctor-name {
@@ -799,20 +750,10 @@ html {
   transition: left 0.5s ease;
 }
 
-.action-btn:hover::before {
-  left: 100%;
-}
+/* Hover effects removed */
 
 /* Enhanced stat cards */
-.stat-card:hover .stat-icon {
-  transform: scale(1.1) rotate(5deg);
-  transition: transform 0.3s ease;
-}
-
-.stat-card:hover .stat-value {
-  color: #0ea5e9;
-  transition: color 0.3s ease;
-}
+/* Hover effects removed */
 
 /* Professional spacing and typography */
 .doctor-card {
@@ -829,15 +770,5 @@ html {
 
 /* Enhanced mobile experience */
 @media (max-width: 480px) {
-  .doctor-card:hover {
-    transform: translateY(-2px);
-  }
-  
-  .action-btn:hover {
-    transform: translateY(-1px);
-  }
-  
-  .stat-card:hover {
-    transform: translateY(-2px);
-  }
+  /* Hover effects removed */
 }

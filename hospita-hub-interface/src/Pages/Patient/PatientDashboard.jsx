@@ -1,5 +1,6 @@
 import React from 'react'
 import './PatientDashboard.css'; // Assuming you have a CSS file for styles
+import { Link } from 'react-router-dom';
 const PatientDashboard = () => {
     return (
         <div className='className-wrapper'>
@@ -20,16 +21,16 @@ const PatientDashboard = () => {
                                 <h2 className="h3 mb-4 text-dark">Find and Book</h2>
 
                                 <div className="row g-3 mb-4">
-                                    <div className="col-md-3">
-                                        <div className="location-input">
-                                            <i className="fas fa-map-marker-alt text-muted me-2"></i>
-                                            <span>Bangalore</span>
-                                        </div>
-                                    </div>
                                     <div className="col-md-9">
                                         <div className="search-input-wrapper">
                                             <i className="fas fa-search search-icon d-flex justify-content"></i>
                                             <input type="text" className="form-control search-input" placeholder="Search doctors, clinics, hospitals, etc." />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-3">
+                                        <div className="location-input">
+                                            <i className="fas fa-map-marker-alt text-muted me-2"></i>
+                                            <span>Bangalore</span>
                                         </div>
                                     </div>
                                 </div>
@@ -210,7 +211,7 @@ const PatientDashboard = () => {
                             </div>
 
                             <div className="d-flex align-items-center mb-4">
-                                <button className="btn btn-primary-custom me-4">Consult now</button>
+                                <Link className="btn btn-primary-custom me-4" to='/patient/consult'>Consult now</Link>
                                 <div className="d-flex align-items-center">
                                     <div className="online-indicator"></div>
                                     <span className="text-muted">88434 doctors online</span>

@@ -1,6 +1,37 @@
-import "./DoctorList.css"
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./DoctorList.css";
 
 export default function DoctorList() {
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5220/api/Doctor/GetAllDoctors")
+      .then((res) => {
+        // console.log("API Response:", res.data);
+        // console.log("First doctor data:", res.data[0]);
+        setDoctors(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("API Error:", err);
+        setDoctors([]);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="doctor-list-container">
+        <div style={{ textAlign: 'center', padding: '50px' }}>
+          <h2>Loading doctors...</h2>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="doctor-list-container">
       {/* Stats Section */}
@@ -9,36 +40,48 @@ export default function DoctorList() {
           <div className="stat-content">
             <div className="stat-info">
               <span className="stat-label">Total Doctors</span>
-              <span className="stat-value">4</span>
+              <span className="stat-value">{doctors.length}</span>
             </div>
-            <div className="stat-icon total">4</div>
+            <div className="stat-icon total">{doctors.length}</div>
           </div>
         </div>
         <div className="stat-card">
           <div className="stat-content">
             <div className="stat-info">
               <span className="stat-label">Available Now</span>
-              <span className="stat-value available">2</span>
+              <span className="stat-value available">
+                {doctors.filter(doc => (doc.availabilityStatus || doc.AvailabilityStatus) === "Available").length}
+              </span>
             </div>
-            <div className="stat-icon available">2</div>
+            <div className="stat-icon available">
+              {doctors.filter(doc => (doc.availabilityStatus || doc.AvailabilityStatus) === "Available").length}
+            </div>
           </div>
         </div>
         <div className="stat-card">
           <div className="stat-content">
             <div className="stat-info">
               <span className="stat-label">Busy</span>
-              <span className="stat-value busy">1</span>
+              <span className="stat-value busy">
+                {doctors.filter(doc => (doc.availabilityStatus || doc.AvailabilityStatus) === "Busy").length}
+              </span>
             </div>
-            <div className="stat-icon busy">1</div>
+            <div className="stat-icon busy">
+              {doctors.filter(doc => (doc.availabilityStatus || doc.AvailabilityStatus) === "Busy").length}
+            </div>
           </div>
         </div>
         <div className="stat-card">
           <div className="stat-content">
             <div className="stat-info">
               <span className="stat-label">On Leave</span>
-              <span className="stat-value leave">1</span>
+              <span className="stat-value leave">
+                {doctors.filter(doc => (doc.availabilityStatus || doc.AvailabilityStatus) === "On Leave").length}
+              </span>
             </div>
-            <div className="stat-icon leave">1</div>
+            <div className="stat-icon leave">
+              {doctors.filter(doc => (doc.availabilityStatus || doc.AvailabilityStatus) === "On Leave").length}
+            </div>
           </div>
         </div>
       </div>
@@ -67,298 +110,93 @@ export default function DoctorList() {
 
       {/* Doctors List - Column Layout */}
       <div className="doctors-list">
-        {/* Doctor Card 1 */}
-        <div className="doctor-card">
-          <div className="doctor-card-left">
-            <div className="doctor-image">
-              <img src="/placeholder.svg?height=100&width=100" alt="Dr. Sarah Johnson" />
-            </div>
-            <div className="doctor-basic-info">
-              <h3 className="doctor-name">Dr. Sarah Johnson</h3>
-              <p className="doctor-qualification">MBBS, MD - Cardiology</p>
-              <div className="doctor-specialization">
-                <span className="specialization-badge">Cardiologist</span>
-              </div>
-            </div>
+        {doctors.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '50px' }}>
+            <h2>No doctors found</h2>
+            <p>No doctors are currently registered in the system.</p>
           </div>
-
-          <div className="doctor-card-center">
-            <div className="doctor-details">
-              <div className="detail-row">
-                <span className="detail-label">Experience:</span>
-                <span className="detail-value">15 years</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Location:</span>
-                <span className="detail-value">Mumbai, Maharashtra</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Consultation Fee:</span>
-                <span className="detail-value fee">₹800</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Next Available:</span>
-                <span className="detail-value next-available">Today, 2:00 PM</span>
-              </div>
-            </div>
-
-            <div className="doctor-stats">
-              <div className="stat-item">
-                <span className="stat-number">245</span>
-                <span className="stat-text">Patients</span>
-              </div>
-              <div className="stat-item">
-                <span className="rating">
-                  <span className="star">★</span>
-                  4.8
-                </span>
-                <span className="stat-text">Rating</span>
-              </div>
-            </div>
-
-            <div className="doctor-contact">
-              <div className="contact-info">
-                <div className="contact-item">
-                  <span className="contact-icon">📞</span>
-                  <span className="contact-text">+91 98765 43210</span>
+        ) : (
+          doctors.map((doc, index) => (
+            <div className="doctor-card" key={doc.doctorId || doc.DoctorId || index}>
+              <div className="doctor-card-left">
+                <div className="doctor-image">
+                  {doc.doctorPhotoUrl || doc.DoctorPhotoUrl ? (
+                    <img src={doc.doctorPhotoUrl || doc.DoctorPhotoUrl} alt={doc.doctorName || doc.DoctorName} />
+                  ) : (
+                    <img src="/placeholder.svg?height=100&width=100" alt={doc.doctorName || doc.DoctorName} />
+                  )}
                 </div>
-                <div className="contact-item">
-                  <span className="contact-icon">✉️</span>
-                  <span className="contact-text">sarah.johnson@hospitalhub.com</span>
+                <div className="doctor-basic-info">
+                  <h3 className="doctor-name">{doc.doctorName || doc.DoctorName || "N/A"}</h3>
+                  <p className="doctor-qualification">{doc.qualification || doc.Qualification || "N/A"}</p>
+                  <div className="doctor-specialization">
+                    <span className="specialization-badge">Specialization: {doc.specialization || doc.Specialization  || "N/A"}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <div className="doctor-card-right">
-            <div className="status-badge available">Available</div>
-            <div className="doctor-actions">
-              <button className="action-btn view-btn">View</button>
-              <button className="action-btn edit-btn">Edit</button>
-              <button className="action-btn delete-btn">Delete</button>
-            </div>
-          </div>
-        </div>
-
-        {/* Doctor Card 2 */}
-        <div className="doctor-card">
-          <div className="doctor-card-left">
-            <div className="doctor-image">
-              <img src="/placeholder.svg?height=100&width=100" alt="Dr. Rajesh Kumar" />
-            </div>
-            <div className="doctor-basic-info">
-              <h3 className="doctor-name">Dr. Rajesh Kumar</h3>
-              <p className="doctor-qualification">MBBS, MS - Neurology</p>
-              <div className="doctor-specialization">
-                <span className="specialization-badge">Neurologist</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="doctor-card-center">
-            <div className="doctor-details">
-              <div className="detail-row">
-                <span className="detail-label">Experience:</span>
-                <span className="detail-value">12 years</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Location:</span>
-                <span className="detail-value">Delhi, India</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Consultation Fee:</span>
-                <span className="detail-value fee">₹1200</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Next Available:</span>
-                <span className="detail-value next-available">Tomorrow, 10:00 AM</span>
-              </div>
-            </div>
-
-            <div className="doctor-stats">
-              <div className="stat-item">
-                <span className="stat-number">189</span>
-                <span className="stat-text">Patients</span>
-              </div>
-              <div className="stat-item">
-                <span className="rating">
-                  <span className="star">★</span>
-                  4.6
-                </span>
-                <span className="stat-text">Rating</span>
-              </div>
-            </div>
-
-            <div className="doctor-contact">
-              <div className="contact-info">
-                <div className="contact-item">
-                  <span className="contact-icon">📞</span>
-                  <span className="contact-text">+91 98765 43211</span>
+              <div className="doctor-card-center">
+                <div className="doctor-details">
+                  <div className="detail-row">
+                    <span className="detail-label">Experience:</span>
+                    <span className="detail-value">{doc.doctorExperienceYears || doc.DoctorExperienceYears || "N/A"} years</span>
+                  </div>
+                  <div className="detail-row">
+                    <span className="detail-label">Location:</span>
+                    <span className="detail-value">{doc.doctorAddress || doc.DoctorAddress || "N/A"}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span className="detail-label">Consultation Fee:</span>
+                    <span className="detail-value fee">₹{doc.consultationFee || doc.ConsultationFee || "N/A"}</span>
+                  </div>
+                  <div className="detail-row">
+                    <span className="detail-label">Department ID:</span>
+                    <span className="detail-value next-available">{doc.departmentId || doc.DepartmentId || "N/A"}</span>
+                  </div>
                 </div>
-                <div className="contact-item">
-                  <span className="contact-icon">✉️</span>
-                  <span className="contact-text">rajesh.kumar@hospitalhub.com</span>
+
+                <div className="doctor-stats">
+                  <div className="stat-item">
+                    <span className="stat-number">{doc.totalPatient || doc.TotalPatient || "N/A"}</span>
+                    <span className="stat-text">Patients</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="rating">
+                      <span className="star">★</span>
+                      {doc.rating || doc.Rating || "N/A"}
+                    </span>
+                    <span className="stat-text">Rating</span>
+                  </div>
+                </div>
+
+                <div className="doctor-contact">
+                  <div className="contact-info">
+                    <div className="contact-item">
+                      <span className="contact-icon">📞</span>
+                      <span className="contact-text">{doc.doctorContectNo || doc.DoctorContectNo || "N/A"}</span>
+                    </div>
+                    <div className="contact-item">
+                      <span className="contact-icon">✉️</span>
+                      <span className="contact-text">{doc.doctorEmail || doc.DoctorEmail || "N/A"}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="doctor-card-right">
+                <div className={`status-badge ${(doc.availabilityStatus || doc.AvailabilityStatus || "").toLowerCase().replace(" ", "")}`}>
+                  {doc.availabilityStatus || doc.AvailabilityStatus || "N/A"}
+                </div>
+                <div className="doctor-actions">
+                  <button className="action-btn view-btn">View</button>
+                  <button className="action-btn edit-btn">Edit</button>
+                  <button className="action-btn delete-btn">Delete</button>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="doctor-card-right">
-            <div className="status-badge busy">Busy</div>
-            <div className="doctor-actions">
-              <button className="action-btn view-btn">View</button>
-              <button className="action-btn edit-btn">Edit</button>
-              <button className="action-btn delete-btn">Delete</button>
-            </div>
-          </div>
-        </div>
-
-        {/* Doctor Card 3 */}
-        <div className="doctor-card">
-          <div className="doctor-card-left">
-            <div className="doctor-image">
-              <img src="/placeholder.svg?height=100&width=100" alt="Dr. Priya Sharma" />
-            </div>
-            <div className="doctor-basic-info">
-              <h3 className="doctor-name">Dr. Priya Sharma</h3>
-              <p className="doctor-qualification">MBBS, MD - Pediatrics</p>
-              <div className="doctor-specialization">
-                <span className="specialization-badge">Pediatrician</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="doctor-card-center">
-            <div className="doctor-details">
-              <div className="detail-row">
-                <span className="detail-label">Experience:</span>
-                <span className="detail-value">8 years</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Location:</span>
-                <span className="detail-value">Bangalore, Karnataka</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Consultation Fee:</span>
-                <span className="detail-value fee">₹600</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Next Available:</span>
-                <span className="detail-value next-available">Today, 4:00 PM</span>
-              </div>
-            </div>
-
-            <div className="doctor-stats">
-              <div className="stat-item">
-                <span className="stat-number">156</span>
-                <span className="stat-text">Patients</span>
-              </div>
-              <div className="stat-item">
-                <span className="rating">
-                  <span className="star">★</span>
-                  4.9
-                </span>
-                <span className="stat-text">Rating</span>
-              </div>
-            </div>
-
-            <div className="doctor-contact">
-              <div className="contact-info">
-                <div className="contact-item">
-                  <span className="contact-icon">📞</span>
-                  <span className="contact-text">+91 98765 43212</span>
-                </div>
-                <div className="contact-item">
-                  <span className="contact-icon">✉️</span>
-                  <span className="contact-text">priya.sharma@hospitalhub.com</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="doctor-card-right">
-            <div className="status-badge available">Available</div>
-            <div className="doctor-actions">
-              <button className="action-btn view-btn">View</button>
-              <button className="action-btn edit-btn">Edit</button>
-              <button className="action-btn delete-btn">Delete</button>
-            </div>
-          </div>
-        </div>
-
-        {/* Doctor Card 4 */}
-        <div className="doctor-card">
-          <div className="doctor-card-left">
-            <div className="doctor-image">
-              <img src="/placeholder.svg?height=100&width=100" alt="Dr. Amit Patel" />
-            </div>
-            <div className="doctor-basic-info">
-              <h3 className="doctor-name">Dr. Amit Patel</h3>
-              <p className="doctor-qualification">MBBS, MD - Orthopedics</p>
-              <div className="doctor-specialization">
-                <span className="specialization-badge">Orthopedist</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="doctor-card-center">
-            <div className="doctor-details">
-              <div className="detail-row">
-                <span className="detail-label">Experience:</span>
-                <span className="detail-value">20 years</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Location:</span>
-                <span className="detail-value">Ahmedabad, Gujarat</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Consultation Fee:</span>
-                <span className="detail-value fee">₹1000</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Next Available:</span>
-                <span className="detail-value next-available">Next Week</span>
-              </div>
-            </div>
-
-            <div className="doctor-stats">
-              <div className="stat-item">
-                <span className="stat-number">312</span>
-                <span className="stat-text">Patients</span>
-              </div>
-              <div className="stat-item">
-                <span className="rating">
-                  <span className="star">★</span>
-                  4.7
-                </span>
-                <span className="stat-text">Rating</span>
-              </div>
-            </div>
-
-            <div className="doctor-contact">
-              <div className="contact-info">
-                <div className="contact-item">
-                  <span className="contact-icon">📞</span>
-                  <span className="contact-text">+91 98765 43213</span>
-                </div>
-                <div className="contact-item">
-                  <span className="contact-icon">✉️</span>
-                  <span className="contact-text">amit.patel@hospitalhub.com</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="doctor-card-right">
-            <div className="status-badge leave">On Leave</div>
-            <div className="doctor-actions">
-              <button className="action-btn view-btn">View</button>
-              <button className="action-btn edit-btn">Edit</button>
-              <button className="action-btn delete-btn">Delete</button>
-            </div>
-          </div>
-        </div>
+          ))
+        )}
       </div>
     </div>
-  )
+  );
 }
