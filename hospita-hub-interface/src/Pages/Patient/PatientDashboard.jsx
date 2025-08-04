@@ -212,6 +212,7 @@ const PatientDashboard = () => {
 
                             <div className="d-flex align-items-center mb-4">
                                 <Link className="btn btn-primary-custom me-4" to='/patient/consult'>Consult now</Link>
+                                <Link className="btn btn-outline-primary me-4" to='/patient/specialities'>View Specialities</Link>
                                 <div className="d-flex align-items-center">
                                     <div className="online-indicator"></div>
                                     <span className="text-muted">88434 doctors online</span>

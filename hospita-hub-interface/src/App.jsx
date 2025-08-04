@@ -13,7 +13,11 @@ import Appointment from "./Pages/Admin/Appointment";
 import LocationManagement from "./Pages/Admin/DashboardSubComponent/LocationManagement";
 import HospitalManagement from "./Pages/Admin/DashboardSubComponent/HospitalManagement";
 import AddCity from "./Pages/Admin/LocationSubComponent/AddCity";
+import AddCountry from "./Pages/Admin/LocationSubComponent/AddCountry";
+import AddState from "./Pages/Admin/LocationSubComponent/AddState";
 import GetCityDetailsById from "./Pages/Admin/DashboardSubComponent/LocationManagementComponent/GetCityDetailsById";
+import GetCountryDetailsById from "./Pages/Admin/DashboardSubComponent/LocationManagementComponent/GetCountryDetailsById";
+import GetStateDetailsById from "./Pages/Admin/DashboardSubComponent/LocationManagementComponent/GetStateDetailsById";
 
 import Country from "./Pages/Admin/Country";
 
@@ -22,6 +26,8 @@ import Patient from "./Layouts/PatientLayout";
 import PatientDashboard from "./Pages/Patient/PatientDashboard";
 import Consult from "./Pages/Patient/Consult";
 import ChatConnect from "./Pages/Patient/chat/ChatConnect";
+import Specialities from "./Pages/Patient/Specialities";
+import Doctors from "./Pages/Patient/Doctors";
 
 function App() {
   return (
@@ -39,8 +45,32 @@ function App() {
           <Route path="country" element={<Country />} />
           <Route path="locationmanagement" element={<LocationManagement />} />
           <Route path="locationmanagement/addCity" element={<AddCity />} />
-          <Route path="locationmanagement/addCity/:cityId" element={<AddCity />}/>
-          <Route path="locationmanagement/getCity/:cityId" element={<GetCityDetailsById />} />
+          <Route
+            path="locationmanagement/addCity/:cityId"
+            element={<AddCity />}
+          />
+          <Route path="locationmanagement/addCountry" element={<AddCountry />} />
+          <Route
+            path="locationmanagement/addCountry/:countryId"
+            element={<AddCountry />}
+          />
+          <Route path="locationmanagement/addState" element={<AddState />} />
+          <Route
+            path="locationmanagement/addState/:stateId"
+            element={<AddState />}
+          />
+          <Route
+            path="locationmanagement/getCity/:cityId"
+            element={<GetCityDetailsById />}
+          />
+          <Route
+            path="locationmanagement/getCountry/:countryId"
+            element={<GetCountryDetailsById />}
+          />
+          <Route
+            path="locationmanagement/getState/:stateId"
+            element={<GetStateDetailsById />}
+          />
           <Route path="hospitalmanagemeent" element={<HospitalManagement />} />
           {/* Add more admin routes as needed */}
         </Route>
@@ -48,7 +78,9 @@ function App() {
         <Route path="/patient" element={<Patient />}>
           <Route path="home" element={<PatientDashboard />} />
           <Route path="consult" element={<Consult />} />
-          <Route path="consult/chat" element={<ChatConnect/>} />
+          <Route path="consult/chat" element={<ChatConnect />} />
+          <Route path="specialities" element={<Specialities />} />
+          <Route path="doctors" element={<Doctors />} />
           <Route path="ordermedic" element={<div>order medicine</div>} />
           <Route path="bookappointment" element={<div>bookappointment</div>} />
           <Route path="labtestbook" element={<div>labtestbook</div>} />
@@ -61,4 +93,3 @@ function App() {
 }
 
 export default App;
-// export default App;

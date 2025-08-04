@@ -30,8 +30,11 @@ export default function LocationManagement() {
 
   useEffect(() => {
     axios
-      .get(`${API_BASE_URL}/City`)
-      .then((res) => setCities(res.data))
+      .get(`${API_BASE_URL}/City/GetAllCity`)
+      .then((res) => {
+        console.log("Cities data:", res.data); // Debug log
+        setCities(res.data);
+      })
       .catch((err) => console.error("Error loading cities:", err));
   }, []);
 
@@ -59,26 +62,53 @@ export default function LocationManagement() {
   };
 
   const handleDeleteCity = (id) => {
-    if (!window.confirm("Are you sure?")) return;
+    console.log("Attempting to delete city with ID:", id); // Debug log
+    if (!window.confirm("Are you sure you want to delete this city?")) return;
+
+    const url = `${API_BASE_URL}/City/DeleteCity/${id}`;
+    console.log("Delete URL:", url); // Debug log
+
     axios
-      .delete(`${API_BASE_URL}/City/${id}`)
-      .then(() => {
-        alert("City Deleted");
-        setCities((prev) => prev.filter((c) => c.cityId !== id));
+      .delete(url)
+      .then((response) => {
+        console.log("Delete response:", response); // Debug log
+        alert("City deleted successfully!");
+        setCities((prev) => prev.filter((c) => (c.cityId || c.CityId) !== id));
       })
-      .catch(() => alert("Delete failed"));
+      .catch((err) => {
+        console.error("Delete failed:", err);
+        console.error("Delete error response:", err.response); // Debug log
+        alert("Failed to delete city. Please try again.");
+      });
   };
 
   const handleDeleteCountry = (id) => {
-    if (!window.confirm("Are you sure?")) return;
-    // Add API call here
-    alert("Country delete not implemented");
+    if (!window.confirm("Are you sure you want to delete this country?"))
+      return;
+    axios
+      .delete(`${API_BASE_URL}/Country/DeleteCountry/${id}`)
+      .then(() => {
+        alert("Country deleted successfully!");
+        setCountries((prev) => prev.filter((c) => c.countryId !== id));
+      })
+      .catch((err) => {
+        console.error("Delete failed:", err);
+        alert("Failed to delete country. Please try again.");
+      });
   };
 
   const handleDeleteState = (id) => {
-    if (!window.confirm("Are you sure?")) return;
-    // Add API call here
-    alert("State delete not implemented");
+    if (!window.confirm("Are you sure you want to delete this state?")) return;
+    axios
+      .delete(`${API_BASE_URL}/State/DeleteState/${id}`)
+      .then(() => {
+        alert("State deleted successfully!");
+        setStates((prev) => prev.filter((s) => s.stateId !== id));
+      })
+      .catch((err) => {
+        console.error("Delete failed:", err);
+        alert("Failed to delete state. Please try again.");
+      });
   };
 
   const getHeaderProps = () => {
@@ -104,6 +134,16 @@ export default function LocationManagement() {
   };
 
   const { title, subtitle, addButtonLabel } = getHeaderProps();
+
+  const handleAddClick = () => {
+    if (activeTab === "countries") {
+      navigate("/locationmanagement/addCountry");
+    } else if (activeTab === "states") {
+      navigate("/locationmanagement/addState");
+    } else {
+      navigate("/locationmanagement/addCity");
+    }
+  };
 
   return (
     <div className="location-management">
@@ -134,7 +174,7 @@ export default function LocationManagement() {
         title={title}
         subtitle={subtitle}
         onExport={handleExportData}
-        onAddClick={() => setShowAddModal(true)}
+        onAddClick={handleAddClick}
         addButtonLabel={addButtonLabel}
       />
 
@@ -159,24 +199,27 @@ export default function LocationManagement() {
                       <input type="checkbox" />
                     </td>
                     <td>{country.countryName}</td>
-                    <td>{country.stateCount}</td>
-                    <td>{country.cityCount}</td>
-                    <td>{country.hospitalCount}</td>
+                    <td>{country.stateCount || 0}</td>
+                    <td>{country.cityCount || 0}</td>
+                    <td>{country.hospitalCount || 0}</td>
                     <td>
-                      <button
-                        onClick={() =>
-                          navigate(`/edit-country/${country.countryId}`)
-                        }
+                      <Link
+                        className="edit-btn"
+                        to={`/locationmanagement/addCountry/${country.countryId}`}
                       >
                         Edit
-                      </button>
+                      </Link>
                       <button
+                        className="delete-btn"
                         onClick={() => handleDeleteCountry(country.countryId)}
                       >
                         Delete
                       </button>
-                      <Link to={`/country/${country.countryId}`}>
-                        <button>Read More</button>
+                      <Link
+                        to={`/locationmanagement/getCountry/${country.countryId}`}
+                        className="readmore-btn"
+                      >
+                        Read More
                       </Link>
                     </td>
                   </tr>
@@ -207,19 +250,26 @@ export default function LocationManagement() {
                     </td>
                     <td>{state.stateName}</td>
                     <td>{state.countryName}</td>
-                    <td>{state.cityCount}</td>
-                    <td>{state.hospitalCount}</td>
+                    <td>{state.cityCount || 0}</td>
+                    <td>{state.hospitalCount || 0}</td>
                     <td>
-                      <button
-                        onClick={() => navigate(`/edit-state/${state.stateId}`)}
+                      <Link
+                        className="edit-btn"
+                        to={`/locationmanagement/addState/${state.stateId}`}
                       >
                         Edit
-                      </button>
-                      <button onClick={() => handleDeleteState(state.stateId)}>
+                      </Link>
+                      <button
+                        className="delete-btn"
+                        onClick={() => handleDeleteState(state.stateId)}
+                      >
                         Delete
                       </button>
-                      <Link to={`/state/${state.stateId}`}>
-                        <button>Read More</button>
+                      <Link
+                        to={`/locationmanagement/getState/${state.stateId}`}
+                        className="readmore-btn"
+                      >
+                        Read More
                       </Link>
                     </td>
                   </tr>
@@ -244,27 +294,36 @@ export default function LocationManagement() {
               </thead>
               <tbody>
                 {cities.map((city) => (
-                  <tr key={city.cityId}>
+                  <tr key={city.cityId || city.CityId}>
                     <td>
                       <input type="checkbox" />
                     </td>
                     <td>{city.cityName}</td>
                     <td>{city.stateName}</td>
                     <td>{city.countryName}</td>
-                    <td>{city.hospitalCount}</td>
+                    <td>{city.hospitalCount || 0}</td>
                     <td>
                       <Link
                         className="edit-btn"
-                        to={`/locationmanagement/addCity/${city.cityId}`}
+                        to={`/locationmanagement/addCity/${
+                          city.cityId || city.CityId
+                        }`}
                       >
                         Edit
                       </Link>
-                      <button onClick={() => handleDeleteCity(city.cityId)}>
+                      <button
+                        className="delete-btn"
+                        onClick={() =>
+                          handleDeleteCity(city.cityId || city.CityId)
+                        }
+                      >
                         Delete
                       </button>
                       <Link
                         className="readmore-btn"
-                        to={`/locationmanagement/getCity/${city.cityId}`}
+                        to={`/locationmanagement/getCity/${
+                          city.cityId || city.CityId
+                        }`}
                       >
                         Read More
                       </Link>

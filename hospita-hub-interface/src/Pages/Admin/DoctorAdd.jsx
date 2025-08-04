@@ -26,9 +26,7 @@ const initialState = {
   DoctorCityId: "",
   DoctorStateId: "",
   DoctorCountryId: "",
-  hospital: "",
   languages: "",
-  availabilityStatus: "",
   nextAvailable: "",
 };
 
@@ -41,31 +39,75 @@ export default function DoctorAdd() {
   const [departments, setDepartments] = useState([]);
   const [hospitals, setHospitals] = useState([]);
   const [users, setUsers] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
   const [previewImage, setPreviewImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef();
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5220/api/Specialization/GetAllSpecializations")
-      .then((res) => setSpecializations(res.data))
-      .catch(() => setSpecializations([]));
+    // Load all required data
+    const loadData = async () => {
+      try {
+        const [
+          specializationsRes,
+          departmentsRes,
+          hospitalsRes,
+          usersRes,
+          countriesRes,
+        ] = await Promise.all([
+          axios.get(
+            "http://localhost:5220/api/Specialization/GetAllSpecializations"
+          ),
+          axios.get("http://localhost:5220/api/Department/GetAllDepartment"),
+          axios.get("http://localhost:5220/api/Hospital/GetAllHospitals"),
+          axios.get("http://localhost:5220/api/User/GetAllUsers"),
+          axios.get("http://localhost:5220/api/Country/GetAllCountries"),
+        ]);
 
-    axios
-      .get("http://localhost:5220/api/Department/GetAllDepartment")
-      .then((res) => setDepartments(res.data))
-      .catch(() => setDepartments([]));
+        setSpecializations(specializationsRes.data);
+        setDepartments(departmentsRes.data);
+        setHospitals(hospitalsRes.data);
+        setUsers(usersRes.data);
+        setCountries(countriesRes.data);
+      } catch (err) {
+        console.error("Error loading data:", err);
+      }
+    };
 
-    axios
-      .get("http://localhost:5220/api/Hospital/GetAllHospitals")
-      .then((res) => setHospitals(res.data))
-      .catch(() => setHospitals([]));
-
-    axios
-      .get("http://localhost:5220/api/User/GetAllUsers")
-      .then((res) => setUsers(res.data))
-      .catch(() => setUsers([]));
+    loadData();
   }, []);
+
+  // Load states when country changes
+  useEffect(() => {
+    if (formData.DoctorCountryId) {
+      axios
+        .get(
+          `http://localhost:5220/api/State/GetStatesByCountry/${formData.DoctorCountryId}`
+        )
+        .then((res) => setStates(res.data))
+        .catch(() => setStates([]));
+    } else {
+      setStates([]);
+      setFormData((prev) => ({ ...prev, DoctorStateId: "", DoctorCityId: "" }));
+    }
+  }, [formData.DoctorCountryId]);
+
+  // Load cities when state changes
+  useEffect(() => {
+    if (formData.DoctorStateId) {
+      axios
+        .get(
+          `http://localhost:5220/api/City/GetCitiesByState/${formData.DoctorStateId}`
+        )
+        .then((res) => setCities(res.data))
+        .catch(() => setCities([]));
+    } else {
+      setCities([]);
+      setFormData((prev) => ({ ...prev, DoctorCityId: "" }));
+    }
+  }, [formData.DoctorStateId]);
 
   const handleInputChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -90,6 +132,18 @@ export default function DoctorAdd() {
     setMessage("");
     setError(false);
 
+    // Basic validation
+    if (
+      !formData.DoctorName ||
+      !formData.DoctorEmail ||
+      !formData.DoctorContectNo
+    ) {
+      setMessage("Please fill in all required fields.");
+      setError(true);
+      setLoading(false);
+      return;
+    }
+
     const submitData = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
       if (value !== null && value !== "") submitData.append(key, value);
@@ -107,8 +161,13 @@ export default function DoctorAdd() {
       setFormData(initialState);
       setFileName("");
       setPreviewImage(null);
+      setStates([]);
+      setCities([]);
     } catch (err) {
-      setMessage("Error adding doctor.");
+      console.error("Error adding doctor:", err);
+      setMessage(
+        "Error adding doctor. Please check all required fields and try again."
+      );
       setError(true);
     } finally {
       setLoading(false);
@@ -202,6 +261,7 @@ export default function DoctorAdd() {
                   placeholder="doctor@example.com"
                   value={formData.DoctorEmail}
                   onChange={handleInputChange}
+                  required
                 />
               </div>
               <div className="form-group">
@@ -308,6 +368,7 @@ export default function DoctorAdd() {
                   placeholder="e.g. MBBS, MD - Cardiology"
                   value={formData.Qualification}
                   onChange={handleInputChange}
+                  required
                 />
               </div>
               <div className="form-group">
@@ -321,6 +382,7 @@ export default function DoctorAdd() {
                   max="50"
                   value={formData.DoctorExperienceYears}
                   onChange={handleInputChange}
+                  required
                 />
               </div>
               <div className="form-group">
@@ -332,18 +394,6 @@ export default function DoctorAdd() {
                   placeholder="e.g. 500"
                   min="0"
                   value={formData.ConsultationFee}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Hospital/Clinic *</label>
-                <input
-                  type="text"
-                  name="hospital"
-                  className="form-input"
-                  placeholder="Enter hospital or clinic name"
-                  value={formData.hospital}
                   onChange={handleInputChange}
                   required
                 />
@@ -374,15 +424,19 @@ export default function DoctorAdd() {
                 />
               </div>
               <div className="form-group">
-                <label className="form-label">Availability Status</label>
-                <input
-                  type="text"
+                <label className="form-label">Availability Status *</label>
+                <select
                   name="AvailabilityStatus"
-                  className="form-input"
-                  placeholder="e.g. Available"
+                  className="form-select"
                   value={formData.AvailabilityStatus}
                   onChange={handleInputChange}
-                />
+                  required
+                >
+                  <option value="">Select availability</option>
+                  <option value="AVAILABLE">Available</option>
+                  <option value="NOT_AVAILABLE">Not Available</option>
+                  <option value="BUSY">Busy</option>
+                </select>
               </div>
               <div className="form-group">
                 <label className="form-label">Total Patients</label>
@@ -397,20 +451,7 @@ export default function DoctorAdd() {
                 />
               </div>
               <div className="form-group">
-                <label className="form-label">Availability Status *</label>
-                <select
-                  name="availabilityStatus"
-                  className="form-select"
-                  value={formData.availabilityStatus}
-                  onChange={handleInputChange}
-                  required
-                >
-                  <option value="AVAILABLE">AVAILABLE</option>
-                  <option value="NOT AVAILABLE">NOT AVAILABLE</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label className="form-label">Working Time</label>
+                <label className="form-label">Next Available</label>
                 <input
                   type="datetime-local"
                   name="nextAvailable"
@@ -496,37 +537,74 @@ export default function DoctorAdd() {
                 />
               </div>
               <div className="form-group">
-                <label className="form-label">City ID</label>
-                <input
-                  type="number"
-                  name="DoctorCityId"
-                  className="form-input"
-                  placeholder="e.g. 1"
-                  value={formData.DoctorCityId}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">State ID</label>
-                <input
-                  type="number"
-                  name="DoctorStateId"
-                  className="form-input"
-                  placeholder="e.g. 2"
-                  value={formData.DoctorStateId}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Country ID</label>
-                <input
-                  type="number"
+                <label className="form-label">Country *</label>
+                <select
                   name="DoctorCountryId"
-                  className="form-input"
-                  placeholder="e.g. 3"
+                  className="form-select"
                   value={formData.DoctorCountryId}
                   onChange={handleInputChange}
-                />
+                  required
+                >
+                  <option value="">Select country</option>
+                  {countries.map((country) => (
+                    <option
+                      key={country.countryId || country.CountryId}
+                      value={country.countryId || country.CountryId}
+                    >
+                      {country.countryName || country.CountryName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label className="form-label">State *</label>
+                <select
+                  name="DoctorStateId"
+                  className="form-select"
+                  value={formData.DoctorStateId}
+                  onChange={handleInputChange}
+                  required
+                  disabled={!formData.DoctorCountryId}
+                >
+                  <option value="">
+                    {formData.DoctorCountryId
+                      ? "Select state"
+                      : "Select country first"}
+                  </option>
+                  {states.map((state) => (
+                    <option
+                      key={state.stateId || state.StateId}
+                      value={state.stateId || state.StateId}
+                    >
+                      {state.stateName || state.StateName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label className="form-label">City *</label>
+                <select
+                  name="DoctorCityId"
+                  className="form-select"
+                  value={formData.DoctorCityId}
+                  onChange={handleInputChange}
+                  required
+                  disabled={!formData.DoctorStateId}
+                >
+                  <option value="">
+                    {formData.DoctorStateId
+                      ? "Select city"
+                      : "Select state first"}
+                  </option>
+                  {cities.map((city) => (
+                    <option
+                      key={city.cityId || city.CityId}
+                      value={city.cityId || city.CityId}
+                    >
+                      {city.cityName || city.CityName}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>

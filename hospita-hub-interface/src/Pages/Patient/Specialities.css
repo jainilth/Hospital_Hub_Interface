@@ -1,0 +1,231 @@
+.specialities-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.specialities-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.specialities-header {
+  padding: 60px 0 40px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.specialities-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.specialities-subtitle {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin-bottom: 0;
+}
+
+.specialities-search {
+  padding: 30px 0;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.search-box {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-box .input-group {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.search-box .form-control {
+  border: none;
+  padding: 15px 20px;
+  font-size: 1.1rem;
+}
+
+.search-box .input-group-text {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: none;
+  color: white;
+  padding: 15px 20px;
+}
+
+.specialities-content {
+  padding: 60px 0;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.speciality-card {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.speciality-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  border-color: #667eea;
+}
+
+.speciality-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  color: white;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.speciality-content {
+  flex: 1;
+}
+
+.speciality-name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.speciality-description {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+.speciality-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.doctor-count {
+  color: #667eea;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.consult-fee {
+  color: #28a745;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.speciality-arrow {
+  color: #667eea;
+  font-size: 1.2rem;
+  margin-left: 15px;
+}
+
+.popular-specialities {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: white;
+}
+
+.popular-speciality-item {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.popular-speciality-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px);
+}
+
+.popular-speciality-item i {
+  font-size: 1.5rem;
+  margin-right: 15px;
+  color: #fff;
+}
+
+.popular-speciality-item span {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .specialities-title {
+    font-size: 2rem;
+  }
+  
+  .specialities-subtitle {
+    font-size: 1rem;
+  }
+  
+  .speciality-card {
+    padding: 20px;
+  }
+  
+  .speciality-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+  
+  .speciality-name {
+    font-size: 1.1rem;
+  }
+  
+  .speciality-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 576px) {
+  .specialities-header {
+    padding: 40px 0 30px;
+  }
+  
+  .specialities-content {
+    padding: 40px 0;
+  }
+  
+  .popular-specialities {
+    padding: 40px 0;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+} 
