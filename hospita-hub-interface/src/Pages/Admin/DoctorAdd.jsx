@@ -66,6 +66,7 @@ export default function DoctorAdd() {
           axios.get("http://localhost:5220/api/Country/GetAllCountries"),
         ]);
 
+        
         setSpecializations(specializationsRes.data);
         setDepartments(departmentsRes.data);
         setHospitals(hospitalsRes.data);
@@ -75,16 +76,17 @@ export default function DoctorAdd() {
         console.error("Error loading data:", err);
       }
     };
-
+    
     loadData();
   }, []);
-
+  
   // Load states when country changes
   useEffect(() => {
     if (formData.DoctorCountryId) {
       axios
-        .get(
-          `http://localhost:5220/api/State/GetStatesByCountry/${formData.DoctorCountryId}`
+      .get(
+          // http://localhost:5220/api/State/GetStatesByCountry/GetStatesByCountry/1
+          `http://localhost:5220/api/State/GetStatesByCountry/GetStatesByCountry/${formData.DoctorCountryId}`
         )
         .then((res) => setStates(res.data))
         .catch(() => setStates([]));
@@ -99,7 +101,7 @@ export default function DoctorAdd() {
     if (formData.DoctorStateId) {
       axios
         .get(
-          `http://localhost:5220/api/City/GetCitiesByState/${formData.DoctorStateId}`
+          `http://localhost:5220/api/City/GetCitiesByState/GetCitiesByState/${formData.DoctorStateId}`
         )
         .then((res) => setCities(res.data))
         .catch(() => setCities([]));

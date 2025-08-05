@@ -17,31 +17,34 @@ export default function AddCity() {
   const API_BASE_URL = "http://localhost:5220/api";
 
   // Test API connectivity
+  const testAPI = async () => {
+    try {
+      console.log("Testing API connectivity...");
+      const response = await axios.get(
+        `${API_BASE_URL}/Country/GetAllCountries`
+      );
+      console.log("API is working, countries loaded:", response.data.length);
+
+      // Test states API if we have a country
+      if (response.data.length > 0) {
+        const testCountryId = response.data[0].countryId;
+        console.log("Testing states API with country ID:", testCountryId);
+        const statesResponse = await axios.get(
+          `${API_BASE_URL}/State/GetStatesByCountry/GetStatesByCountry/${testCountryId}`
+        );
+        console.log(
+          "States API is working, states loaded:",
+          statesResponse.data.length
+        );
+      }
+    } catch (err) {
+      console.error("API test failed:", err);
+    }
+  };
+
+  // Test API on component mount
   useEffect(() => {
-    axios
-      .get(`${API_BASE_URL}/Country/GetAllCountries`)
-      .then((res) => {
-        const countries = res.data;
-
-        if (countries.length > 0) {
-          const testCountryId = countries[0].countryId;
-
-          axios
-            .get(
-              `${API_BASE_URL}/State/GetStatesByCountry/GetStatesByCountry/${testCountryId}`
-            )
-            .then((stateRes) => {
-              (res) => setStates(res.data);
-              // You can do something with stateRes.data if needed
-            })
-            .catch((stateErr) => {
-              console.error("Error loading states:", stateErr);
-            });
-        }
-      })
-      .catch((err) => {
-        console.error("API test failed:", err);
-      });
+    testAPI();
   }, []);
 
   // Fetch countries on mount
@@ -107,7 +110,7 @@ export default function AddCity() {
           if (city.countryId) {
             try {
               const statesResponse = await axios.get(
-                `${API_BASE_URL}/State/GetStatesByCountry/${city.countryId}`
+                `${API_BASE_URL}/State/GetStatesByCountry/GetStatesByCountry/${city.countryId}`
               );
               setStates(statesResponse.data);
               setStateId(city.stateId?.toString() || "");
