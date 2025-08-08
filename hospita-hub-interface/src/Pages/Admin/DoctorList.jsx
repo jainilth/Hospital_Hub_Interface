@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./DoctorList.css";
+import { Link } from "react-router-dom";
 
 export default function DoctorList() {
   const [doctors, setDoctors] = useState([]);
@@ -193,7 +194,8 @@ export default function DoctorList() {
                   <button className="action-btn delete-btn">Delete</button>
                 </div>
               </div>
-            </div>
+              <Link className="specialty-practo-link" to='chat'>Consult now &gt;</Link>
+            </div> 
           ))
         )}
       </div>

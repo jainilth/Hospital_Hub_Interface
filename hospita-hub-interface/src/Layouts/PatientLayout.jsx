@@ -33,7 +33,8 @@ export default function Patient() {
                   Video Consult
                 </Link>
               </li>
-              <li className="nav-item">
+
+              {/* <li className="nav-item">
                 <a className="nav-link" href="#">
                   Medicines
                 </a>
@@ -47,16 +48,17 @@ export default function Patient() {
                 <a className="nav-link active" href="#">
                   Surgeries
                 </a>
-              </li>
+              </li> */}
+            
             </ul>
 
-            <div className="d-flex align-items-center">
+            {/* <div className="d-flex align-items-center">
               <span className="badge bg-primary me-3">NEW</span>
               <span className="text-muted me-3">For Corporates</span>
               <span className="text-muted me-3">For Providers</span>
               <span className="text-muted me-3">Security & help</span>
               <span className="text-muted btn">Login / Signup</span>
-            </div>
+            </div> */}
           </div>
         </div>
       </header>
@@ -68,13 +70,17 @@ export default function Patient() {
       </main>
       {/* Main content area End*/}
 
-      {/* Footer section with copyright information */}
+{/* Footer section with copyright information */}
       <footer className="footer">
-        <div className="container-fluid">
-          <div className="footer-logo">
-            {/* <span style={"color: #60a5fa;"}>●</span>practo<span style={"color: #60a5fa;"}>●</span> */}
-          </div>
+        <div className="container">
+          <p>&copy; 2025 Hospital Hub. All rights reserved.</p>
+        </div>
+      </footer>
+      {/*Footer End*/}
 
+      {/* Footer section with copyright information */}
+      {/* <footer className="footer">
+        <div className="container-fluid">
           <div className="row">
             <div className="col-lg-2 col-md-4 col-6 mb-4">
               <h6 className="footer-heading">Practo</h6>
@@ -250,7 +256,7 @@ export default function Patient() {
             Copyright © 2017, Practo. All rights reserved.
           </div>
         </div>
-      </footer>
+      </footer> */}
       {/* Footer End*/}
     </>
   );
