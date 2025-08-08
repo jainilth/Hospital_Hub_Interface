@@ -7,8 +7,10 @@ const Doctors = () => {
   const [searchParams] = useSearchParams();
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [timeSlotsByDoctor, setTimeSlotsByDoctor] = useState({});
   const [filters, setFilters] = useState({
     speciality: searchParams.get('speciality') || '',
+    specializationId: searchParams.get('specializationId') || '',
     experience: '',
     rating: '',
     fee: '',
@@ -16,103 +18,56 @@ const Doctors = () => {
   });
 
   useEffect(() => {
-    // Mock data for doctors - in real app, this would come from API
-    const mockDoctors = [
-      {
-        id: 1,
-        name: "Dr. Sarah Johnson",
-        speciality: "Dermatologist",
-        experience: "15 years",
-        rating: 4.8,
-        reviews: 1247,
-        fee: 1200,
-        location: "Bangalore",
-        hospital: "Apollo Hospital",
-        availability: "Available Today",
-        image: "https://via.placeholder.com/80x80/4ECDC4/FFFFFF?text=Dr.SJ",
-        verified: true,
-        online: true
-      },
-      {
-        id: 2,
-        name: "Dr. Michael Chen",
-        speciality: "Cardiologist",
-        experience: "12 years",
-        rating: 4.9,
-        reviews: 892,
-        fee: 1500,
-        location: "Mumbai",
-        hospital: "Fortis Hospital",
-        availability: "Available Tomorrow",
-        image: "https://via.placeholder.com/80x80/FF6B6B/FFFFFF?text=Dr.MC",
-        verified: true,
-        online: false
-      },
-      {
-        id: 3,
-        name: "Dr. Emily Rodriguez",
-        speciality: "Pediatrician",
-        experience: "8 years",
-        rating: 4.7,
-        reviews: 567,
-        fee: 800,
-        location: "Delhi",
-        hospital: "Max Hospital",
-        availability: "Available Today",
-        image: "https://via.placeholder.com/80x80/45B7D1/FFFFFF?text=Dr.ER",
-        verified: true,
-        online: true
-      },
-      {
-        id: 4,
-        name: "Dr. David Kim",
-        speciality: "Orthopedist",
-        experience: "20 years",
-        rating: 4.6,
-        reviews: 2341,
-        fee: 2000,
-        location: "Chennai",
-        hospital: "Apollo Hospital",
-        availability: "Available Today",
-        image: "https://via.placeholder.com/80x80/96CEB4/FFFFFF?text=Dr.DK",
-        verified: true,
-        online: true
-      },
-      {
-        id: 5,
-        name: "Dr. Lisa Wang",
-        speciality: "Gynecologist",
-        experience: "10 years",
-        rating: 4.9,
-        reviews: 1567,
-        fee: 1000,
-        location: "Pune",
-        hospital: "Ruby Hall Clinic",
-        availability: "Available Tomorrow",
-        image: "https://via.placeholder.com/80x80/DDA0DD/FFFFFF?text=Dr.LW",
-        verified: true,
-        online: false
-      },
-      {
-        id: 6,
-        name: "Dr. James Wilson",
-        speciality: "Psychiatrist",
-        experience: "18 years",
-        rating: 4.5,
-        reviews: 789,
-        fee: 1800,
-        location: "Hyderabad",
-        hospital: "KIMS Hospital",
-        availability: "Available Today",
-        image: "https://via.placeholder.com/80x80/F4A460/FFFFFF?text=Dr.JW",
-        verified: true,
-        online: true
-      }
-    ];
+    const specializationId = searchParams.get('specializationId');
+    const fetchDoctors = async () => {
+      try {
+        setLoading(true);
+        let response;
+        if (specializationId) {
+          response = await axios.get(`http://localhost:5220/api/Doctor/GetDoctorsBySpecialization/${specializationId}`);
+        } else {
+          response = await axios.get('http://localhost:5220/api/Doctor/GetAllDoctors');
+        }
+        const data = response.data || [];
+        const normalized = data.map((d) => ({
+          id: d.doctorId,
+          name: d.doctorName,
+          speciality: d.specializationName || (searchParams.get('speciality') || ''),
+          experience: d.doctorExperienceYears ? `${d.doctorExperienceYears} years` : '',
+          rating: d.rating || 0,
+          reviews: d.totalPatient || 0,
+          fee: d.consultationFee || 0,
+          location: d.doctorAddress || '',
+          hospital: d.hospitalName || '',
+          availability: d.availabilityStatus || '',
+          image: d.doctorPhotoUrl || 'https://via.placeholder.com/80x80?text=Dr',
+          qualification: d.qualification || '',
+          verified: true,
+          online: (d.availabilityStatus || '').toLowerCase().includes('available')
+        }));
+        setDoctors(normalized);
 
-    setDoctors(mockDoctors);
-    setLoading(false);
-  }, []);
+        // Fetch time slots for each doctor in parallel
+        const slotPromises = normalized.map(async (doc) => {
+          try {
+            const res = await axios.get(`http://localhost:5220/api/DoctorAvailableTimeSlot/GetByDoctor/${doc.id}`);
+            return [doc.id, res.data || []];
+          } catch {
+            return [doc.id, []];
+          }
+        });
+        const entries = await Promise.all(slotPromises);
+        const mapObj = {};
+        entries.forEach(([id, slots]) => { mapObj[id] = slots; });
+        setTimeSlotsByDoctor(mapObj);
+      } catch (e) {
+        setDoctors([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDoctors();
+  }, [searchParams]);
 
   const handleFilterChange = (filterType, value) => {
     setFilters(prev => ({
@@ -129,6 +84,17 @@ const Doctors = () => {
     return true;
   });
 
+  const formatTime = (t) => {
+    if (!t) return '';
+    if (typeof t === 'string') return t.slice(0, 5);
+    if (typeof t === 'object' && t.hour !== undefined) {
+      const h = String(t.hour).padStart(2, '0');
+      const m = String(t.minute || 0).padStart(2, '0');
+      return `${h}:${m}`;
+    }
+    return '';
+  };
+
   if (loading) {
     return (
       <div className="doctors-loading">
@@ -143,7 +109,7 @@ const Doctors = () => {
     <div className="doctors-container">
       {/* Header Section */}
       <div className="doctors-header">
-        <div className="container">
+        <div className="container-xxl">
           <div className="row align-items-center">
             <div className="col-md-8">
               <h1 className="doctors-title">
@@ -165,10 +131,10 @@ const Doctors = () => {
 
       {/* Filters Section */}
       <div className="doctors-filters">
-        <div className="container">
-          <div className="row">
+        <div className="container-xxl">
+          <div className="row g-3">
             <div className="col-md-3 mb-3">
-              <select 
+              <select
                 className="form-select"
                 value={filters.speciality}
                 onChange={(e) => handleFilterChange('speciality', e.target.value)}
@@ -183,7 +149,7 @@ const Doctors = () => {
               </select>
             </div>
             <div className="col-md-3 mb-3">
-              <select 
+              <select
                 className="form-select"
                 value={filters.experience}
                 onChange={(e) => handleFilterChange('experience', e.target.value)}
@@ -196,7 +162,7 @@ const Doctors = () => {
               </select>
             </div>
             <div className="col-md-3 mb-3">
-              <select 
+              <select
                 className="form-select"
                 value={filters.rating}
                 onChange={(e) => handleFilterChange('rating', e.target.value)}
@@ -208,7 +174,7 @@ const Doctors = () => {
               </select>
             </div>
             <div className="col-md-3 mb-3">
-              <select 
+              <select
                 className="form-select"
                 value={filters.fee}
                 onChange={(e) => handleFilterChange('fee', e.target.value)}
@@ -226,64 +192,73 @@ const Doctors = () => {
 
       {/* Doctors List */}
       <div className="doctors-content">
-        <div className="container">
-          <div className="row">
+        <div className="container-xxl">
+          <div className="row g-4">
             {filteredDoctors.map((doctor) => (
-              <div key={doctor.id} className="col-lg-6 mb-4">
+              <div key={doctor.id} className="col-12 col-lg-6">
                 <div className="doctor-card">
-                  <div className="doctor-header">
-                    <div className="doctor-avatar">
+                  {/* Left section */}
+                  <div className="doctor-card-left">
+                    <div className="doctor-image">
                       <img src={doctor.image} alt={doctor.name} />
-                      {doctor.online && <div className="online-indicator"></div>}
                     </div>
-                    <div className="doctor-info">
+                    <div className="doctor-basic-info">
                       <h3 className="doctor-name">
                         {doctor.name}
-                        {doctor.verified && <i className="fas fa-check-circle verified-badge"></i>}
+                        {doctor.verified && <i className="fas fa-check-circle verified-badge ms-2"></i>}
                       </h3>
-                      <p className="doctor-speciality">{doctor.speciality}</p>
-                      <p className="doctor-experience">{doctor.experience} experience</p>
-                    </div>
-                    <div className="doctor-rating">
-                      <div className="stars">
-                        {[...Array(5)].map((_, i) => (
-                          <i 
-                            key={i} 
-                            className={`fas fa-star ${i < Math.floor(doctor.rating) ? 'filled' : ''}`}
-                          ></i>
-                        ))}
+                      <p className="doctor-qualification">{doctor.qualification || 'N/A'}</p>
+                      <div className="doctor-specialization">
+                        <span className="specialization-badge">Specialization: {doctor.speciality || 'N/A'}</span>
                       </div>
-                      <span className="rating-text">{doctor.rating}</span>
-                      <span className="reviews-count">({doctor.reviews} reviews)</span>
-                    </div>
-                  </div>
-                  
-                  <div className="doctor-details">
-                    <div className="detail-item">
-                      <i className="fas fa-hospital"></i>
-                      <span>{doctor.hospital}</span>
-                    </div>
-                    <div className="detail-item">
-                      <i className="fas fa-map-marker-alt"></i>
-                      <span>{doctor.location}</span>
-                    </div>
-                    <div className="detail-item">
-                      <i className="fas fa-clock"></i>
-                      <span>{doctor.availability}</span>
                     </div>
                   </div>
 
-                  <div className="doctor-actions">
-                    <div className="consultation-fee">
-                      <span className="fee-label">Consultation fee</span>
-                      <span className="fee-amount">₹{doctor.fee}</span>
+                  {/* Center section */}
+                  <div className="doctor-card-center">
+                    <div className="doctor-details-grid">
+                      <div className="detail-row"><span className="detail-label">Experience</span><span className="detail-value">{doctor.experience || 'N/A'}</span></div>
+                      <div className="detail-row"><span className="detail-label">Location</span><span className="detail-value">{doctor.location || 'N/A'}</span></div>
+                      <div className="detail-row"><span className="detail-label">Consultation Fee</span><span className="detail-value fee">₹{doctor.fee}</span></div>
+                      <div className="detail-row"><span className="detail-label">Hospital</span><span className="detail-value">{doctor.hospital || 'N/A'}</span></div>
                     </div>
-                    <div className="action-buttons">
-                      <button className="btn btn-primary btn-sm">
+
+                    <div className="doctor-stats">
+                      <div className="stat-item">
+                        <span className="stat-number">{doctor.reviews || 'N/A'}</span>
+                        <span className="stat-text">Patients</span>
+                      </div>
+                      <div className="stat-item">
+                        <span className="rating"><span className="star">★</span>{doctor.rating}</span>
+                        <span className="stat-text">Rating</span>
+                      </div>
+                    </div>
+
+                    {/* Time slots */}
+                    <div className="doctor-slots">
+                      <div style={{ fontWeight: 600, marginBottom: 8 }}>Available time slots</div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                        {(timeSlotsByDoctor[doctor.id] || []).map((slot, idx) => (
+                          <div key={idx} className="badge bg-light text-dark" style={{ border: '1px solid #e5e5e5' }}>
+                            {slot.dayOfWeek} {formatTime(slot.startTime)} - {formatTime(slot.endTime)}
+                          </div>
+                        ))}
+                        {(timeSlotsByDoctor[doctor.id] || []).length === 0 && (
+                          <span className="text-muted">No slots configured</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right section */}
+                  <div className="doctor-card-right">
+                    <div className="status-badge available">{(doctor.availability || 'Available')}</div>
+                    <div className="doctor-actions">
+                      <button className="btn btn-primary">
                         <i className="fas fa-video me-2"></i>
                         Consult Now
                       </button>
-                      <button className="btn btn-outline-primary btn-sm">
+                      <button className="btn btn-outline-primary">
                         <i className="fas fa-calendar me-2"></i>
                         Book Appointment
                       </button>

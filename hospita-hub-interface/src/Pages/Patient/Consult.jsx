@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Consult.css";
 
 const healthConcerns = [
@@ -39,6 +39,7 @@ const steps = [
 
 export default function Consult() {
     const [specializations, setSpecializations] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios
@@ -58,7 +59,7 @@ export default function Consult() {
                         <img src="https://img.icons8.com/color/24/000000/star.png" alt="star" />
                         <span>4.8/5 • 100k+ users</span>
                     </div>
-                    <button className="cta">Consult Now</button>
+                    <button className="cta" onClick={() => navigate('/patient/specialities')}>Consult Now</button>
                     <div className="hero-practo-tags">
                         <span>Video Consult</span>
                         <span>Digital Prescription</span>
@@ -83,7 +84,7 @@ export default function Consult() {
                             <div className="specialty-practo-card" key={i}>
                                 <img className="specialty-practo-icon" src={s.iconUrl || "https://img.icons8.com/color/96/000000/medical-doctor.png"} alt={s.specializationName} />
                                 <div className="specialty-practo-name">{s.specializationName}</div>
-                                <Link className="specialty-practo-link" to='chat'>Consult now &gt;</Link>
+                                <Link className="specialty-practo-link" to={`/patient/doctors?specializationId=${s.specializationId}&speciality=${encodeURIComponent(s.specializationName || '')}`}>Consult now &gt;</Link>
                             </div>
                         ))
                     ) : (
@@ -95,8 +96,8 @@ export default function Consult() {
             {/* Doctors Section */}
             <section className="doctors-practo">
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <h2>Our Doctors</h2>
-                <button className="see-all-btn">See all Specialities</button>
+                    <h2>Our Doctors</h2>
+                    <button className="see-all-btn">See all Specialities</button>
                 </div>
                 <div className="doctors-practo-list">
                     {doctors.map((d, i) => (
@@ -143,7 +144,7 @@ export default function Consult() {
                 </div>
             </section>
 
-            
+
             {/* How it Works Section */}
             <section className="how-it-works-practo">
                 <h2>How it works</h2>
