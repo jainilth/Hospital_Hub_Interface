@@ -34,13 +34,17 @@ import PatientDashboard from "./Pages/Patient/PatientDashboard";
 import Consult from "./Pages/Patient/Consult";
 import Specialities from "./Pages/Patient/Specialities";
 import Doctors from "./Pages/Patient/Doctors";
+import LoginPage from "./LoginPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Login Route */}
+        <Route path="/" element={<LoginPage />} />
+
         {/* Admin Routes */}
-        <Route path="/" element={<AdminLayout />}>
+        <Route path="/admin" element={<AdminLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="doctorList" element={<DoctorList />} />
           <Route path="doctorAdd" element={<DoctorAdd />} />

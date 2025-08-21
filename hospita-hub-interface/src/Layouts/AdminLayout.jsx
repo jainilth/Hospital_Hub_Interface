@@ -11,22 +11,22 @@ const AdminLayout = () => {
         <div className="container">
           <div className="logo">•Helth Hub•</div>
           <nav className="nav-links">
-            <Link to="/dashboard">Dashboard</Link>
-            
+            <Link to="/admin/dashboard">Dashboard</Link>
+
             <div className="dropdown">
               <Link to="">Doctors ▾</Link>
               <div className="dropdown-content">
-                <Link to="/doctorAdd">Add Doctor</Link>
-                <Link to="/doctorList">View Doctors</Link>
+                <Link to="/admin/doctorAdd">Add Doctor</Link>
+                <Link to="/admin/doctorList">View Doctors</Link>
               </div>
             </div>
-            
-            <Link to="/emergency">Emergency</Link>
-            <Link to="/medicine">Medicines</Link>
-            <Link to="/user">Users</Link>
-            <Link to="/hospital">Hospitals</Link>
-            <Link to="/appointment">Appointments</Link>
-            <Link to="/country">Country</Link>
+
+            <Link to="/admin/emergency">Emergency</Link>
+            <Link to="/admin/medicine">Medicines</Link>
+            <Link to="/admin/user">Users</Link>
+            <Link to="/admin/hospital">Hospitals</Link>
+            <Link to="/admin/appointment">Appointments</Link>
+            <Link to="/admin/country">Country</Link>
             <Link to="#">Labs</Link>
             {/* <div className="dropdown">
               <Link to="#">For Corporates ▾</Link>
