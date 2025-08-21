@@ -68,7 +68,7 @@ function App() {
 
           {/* ✅ Admin-side Chat */}
           <Route path="doctorList/chat" element={<AdminChatConnect />} />
-        </Route>
+          </Route>
 
         {/* Patient Routes */}
         <Route path="/patient" element={<Patient />}>
@@ -82,6 +82,7 @@ function App() {
           <Route path="labtestbook" element={<div>labtestbook</div>} />
           <Route path="readarticles" element={<div>readarticles</div>} />
           <Route path="surgeries" element={<div>surgeries</div>} />
+          <Route path="patient/doctors/chat" element={<PatientChatConnect />} />
         </Route>
       </Routes>
     </BrowserRouter>
