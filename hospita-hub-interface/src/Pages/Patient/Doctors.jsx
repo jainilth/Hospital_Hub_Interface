@@ -262,7 +262,7 @@ const Doctors = () => {
                         <i className="fas fa-calendar me-2"></i>
                         Book Appointment
                       </button>
-                      <Link to='chat'>
+                      <Link to="/patient/chatInterface">
                         Chat Now
                       </Link>
                     </div>

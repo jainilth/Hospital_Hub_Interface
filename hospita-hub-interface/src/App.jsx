@@ -36,6 +36,9 @@ import Specialities from "./Pages/Patient/Specialities";
 import Doctors from "./Pages/Patient/Doctors";
 import LoginPage from "./LoginPage";
 
+//chat
+import ChatWithDoctorInterface from "./Pages/Patient/ChatWithDoctorInterface";
+
 function App() {
   return (
     <BrowserRouter>
@@ -68,7 +71,7 @@ function App() {
 
           {/* ✅ Admin-side Chat */}
           <Route path="doctorList/chat" element={<AdminChatConnect />} />
-          </Route>
+        </Route>
 
         {/* Patient Routes */}
         <Route path="/patient" element={<Patient />}>
@@ -83,6 +86,7 @@ function App() {
           <Route path="readarticles" element={<div>readarticles</div>} />
           <Route path="surgeries" element={<div>surgeries</div>} />
           <Route path="patient/doctors/chat" element={<PatientChatConnect />} />
+          <Route path="chatInterface" element={<ChatWithDoctorInterface />} />
         </Route>
       </Routes>
     </BrowserRouter>
