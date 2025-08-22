@@ -137,11 +137,11 @@ export default function LocationManagement() {
 
   const handleAddClick = () => {
     if (activeTab === "countries") {
-      navigate("/locationmanagement/addCountry");
+      navigate("/admin/locationmanagement/addCountry");
     } else if (activeTab === "states") {
-      navigate("/locationmanagement/addState");
+      navigate("/admin/locationmanagement/addState");
     } else {
-      navigate("/locationmanagement/addCity");
+      navigate("/admin/locationmanagement/addCity");
     }
   };
 
@@ -205,7 +205,7 @@ export default function LocationManagement() {
                     <td>
                       <Link
                         className="edit-btn"
-                        to={`/locationmanagement/addCountry/${country.countryId}`}
+                        to={`/admin/locationmanagement/addCountry/${country.countryId}`}
                       >
                         Edit
                       </Link>
@@ -216,7 +216,7 @@ export default function LocationManagement() {
                         Delete
                       </button>
                       <Link
-                        to={`/locationmanagement/getCountry/${country.countryId}`}
+                        to={`/admin/locationmanagement/getCountry/${country.countryId}`}
                         className="readmore-btn"
                       >
                         Read More
@@ -255,7 +255,7 @@ export default function LocationManagement() {
                     <td>
                       <Link
                         className="edit-btn"
-                        to={`/locationmanagement/addState/${state.stateId}`}
+                        to={`/admin/locationmanagement/addState/${state.stateId}`}
                       >
                         Edit
                       </Link>
@@ -266,7 +266,7 @@ export default function LocationManagement() {
                         Delete
                       </button>
                       <Link
-                        to={`/locationmanagement/getState/${state.stateId}`}
+                        to={`/admin/locationmanagement/getState/${state.stateId}`}
                         className="readmore-btn"
                       >
                         Read More
@@ -305,7 +305,7 @@ export default function LocationManagement() {
                     <td>
                       <Link
                         className="edit-btn"
-                        to={`/locationmanagement/addCity/${
+                        to={`/admin/locationmanagement/addCity/${
                           city.cityId || city.CityId
                         }`}
                       >
@@ -321,7 +321,7 @@ export default function LocationManagement() {
                       </button>
                       <Link
                         className="readmore-btn"
-                        to={`/locationmanagement/getCity/${
+                        to={`/admin/locationmanagement/getCity/${
                           city.cityId || city.CityId
                         }`}
                       >
