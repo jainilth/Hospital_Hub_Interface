@@ -1,8 +1,15 @@
 import { Outlet } from "react-router-dom";
 import "./AdminLayout.css";
 import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const AdminLayout = () => {
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     // This is the main layout for the admin section of the hospital hub interface
     <div className="layout-wrapper">
@@ -50,7 +57,14 @@ const AdminLayout = () => {
               </div>
             </div>
           </nav>
-          {/* <button className="login-btn">Login / Signup</button> */}
+          
+          {/* User info and logout */}
+          <div className="user-section">
+            <span className="user-name">Welcome, {user?.UserName}</span>
+            <button className="logout-btn" onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
         </div>
       </header>
       {/*Header End*/}
