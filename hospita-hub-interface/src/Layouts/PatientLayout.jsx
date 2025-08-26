@@ -1,8 +1,15 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import "./PatientLayout.css";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Patient() {
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <>
       {/*Header for patient*/}
@@ -52,13 +59,13 @@ export default function Patient() {
             
             </ul>
 
-            {/* <div className="d-flex align-items-center">
-              <span className="badge bg-primary me-3">NEW</span>
-              <span className="text-muted me-3">For Corporates</span>
-              <span className="text-muted me-3">For Providers</span>
-              <span className="text-muted me-3">Security & help</span>
-              <span className="text-muted btn">Login / Signup</span>
-            </div> */}
+            {/* User info and logout */}
+            <div className="d-flex align-items-center">
+              <span className="text-muted me-3">Welcome, {user?.UserName}</span>
+              <button className="btn btn-outline-danger btn-sm" onClick={handleLogout}>
+                Logout
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -102,13 +109,9 @@ export default function Patient() {
                 </li>
               </ul>
             </div>
-
             <div className="col-lg-2 col-md-4 col-6 mb-4">
               <h6 className="footer-heading">For patients</h6>
               <ul className="footer-links">
-                <li>
-                  <a href="#">Ask free health questions</a>
-                </li>
                 <li>
                   <a href="#">Search for doctors</a>
                 </li>
@@ -125,13 +128,13 @@ export default function Patient() {
                   <a href="#">Book Full Body Checkups</a>
                 </li>
                 <li>
+                  <a href="#">Practo Plus</a>
+                </li>
+                <li>
+                  <a href="#">Covid Hospital listing</a>
+                </li>
+                <li>
                   <a href="#">Read health articles</a>
-                </li>
-                <li>
-                  <a href="#">Consult a doctor</a>
-                </li>
-                <li>
-                  <a href="#">Order medicines</a>
                 </li>
                 <li>
                   <a href="#">Read about medicines</a>
@@ -142,33 +145,22 @@ export default function Patient() {
                 <li>
                   <a href="#">Health app</a>
                 </li>
-                <li>
-                  <a href="#">Practo Plus</a>
-                </li>
               </ul>
             </div>
-
             <div className="col-lg-2 col-md-4 col-6 mb-4">
               <h6 className="footer-heading">For doctors</h6>
               <ul className="footer-links">
                 <li>
-                  <a href="#">Practo Consult</a>
-                </li>
-                <li>
-                  <a href="#">Practo Health Feed</a>
-                </li>
-                <li>
                   <a href="#">Practo Profile</a>
                 </li>
-              </ul>
-
-              <h6 className="footer-heading mt-4">For clinics</h6>
-              <ul className="footer-links">
                 <li>
-                  <a href="#">Practo Prime</a>
+                  <a href="#">For clinics</a>
                 </li>
                 <li>
                   <a href="#">Ray by Practo</a>
+                </li>
+                <li>
+                  <a href="#">Ray Tab</a>
                 </li>
                 <li>
                   <a href="#">Practo Reach</a>
@@ -181,7 +173,26 @@ export default function Patient() {
                 </li>
               </ul>
             </div>
-
+            <div className="col-lg-2 col-md-4 col-6 mb-4">
+              <h6 className="footer-heading">For clinics</h6>
+              <ul className="footer-links">
+                <li>
+                  <a href="#">Ray by Practo</a>
+                </li>
+                <li>
+                  <a href="#">Ray Tab</a>
+                </li>
+                <li>
+                  <a href="#">Practo Reach</a>
+                </li>
+                <li>
+                  <a href="#">Ray Tab</a>
+                </li>
+                <li>
+                  <a href="#">Practo Pro</a>
+                </li>
+              </ul>
+            </div>
             <div className="col-lg-2 col-md-4 col-6 mb-4">
               <h6 className="footer-heading">For hospitals</h6>
               <ul className="footer-links">
@@ -202,7 +213,6 @@ export default function Patient() {
                 </li>
               </ul>
             </div>
-
             <div className="col-lg-2 col-md-4 col-6 mb-4">
               <h6 className="footer-heading">More</h6>
               <ul className="footer-links">
@@ -219,45 +229,50 @@ export default function Patient() {
                   <a href="#">Terms & Conditions</a>
                 </li>
                 <li>
-                  <a href="#">PCS T&C</a>
-                </li>
-                <li>
                   <a href="#">Healthcare Directory</a>
                 </li>
                 <li>
                   <a href="#">Practo Health Wiki</a>
                 </li>
-              </ul>
-            </div>
-
-            <div className="col-lg-2 col-md-4 col-6 mb-4">
-              <h6 className="footer-heading">Social</h6>
-              <ul className="footer-links">
                 <li>
-                  <a href="#">Facebook</a>
-                </li>
-                <li>
-                  <a href="#">Twitter</a>
-                </li>
-                <li>
-                  <a href="#">LinkedIn</a>
-                </li>
-                <li>
-                  <a href="#">Youtube</a>
-                </li>
-                <li>
-                  <a href="#">Github</a>
+                  <a href="#">Corporate Wellness</a>
                 </li>
               </ul>
             </div>
           </div>
-
-          <div className="footer-copyright">
-            Copyright © 2017, Practo. All rights reserved.
+          <div className="row">
+            <div className="col-12">
+              <div className="footer-bottom">
+                <div className="social-links">
+                  <a href="#" className="social-link">
+                    <i className="fab fa-facebook"></i>
+                  </a>
+                  <a href="#" className="social-link">
+                    <i className="fab fa-twitter"></i>
+                  </a>
+                  <a href="#" className="social-link">
+                    <i className="fab fa-linkedin"></i>
+                  </a>
+                  <a href="#" className="social-link">
+                    <i className="fab fa-youtube"></i>
+                  </a>
+                  <a href="#" className="social-link">
+                    <i className="fab fa-instagram"></i>
+                  </a>
+                </div>
+                <div className="download-apps">
+                  <a href="#" className="app-link">
+                    <img src="https://www.practo.com/static/images/download-app-google-play.png" alt="Google Play" />
+                  </a>
+                  <a href="#" className="app-link">
+                    <img src="https://www.practo.com/static/images/download-app-apple-store.png" alt="Apple Store" />
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </footer> */}
-      {/* Footer End*/}
     </>
   );
 }

@@ -1,10 +1,14 @@
 import React from "react";
 import "./Dashboard.css";
 import { Link } from "react-router-dom";
+import AuthTest from "../../components/AuthTest";
 
 export default function AdminDashboard() {
   return (
     <div className="admin-dashboard">
+      {/* Authentication Test Component */}
+      <AuthTest />
+
       {/* Dashboard Header */}
       <div className="dashboard-header">
         <div className="header-content">

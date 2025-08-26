@@ -1,9 +1,12 @@
 import React from 'react'
 import './PatientDashboard.css'; // Assuming you have a CSS file for styles
 import { Link } from 'react-router-dom';
+import AuthTest from '../../components/AuthTest';
 const PatientDashboard = () => {
     return (
         <div className='className-wrapper'>
+            {/* Authentication Test Component */}
+            <AuthTest />
             <div style={{ backgroundColor: '#blue' }}>
                 <section className="hero-section">
                     <div className="hero-decorations">
