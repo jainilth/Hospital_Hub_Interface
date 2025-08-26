@@ -5,7 +5,7 @@ import { useAuth } from './contexts/AuthContext';
 export default function LoginPage() {
   const navigate = useNavigate();
   const { login, register } = useAuth();
-  
+
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
@@ -32,7 +32,6 @@ export default function LoginPage() {
 
     try {
       if (isLogin) {
-        // Login logic
         if (!formData.email || !formData.password) {
           setError('Email and password are required');
           return;
@@ -40,17 +39,13 @@ export default function LoginPage() {
 
         const result = await login(formData.email, formData.password);
         if (result.success) {
-          // Navigate based on user role
-          if (result.user.UserRole === 'Admin') {
-            navigate('/admin/dashboard');
-          } else {
-            navigate('/patient/home');
-          }
+          const role = result.user.UserRole;
+          if (role === 'Admin') navigate('/admin/dashboard');
+          else navigate('/patient/home');
         } else {
           setError(result.error);
         }
       } else {
-        // Registration logic
         if (!formData.name || !formData.email || !formData.password) {
           setError('All fields are required');
           return;
@@ -77,7 +72,7 @@ export default function LoginPage() {
         }
       }
     } catch (error) {
-      setError('An unexpected error occurred');
+      setError('Unexpected error. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -187,8 +182,8 @@ export default function LoginPage() {
                   </div>
                 )}
 
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="btn btn-primary w-100"
                   disabled={loading}
                 >

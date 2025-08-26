@@ -16,7 +16,6 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
 
-  // Define logout function with useCallback to avoid recreation
   const logout = useCallback(() => {
     localStorage.removeItem('token');
     setToken(null);
@@ -24,7 +23,6 @@ export const AuthProvider = ({ children }) => {
     delete api.defaults.headers.common['Authorization'];
   }, []);
 
-  // Set up axios defaults
   useEffect(() => {
     if (token) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -33,13 +31,12 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
-  // Check if token is valid on app load
   useEffect(() => {
     const validateToken = async () => {
       if (token) {
         try {
           const response = await api.get('/auth/validate');
-          setUser(response.data.User);
+          setUser(response.data?.User || null);
         } catch (error) {
           console.error('Token validation failed:', error);
           logout();
@@ -58,20 +55,29 @@ export const AuthProvider = ({ children }) => {
         password
       });
 
-      const { Token, User } = response.data;
+      const payload = response?.data || {};
+      const token = payload.Token || payload.token || payload.accessToken;
+      const userPayload = payload.User || payload.user;
+      if (!token || !userPayload) {
+        if (import.meta?.env?.MODE !== 'production') {
+          // Non-intrusive debug for development
+          // eslint-disable-next-line no-console
+          console.warn('Unexpected login payload shape:', payload);
+        }
+        return { success: false, error: 'Invalid server response' };
+      }
 
-      localStorage.setItem('token', Token);
-      setToken(Token);
-      setUser(User);
+      localStorage.setItem('token', token);
+      setToken(token);
+      setUser(userPayload);
 
-      return { success: true, user: User };
+      return { success: true, user: userPayload };
     } catch (error) {
       console.error('Login error:', error);
       const backendMessage = error.response?.data?.Message;
-      let message = 'Login failed';
-      if (backendMessage) message = backendMessage;
-      else if (error.response?.status === 0) message = 'Cannot reach server';
-      else if (error.code === 'ERR_NETWORK') message = 'Network error';
+      let message = backendMessage || 'Login failed';
+      if (error.code === 'ERR_NETWORK') message = 'Network error';
+      if (error.message?.includes('timeout')) message = 'Server timeout, try again';
       return { success: false, error: message };
     }
   };
