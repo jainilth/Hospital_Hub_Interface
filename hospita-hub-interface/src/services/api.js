@@ -1,8 +1,13 @@
 import axios from 'axios';
 
 // Create axios instance with base configuration
+const resolvedBaseURL =
+  (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE_URL)
+    ? import.meta.env.VITE_API_BASE_URL
+    : (window.__API_BASE_URL__ || 'http://localhost:5220/api');
+
 const api = axios.create({
-  baseURL: 'http://localhost:5220/api',
+  baseURL: resolvedBaseURL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -28,8 +33,15 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response?.status === 401) {
-      // Token expired or invalid
+    const status = error.response?.status;
+    const requestUrl = error.config?.url || '';
+    const hasToken = Boolean(localStorage.getItem('token'));
+
+    // Avoid redirecting on 401 for auth endpoints (e.g., bad login) or when no token exists
+    const isAuthEndpoint = requestUrl.includes('/auth/login') || requestUrl.includes('/auth/register');
+
+    if (status === 401 && hasToken && !isAuthEndpoint) {
+      // Token expired or invalid during an authenticated request
       localStorage.removeItem('token');
       window.location.href = '/';
     }

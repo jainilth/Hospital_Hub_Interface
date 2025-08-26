@@ -19,7 +19,10 @@ const ProtectedRoute = ({ children, requiredRole = null }) => {
     return <Navigate to="/" replace />;
   }
 
-  if (requiredRole && user?.UserRole !== requiredRole) {
+  // Support single role or an array of roles
+  const roles = Array.isArray(requiredRole) ? requiredRole : (requiredRole ? [requiredRole] : []);
+
+  if (roles.length > 0 && !roles.includes(user?.UserRole)) {
     // Redirect based on user role
     if (user?.UserRole === 'Admin') {
       return <Navigate to="/admin/dashboard" replace />;

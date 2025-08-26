@@ -54,23 +54,25 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await api.post('/auth/login', {
-        email,
+        email: email.trim(),
         password
       });
 
       const { Token, User } = response.data;
-      
+
       localStorage.setItem('token', Token);
       setToken(Token);
       setUser(User);
-      
+
       return { success: true, user: User };
     } catch (error) {
       console.error('Login error:', error);
-      return { 
-        success: false, 
-        error: error.response?.data?.Message || 'Login failed' 
-      };
+      const backendMessage = error.response?.data?.Message;
+      let message = 'Login failed';
+      if (backendMessage) message = backendMessage;
+      else if (error.response?.status === 0) message = 'Cannot reach server';
+      else if (error.code === 'ERR_NETWORK') message = 'Network error';
+      return { success: false, error: message };
     }
   };
 
@@ -86,9 +88,9 @@ export const AuthProvider = ({ children }) => {
       return { success: true, message: response.data.Message };
     } catch (error) {
       console.error('Registration error:', error);
-      return { 
-        success: false, 
-        error: error.response?.data?.Message || 'Registration failed' 
+      return {
+        success: false,
+        error: error.response?.data?.Message || 'Registration failed'
       };
     }
   };
