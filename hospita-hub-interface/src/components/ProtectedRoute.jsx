@@ -28,7 +28,7 @@ const ProtectedRoute = ({ children, requiredRole = null }) => {
       return <Navigate to="/admin/dashboard" replace />;
     }
     console.log('Patient');
-    return <Navigate to="/patient/home" replace />;
+    return <Navigate to="/patient/consult" replace />;
   }
 
   return children;
