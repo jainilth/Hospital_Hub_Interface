@@ -25,6 +25,7 @@ export default function LoginPage() {
     }));
   };
 
+  // In the handleSubmit function, modify the navigation after successful login
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -40,6 +41,22 @@ export default function LoginPage() {
         const result = await login(formData.email, formData.password);
         if (result.success) {
           const role = result.user.UserRole;
+          // Check if there's a stored redirect path
+          const redirectPath = sessionStorage.getItem('redirectPath');
+          
+          // Clear the stored path
+          sessionStorage.removeItem('redirectPath');
+          
+          // If there's a valid redirect path and it matches the user's role, use it
+          if (redirectPath) {
+            if ((role === 'Admin' && redirectPath.startsWith('/admin/')) ||
+                (role !== 'Admin' && redirectPath.startsWith('/patient/'))) {
+              navigate(redirectPath);
+              return;
+            }
+          }
+          
+          // Default redirects if no stored path or invalid path
           if (role === 'Admin') navigate('/admin/dashboard');
           else navigate('/patient/home');
         } else {

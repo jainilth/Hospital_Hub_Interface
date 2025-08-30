@@ -1,13 +1,12 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
-const ProtectedRoute = ({ children, requiredRole = null }) => {
+const ProtectedRoute = ({ children, requiredRole = [] }) => {
   const { user, loading, isAuthenticated } = useAuth();
 
   if (loading) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
         <div className="spinner-border text-primary" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
@@ -15,22 +14,21 @@ const ProtectedRoute = ({ children, requiredRole = null }) => {
     );
   }
 
+  // Not logged in → go to login
   if (!isAuthenticated) {
     return <Navigate to="/" replace />;
   }
 
-  const roles = Array.isArray(requiredRole) ? requiredRole : (requiredRole ? [requiredRole] : []);
+  // Get user role
   const role = user?.UserRole;
 
-  if (roles.length > 0 && !roles.includes(role)) {
-    console.log(role);
-    if (role === 'Admin') {
-      return <Navigate to="/admin/dashboard" replace />;
-    }
-    console.log('Patient');
-    return <Navigate to="/patient/consult" replace />;
+  // If role doesn’t match required role → redirect to their default home
+  if (requiredRole.length > 0 && !requiredRole.includes(role)) {
+    if (role === "Admin") return <Navigate to="/admin/dashboard" replace />;
+    return <Navigate to="/patient/home" replace />;
   }
 
+  // ✅ Allow access
   return children;
 };
 
