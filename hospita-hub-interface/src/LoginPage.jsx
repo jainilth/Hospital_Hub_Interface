@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
+import { extractUserRole, normalizeRole } from './utils/roleUtils';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -40,26 +41,39 @@ export default function LoginPage() {
 
         const result = await login(formData.email, formData.password);
         if (result.success) {
-          const role = result.user.UserRole;
+          const rawRole = extractUserRole(result.user);
+          const role = normalizeRole(rawRole);
+          
+          // Debug logging
+          console.log('Login successful - Raw role:', rawRole, 'Normalized role:', role);
+          console.log('Full user object:', result.user);
+          
           // Check if there's a stored redirect path
           const redirectPath = sessionStorage.getItem('redirectPath');
-          
           // Clear the stored path
           sessionStorage.removeItem('redirectPath');
-          
+
           // If there's a valid redirect path and it matches the user's role, use it
           if (redirectPath) {
+            console.log('Found redirect path:', redirectPath);
             if ((role === 'Admin' && redirectPath.startsWith('/admin/')) ||
-                (role !== 'Admin' && redirectPath.startsWith('/patient/'))) {
+              (role !== 'Admin' && redirectPath.startsWith('/patient/'))) {
+              console.log('Navigating to stored redirect path:', redirectPath);
               navigate(redirectPath);
               return;
             }
           }
-          
+
           // Default redirects if no stored path or invalid path
-          if (role === 'Admin') navigate('/admin/dashboard');
-          else navigate('/patient/home');
+          if (role === 'Admin') {
+            console.log('Admin user - navigating to /admin/dashboard');
+            navigate('/admin/dashboard');
+          } else {
+            console.log('Non-admin user - navigating to /patient/home');
+            navigate('/patient/home');
+          }
         } else {
+          console.log('Login failed:', result.error);
           setError(result.error);
         }
       } else {
