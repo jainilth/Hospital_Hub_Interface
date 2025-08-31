@@ -2,8 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import "./DoctorAdd.css";
+import { useNavigate, useParams } from "react-router-dom";
+import "./DoctorAdd.css"; // Reuse the same styles
 
 const initialState = {
   DoctorName: "",
@@ -31,9 +31,11 @@ const initialState = {
   nextAvailable: "",
 };
 
-export default function DoctorAdd() {
+export default function DoctorEdit() {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [formData, setFormData] = useState(initialState);
+  const [originalData, setOriginalData] = useState(null);
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
   const [fileName, setFileName] = useState("");
@@ -46,50 +48,94 @@ export default function DoctorAdd() {
   const [cities, setCities] = useState([]);
   const [previewImage, setPreviewImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [dataLoading, setDataLoading] = useState(true);
   const fileInputRef = useRef();
 
   useEffect(() => {
-    // Load all required data
+    // Load all required data and doctor details
     const loadData = async () => {
       try {
         const [
+          doctorRes,
           specializationsRes,
           departmentsRes,
           hospitalsRes,
           usersRes,
           countriesRes,
         ] = await Promise.all([
-          axios.get(
-            "http://localhost:5220/api/Specialization/GetAllSpecializations"
-          ),
+          axios.get(`http://localhost:5220/api/Doctor/GetDoctorById/${id}`),
+          axios.get("http://localhost:5220/api/Specialization/GetAllSpecializations"),
           axios.get("http://localhost:5220/api/Department/GetAllDepartment"),
           axios.get("http://localhost:5220/api/Hospital/GetAllHospitals"),
           axios.get("http://localhost:5220/api/User/GetAllUsers"),
           axios.get("http://localhost:5220/api/Country/GetAllCountries"),
         ]);
 
-        
+        // Set dropdown data
         setSpecializations(specializationsRes.data);
         setDepartments(departmentsRes.data);
         setHospitals(hospitalsRes.data);
         setUsers(usersRes.data);
         setCountries(countriesRes.data);
+
+        // Set doctor data
+        const doctor = doctorRes.data;
+        setOriginalData(doctor);
+        
+        // Map doctor data to form fields with flexible property names
+        const mappedData = {
+          DoctorName: doctor.doctorName || doctor.DoctorName || "",
+          ConsultationFee: doctor.consultationFee || doctor.ConsultationFee || "",
+          DoctorEmail: doctor.doctorEmail || doctor.DoctorEmail || "",
+          DoctorContectNo: doctor.doctorContectNo || doctor.DoctorContectNo || "",
+          DoctorGender: doctor.doctorGender || doctor.DoctorGender || "",
+          SpecializationId: doctor.specializationId || doctor.SpecializationId || "",
+          DepartmentId: doctor.departmentId || doctor.DepartmentId || "",
+          HospitalId: doctor.hospitalId || doctor.HospitalId || "",
+          DoctorExperienceYears: doctor.doctorExperienceYears || doctor.DoctorExperienceYears || "",
+          Rating: doctor.rating || doctor.Rating || "",
+          UserId: doctor.userId || doctor.UserId || "",
+          ProfilePhoto: null, // Don't set existing photo file
+          Qualification: doctor.qualification || doctor.Qualification || "",
+          AvailabilityStatus: doctor.availabilityStatus || doctor.AvailabilityStatus || "",
+          StartWorkTime: doctor.startWorkTime || doctor.StartWorkTime || "",
+          EndWorkTime: doctor.endWorkTime || doctor.EndWorkTime || "",
+          TotalPatient: doctor.totalPatient || doctor.TotalPatient || "",
+          DoctorAddress: doctor.doctorAddress || doctor.DoctorAddress || "",
+          DoctorCityId: doctor.doctorCityId || doctor.DoctorCityId || "",
+          DoctorStateId: doctor.doctorStateId || doctor.DoctorStateId || "",
+          DoctorCountryId: doctor.doctorCountryId || doctor.DoctorCountryId || "",
+          languages: doctor.languages || "",
+          nextAvailable: doctor.nextAvailable || "",
+        };
+        
+        setFormData(mappedData);
+        
+        // Set preview image if doctor has photo
+        const photoUrl = doctor.doctorPhotoUrl || doctor.DoctorPhotoUrl;
+        if (photoUrl) {
+          setPreviewImage(photoUrl);
+        }
+        
       } catch (err) {
         console.error("Error loading data:", err);
+        setMessage("Error loading doctor data. Please try again.");
+        setError(true);
+      } finally {
+        setDataLoading(false);
       }
     };
-    
-    loadData();
-  }, []);
-  
+
+    if (id) {
+      loadData();
+    }
+  }, [id]);
+
   // Load states when country changes
   useEffect(() => {
     if (formData.DoctorCountryId) {
       axios
-      .get(
-          // http://localhost:5220/api/State/GetStatesByCountry/GetStatesByCountry/1
-          `http://localhost:5220/api/State/GetStatesByCountry/GetStatesByCountry/${formData.DoctorCountryId}`
-        )
+        .get(`http://localhost:5220/api/State/GetStatesByCountry/GetStatesByCountry/${formData.DoctorCountryId}`)
         .then((res) => setStates(res.data))
         .catch(() => setStates([]));
     } else {
@@ -102,9 +148,7 @@ export default function DoctorAdd() {
   useEffect(() => {
     if (formData.DoctorStateId) {
       axios
-        .get(
-          `http://localhost:5220/api/City/GetCitiesByState/GetCitiesByState/${formData.DoctorStateId}`
-        )
+        .get(`http://localhost:5220/api/City/GetCitiesByState/GetCitiesByState/${formData.DoctorStateId}`)
         .then((res) => setCities(res.data))
         .catch(() => setCities([]));
     } else {
@@ -153,30 +197,47 @@ export default function DoctorAdd() {
       if (value !== null && value !== "") submitData.append(key, value);
     });
 
+    console.log("Submitting doctor update:");
+    console.log("Doctor ID:", id);
+    console.log("Form Data:", formData);
+    console.log("FormData entries:");
+    for (let [key, value] of submitData.entries()) {
+      console.log(key, value);
+    }
+
     try {
-      await axios.post(
-        "http://localhost:5220/api/Doctor/AddDoctor",
+      console.log("Making PUT request to:", `http://localhost:5220/api/Doctor/UpdateDoctor/${id}`);
+      const response = await axios.put(
+        `http://localhost:5220/api/Doctor/UpdateDoctor/${id}`,
         submitData,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      setMessage("Doctor added successfully!");
-      setFormData(initialState);
-      setFileName("");
-      setPreviewImage(null);
-      setStates([]);
-      setCities([]);
-      
-      // Navigate back to doctor list after successful addition
+      console.log("Update response:", response);
+      setMessage("Doctor updated successfully!");
+      // Navigate back to doctor list after successful update
       setTimeout(() => {
         navigate('/admin/doctorList');
       }, 2000);
     } catch (err) {
-      console.error("Error adding doctor:", err);
-      setMessage(
-        "Error adding doctor. Please check all required fields and try again."
-      );
+      console.error("Error updating doctor:", err);
+      console.error("Error details:", err.response?.data);
+      console.error("Error status:", err.response?.status);
+      console.error("Error headers:", err.response?.headers);
+      
+      let errorMessage = "Error updating doctor. Please check all required fields and try again.";
+      if (err.response?.data?.message) {
+        errorMessage = err.response.data.message;
+      } else if (err.response?.status === 404) {
+        errorMessage = "Update endpoint not found. The UpdateDoctor API endpoint needs to be implemented in the backend.";
+      } else if (err.response?.status === 400) {
+        errorMessage = `Bad Request: ${err.response?.data?.title || err.response?.data?.message || 'Invalid data format'}`;
+      } else if (err.response?.status === 500) {
+        errorMessage = "Server error. Please check the backend logs.";
+      }
+      
+      setMessage(errorMessage);
       setError(true);
     } finally {
       setLoading(false);
@@ -188,14 +249,24 @@ export default function DoctorAdd() {
     fileInputRef.current.click();
   };
 
+  if (dataLoading) {
+    return (
+      <div className="doctor-add-container">
+        <div style={{ textAlign: "center", padding: "50px" }}>
+          <h2>Loading doctor data...</h2>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="doctor-add-container">
       {/* Header Section */}
       <div className="form-header">
         <div className="header-content">
-          <h1 className="form-title">Add New Doctor</h1>
+          <h1 className="form-title">Edit Doctor</h1>
           <p className="form-subtitle">
-            Register a new doctor to the healthcare platform
+            Update doctor information in the healthcare platform
           </p>
         </div>
         <div className="header-icon">
@@ -735,7 +806,7 @@ export default function DoctorAdd() {
               >
                 <path d="M20 6L9 17l-5-5" />
               </svg>
-              {loading ? "Adding..." : "Add Doctor"}
+              {loading ? "Updating..." : "Update Doctor"}
             </button>
           </div>
         </form>

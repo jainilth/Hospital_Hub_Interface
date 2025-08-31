@@ -51,7 +51,7 @@ export default function AddCountry() {
         });
         alert("Country added successfully!");
       }
-      navigate("/locationmanagement");
+      navigate("/admin/locationmanagement");
     } catch (err) {
       console.error("Error:", err);
       setError(
@@ -115,7 +115,7 @@ export default function AddCountry() {
               <button
                 type="button"
                 className="btn-secondary"
-                onClick={() => navigate("/locationmanagement")}
+                onClick={() => navigate("/admin/locationmanagement")}
                 disabled={loading}
               >
                 Cancel

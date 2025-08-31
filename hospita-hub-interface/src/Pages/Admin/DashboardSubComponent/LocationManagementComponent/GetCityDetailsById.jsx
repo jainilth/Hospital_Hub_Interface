@@ -106,6 +106,18 @@ export default function GetCityDetailsById() {
                 <th>Country ID</th>
                 <td>{city.countryId}</td>
               </tr>
+              <tr>
+                <th>Number of Hospitals</th>
+                <td>{city.hospitalCount || city.HospitalCount || 0}</td>
+              </tr>
+              <tr>
+                <th>Created Date</th>
+                <td>{city.createdDate ? new Date(city.createdDate).toLocaleDateString() : 'N/A'}</td>
+              </tr>
+              <tr>
+                <th>Modified Date</th>
+                <td>{city.modifiedDate ? new Date(city.modifiedDate).toLocaleDateString() : 'N/A'}</td>
+              </tr>
             </tbody>
           </table>
         </div>

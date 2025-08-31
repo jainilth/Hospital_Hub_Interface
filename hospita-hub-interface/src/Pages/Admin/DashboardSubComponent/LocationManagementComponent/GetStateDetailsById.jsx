@@ -43,6 +43,18 @@ export default function GetStateDetailsById() {
                 <td>{state.countryId}</td>
               </tr>
               <tr>
+                <th>Country Name</th>
+                <td>{state.countryName || state.CountryName}</td>
+              </tr>
+              <tr>
+                <th>Number of Cities</th>
+                <td>{state.cityCount || state.CityCount || 0}</td>
+              </tr>
+              <tr>
+                <th>Number of Hospitals</th>
+                <td>{state.hospitalCount || state.HospitalCount || 0}</td>
+              </tr>
+              <tr>
                 <th>Created Date</th>
                 <td>{new Date(state.createdDate).toLocaleDateString()}</td>
               </tr>

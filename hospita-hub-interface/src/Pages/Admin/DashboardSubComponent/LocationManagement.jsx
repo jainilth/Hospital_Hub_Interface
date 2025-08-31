@@ -199,9 +199,9 @@ export default function LocationManagement() {
                       <input type="checkbox" />
                     </td>
                     <td>{country.countryName}</td>
-                    <td>{country.stateCount || 0}</td>
-                    <td>{country.cityCount || 0}</td>
-                    <td>{country.hospitalCount || 0}</td>
+                    <td>{country.stateCount || country.StateCount || 0}</td>
+                    <td>{country.cityCount || country.CityCount || 0}</td>
+                    <td>{country.hospitalCount || country.HospitalCount || 0}</td>
                     <td>
                       <Link
                         className="edit-btn"
@@ -250,8 +250,8 @@ export default function LocationManagement() {
                     </td>
                     <td>{state.stateName}</td>
                     <td>{state.countryName}</td>
-                    <td>{state.cityCount || 0}</td>
-                    <td>{state.hospitalCount || 0}</td>
+                    <td>{state.cityCount || state.CityCount || 0}</td>
+                    <td>{state.hospitalCount || state.HospitalCount || 0}</td>
                     <td>
                       <Link
                         className="edit-btn"
@@ -301,7 +301,7 @@ export default function LocationManagement() {
                     <td>{city.cityName}</td>
                     <td>{city.stateName}</td>
                     <td>{city.countryName}</td>
-                    <td>{city.hospitalCount || 0}</td>
+                    <td>{city.hospitalCount || city.HospitalCount || 0}</td>
                     <td>
                       <Link
                         className="edit-btn"

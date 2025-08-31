@@ -1,36 +1,121 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import "./DoctorList.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDebounce } from "../../hooks/useDebounce";
 
 export default function DoctorList() {
-  const [doctors, setDoctors] = useState([]);
+  const navigate = useNavigate();
+  
+  // Pagination and search states
+  const [doctorsData, setDoctorsData] = useState({
+    data: [],
+    totalRecords: 0,
+    pageNumber: 1,
+    pageSize: 10,
+    totalPages: 0,
+    hasPreviousPage: false,
+    hasNextPage: false,
+  });
   const [specializations, setSpecializations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchLoading, setSearchLoading] = useState(false);
 
-  // States for filtering
+  // Filter and search states
   const [searchTerm, setSearchTerm] = useState("");
   const [specializationFilter, setSpecializationFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [sortBy, setSortBy] = useState("DoctorName");
+  const [sortDirection, setSortDirection] = useState("asc");
+  
+  // Modal states
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [doctorToDelete, setDoctorToDelete] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
-  useEffect(() => {
-    // Fetch doctors
-    axios
-      .get("http://localhost:5220/api/Doctor/GetAllDoctors")
-      .then((res) => {
-        setDoctors(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("API Error:", err);
-        setDoctors([]);
-        setLoading(false);
+  // Debounce search term to avoid excessive API calls
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  const API_BASE_URL = "http://localhost:5220/api";
+
+  // Function to fetch doctors with pagination
+  const fetchDoctors = useCallback(async (showLoading = true) => {
+    try {
+      if (showLoading) {
+        setSearchLoading(true);
+      }
+
+      const params = new URLSearchParams({
+        pageNumber: currentPage.toString(),
+        pageSize: itemsPerPage.toString(),
+        searchTerm: debouncedSearchTerm,
+        specializationFilter: specializationFilter,
+        statusFilter: statusFilter,
+        sortBy: sortBy,
+        sortDirection: sortDirection,
       });
 
-    // Fetch specializations
+      console.log("Fetching doctors with params:", params.toString());
+      const response = await axios.get(
+        `${API_BASE_URL}/Doctor/GetDoctorsWithPagination?${params}`
+      );
+      
+      console.log("API Response:", response.data);
+      setDoctorsData(response.data);
+    } catch (err) {
+      console.error("API Error:", err);
+      console.error("API Error Details:", err.response?.data);
+      
+      // If the pagination endpoint fails, try the regular endpoint as fallback
+      try {
+        console.log("Trying fallback endpoint...");
+        const fallbackResponse = await axios.get(`${API_BASE_URL}/Doctor/GetAllDoctors`);
+        console.log("Fallback response:", fallbackResponse.data);
+        
+        setDoctorsData({
+          data: fallbackResponse.data || [],
+          totalRecords: fallbackResponse.data?.length || 0,
+          pageNumber: 1,
+          pageSize: itemsPerPage,
+          totalPages: 1,
+          hasPreviousPage: false,
+          hasNextPage: false,
+          startRecord: 1,
+          endRecord: fallbackResponse.data?.length || 0
+        });
+      } catch (fallbackErr) {
+        console.error("Fallback API Error:", fallbackErr);
+        setDoctorsData({
+          data: [],
+          totalRecords: 0,
+          pageNumber: 1,
+          pageSize: 10,
+          totalPages: 0,
+          hasPreviousPage: false,
+          hasNextPage: false,
+        });
+      }
+    } finally {
+      setLoading(false);
+      setSearchLoading(false);
+    }
+  }, [currentPage, itemsPerPage, debouncedSearchTerm, specializationFilter, statusFilter, sortBy, sortDirection]);
+
+  // Initial data load
+  useEffect(() => {
+    fetchDoctors();
+  }, [fetchDoctors]);
+
+  // Fetch specializations
+  useEffect(() => {
     axios
-      .get("http://localhost:5220/api/Doctor/GetAllSpecializations")
+      .get(`${API_BASE_URL}/Specialization/GetAllSpecializations`)
       .then((res) => {
+        console.log("Specializations loaded:", res.data);
         setSpecializations(res.data);
       })
       .catch((err) => {
@@ -38,6 +123,112 @@ export default function DoctorList() {
         setSpecializations([]);
       });
   }, []);
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+    }
+  }, [debouncedSearchTerm, specializationFilter, statusFilter]);
+
+  // Handle page change
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  // Handle items per page change
+  const handleItemsPerPageChange = (newSize) => {
+    setItemsPerPage(parseInt(newSize));
+    setCurrentPage(1); // Reset to first page
+  };
+
+  // Handle sorting
+  const handleSort = (field) => {
+    if (sortBy === field) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortBy(field);
+      setSortDirection("asc");
+    }
+    setCurrentPage(1); // Reset to first page
+  };
+
+  // Handle View Doctor
+  const handleViewDoctor = (doctor) => {
+    setSelectedDoctor(doctor);
+    setViewModalOpen(true);
+  };
+
+  // Handle Edit Doctor
+  const handleEditDoctor = (doctor) => {
+    // Navigate to edit page with doctor ID
+    navigate(`/admin/doctorEdit/${doctor.doctorId || doctor.DoctorId}`);
+  };
+
+  // Handle Delete Doctor
+  const handleDeleteDoctor = (doctor) => {
+    setDoctorToDelete(doctor);
+    setDeleteModalOpen(true);
+  };
+
+  // Confirm Delete Doctor
+  const confirmDeleteDoctor = async () => {
+    if (!doctorToDelete) return;
+    
+    setDeleteLoading(true);
+    try {
+      await axios.delete(`${API_BASE_URL}/Doctor/DeleteDoctor/${doctorToDelete.doctorId || doctorToDelete.DoctorId}`);
+      
+      // Refresh the doctors list
+      await fetchDoctors();
+      
+      setDeleteModalOpen(false);
+      setDoctorToDelete(null);
+    } catch (err) {
+      console.error("Error deleting doctor:", err);
+      alert("Error deleting doctor. Please try again.");
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
+
+  // Handle Consult Now
+  const handleConsultNow = (doctor) => {
+    // Navigate to patient chat interface
+    navigate(`/patient/chat?doctorId=${doctor.doctorId || doctor.DoctorId}`);
+  };
+
+  // Handle Message
+  const handleMessage = (doctor) => {
+    // Navigate to messaging interface
+    navigate(`/patient/chat?doctorId=${doctor.doctorId || doctor.DoctorId}&mode=message`);
+  };
+
+  // Generate page numbers for pagination
+  const getPageNumbers = () => {
+    const pages = [];
+    const totalPages = doctorsData.totalPages;
+    const current = currentPage;
+    
+    // Show up to 5 page numbers around current page
+    let start = Math.max(1, current - 2);
+    let end = Math.min(totalPages, current + 2);
+    
+    // Adjust if we're near the beginning or end
+    if (end - start < 4) {
+      if (start === 1) {
+        end = Math.min(totalPages, start + 4);
+      } else {
+        start = Math.max(1, end - 4);
+      }
+    }
+    
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    
+    return pages;
+  };
 
   if (loading) {
     return (
@@ -49,34 +240,28 @@ export default function DoctorList() {
     );
   }
 
-  // Apply filters
-  const filteredDoctors = doctors.filter((doc) => {
-    const name = doc.doctorName || doc.DoctorName || "";
-    const specialization =
-      doc.specializationName || doc.specialization || doc.Specialization || "";
-    const status = doc.availabilityStatus || doc.AvailabilityStatus || "";
-
-    return (
-      (name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        specialization.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (specializationFilter === "" ||
-        specialization.toLowerCase() === specializationFilter.toLowerCase()) &&
-      (statusFilter === "" ||
-        status.toLowerCase() === statusFilter.toLowerCase())
-    );
-  });
+  const doctors = doctorsData.data || [];
 
   return (
     <div className="doctor-list-container">
+      {/* Header Section */}
+      <div className="doctor-list-header">
+        <h1>Doctor Management</h1>
+        <p>Manage doctors, their specializations, and availability</p>
+        <Link to="/admin/doctorAdd" className="add-doctor-btn">
+          + Add New Doctor
+        </Link>
+      </div>
+
       {/* Stats Section */}
       <div className="stats-grid">
         <div className="stat-card">
           <div className="stat-content">
             <div className="stat-info">
               <span className="stat-label">Total Doctors</span>
-              <span className="stat-value">{filteredDoctors.length}</span>
+              <span className="stat-value">{doctorsData.totalRecords}</span>
             </div>
-            <div className="stat-icon total">{filteredDoctors.length}</div>
+            <div className="stat-icon total">{doctorsData.totalRecords}</div>
           </div>
         </div>
         <div className="stat-card">
@@ -85,7 +270,7 @@ export default function DoctorList() {
               <span className="stat-label">Available Now</span>
               <span className="stat-value available">
                 {
-                  filteredDoctors.filter(
+                  doctors.filter(
                     (doc) =>
                       (doc.availabilityStatus || doc.AvailabilityStatus) ===
                       "Available"
@@ -95,7 +280,7 @@ export default function DoctorList() {
             </div>
             <div className="stat-icon available">
               {
-                filteredDoctors.filter(
+                doctors.filter(
                   (doc) =>
                     (doc.availabilityStatus || doc.AvailabilityStatus) ===
                     "Available"
@@ -110,7 +295,7 @@ export default function DoctorList() {
               <span className="stat-label">Busy</span>
               <span className="stat-value busy">
                 {
-                  filteredDoctors.filter(
+                  doctors.filter(
                     (doc) =>
                       (doc.availabilityStatus || doc.AvailabilityStatus) ===
                       "Busy"
@@ -120,7 +305,7 @@ export default function DoctorList() {
             </div>
             <div className="stat-icon busy">
               {
-                filteredDoctors.filter(
+                doctors.filter(
                   (doc) =>
                     (doc.availabilityStatus || doc.AvailabilityStatus) ===
                     "Busy"
@@ -135,7 +320,7 @@ export default function DoctorList() {
               <span className="stat-label">On Leave</span>
               <span className="stat-value leave">
                 {
-                  filteredDoctors.filter(
+                  doctors.filter(
                     (doc) =>
                       (doc.availabilityStatus || doc.AvailabilityStatus) ===
                       "On Leave"
@@ -145,7 +330,7 @@ export default function DoctorList() {
             </div>
             <div className="stat-icon leave">
               {
-                filteredDoctors.filter(
+                doctors.filter(
                   (doc) =>
                     (doc.availabilityStatus || doc.AvailabilityStatus) ===
                     "On Leave"
@@ -158,15 +343,34 @@ export default function DoctorList() {
 
       {/* Search and Filter Section */}
       <div className="search-filter-section">
-        <div className="search-box">
-          <input
-            type="text"
-            placeholder="Search doctors by name or specialization..."
-            className="search-input"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+        <div className="search-controls">
+          <div className="search-box">
+            <input
+              type="text"
+              placeholder="Search doctors by name, email, qualification..."
+              className="search-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            {searchLoading && <div className="search-loading">🔍</div>}
+          </div>
+          
+          <div className="items-per-page">
+            <label>Show:</label>
+            <select
+              value={itemsPerPage}
+              onChange={(e) => handleItemsPerPageChange(e.target.value)}
+              className="items-select"
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
+            </select>
+            <span>per page</span>
+          </div>
         </div>
+        
         <div className="filters">
           {/* Dynamic specialization dropdown */}
           <select
@@ -196,18 +400,60 @@ export default function DoctorList() {
             <option value="Busy">Busy</option>
             <option value="On Leave">On Leave</option>
           </select>
+          
+          {/* Sort controls */}
+          <select
+            className="filter-select"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+          >
+            <option value="DoctorName">Sort by Name</option>
+            <option value="Specialization">Sort by Specialization</option>
+            <option value="Experience">Sort by Experience</option>
+            <option value="Rating">Sort by Rating</option>
+            <option value="ConsultationFee">Sort by Fee</option>
+          </select>
+          
+          <button
+            className="sort-direction-btn"
+            onClick={() => setSortDirection(sortDirection === "asc" ? "desc" : "asc")}
+            title={`Sort ${sortDirection === "asc" ? "Descending" : "Ascending"}`}
+          >
+            {sortDirection === "asc" ? "↑" : "↓"}
+          </button>
         </div>
+      </div>
+
+      {/* Results Info */}
+      <div className="results-info">
+        {searchLoading ? (
+          <p>Searching...</p>
+        ) : (
+          <p>
+            Showing {doctorsData.startRecord || 0} to {doctorsData.endRecord || 0} of{" "}
+            {doctorsData.totalRecords} doctors
+            {(debouncedSearchTerm || specializationFilter || statusFilter) && (
+              <span className="filter-indicator"> (filtered)</span>
+            )}
+          </p>
+        )}
       </div>
 
       {/* Doctors List */}
       <div className="doctors-list">
-        {filteredDoctors.length === 0 ? (
+        {searchLoading && (
+          <div className="loading-overlay">
+            <div className="loading-spinner">Loading...</div>
+          </div>
+        )}
+        
+        {doctors.length === 0 && !searchLoading ? (
           <div style={{ textAlign: "center", padding: "50px" }}>
             <h2>No doctors found</h2>
             <p>No doctors match your search or filter criteria.</p>
           </div>
         ) : (
-          filteredDoctors.map((doc, index) => (
+          doctors.map((doc, index) => (
             <div
               className="doctor-card"
               key={doc.doctorId || doc.DoctorId || index}
@@ -316,19 +562,238 @@ export default function DoctorList() {
                   {doc.availabilityStatus || doc.AvailabilityStatus || "N/A"}
                 </div>
                 <div className="doctor-actions">
-                  <button className="action-btn view-btn">View</button>
-                  <button className="action-btn edit-btn">Edit</button>
-                  <button className="action-btn delete-btn">Delete</button>
+                  <button 
+                    className="action-btn view-btn"
+                    onClick={() => handleViewDoctor(doc)}
+                  >
+                    View
+                  </button>
+                  <button 
+                    className="action-btn edit-btn"
+                    onClick={() => handleEditDoctor(doc)}
+                  >
+                    Edit
+                  </button>
+                  <button 
+                    className="action-btn delete-btn"
+                    onClick={() => handleDeleteDoctor(doc)}
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
-              <Link className="specialty-practo-link" to="chat">
+              <button 
+                className="specialty-practo-link consult-btn"
+                onClick={() => handleConsultNow(doc)}
+              >
                 Consult now &gt;
-              </Link>
-              <Link>Message</Link>
+              </button>
+              <button 
+                className="message-btn"
+                onClick={() => handleMessage(doc)}
+              >
+                Message
+              </button>
             </div>
           ))
         )}
       </div>
+
+      {/* Pagination */}
+      {doctorsData.totalPages > 1 && (
+        <div className="pagination-container">
+          <div className="pagination-info">
+            <span>
+              Showing {doctorsData.startRecord} to {doctorsData.endRecord} of{" "}
+              {doctorsData.totalRecords} entries
+            </span>
+          </div>
+          
+          <div className="pagination-controls">
+            {/* First page button */}
+            <button
+              onClick={() => handlePageChange(1)}
+              disabled={!doctorsData.hasPreviousPage || searchLoading}
+              className="pagination-btn"
+              title="First page"
+            >
+              ⟪
+            </button>
+            
+            {/* Previous page button */}
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={!doctorsData.hasPreviousPage || searchLoading}
+              className="pagination-btn"
+              title="Previous page"
+            >
+              ⟨
+            </button>
+            
+            {/* Page numbers */}
+            {getPageNumbers().map((pageNum) => (
+              <button
+                key={pageNum}
+                onClick={() => handlePageChange(pageNum)}
+                className={`pagination-btn ${
+                  pageNum === currentPage ? "active" : ""
+                }`}
+                disabled={searchLoading}
+              >
+                {pageNum}
+              </button>
+            ))}
+            
+            {/* Next page button */}
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={!doctorsData.hasNextPage || searchLoading}
+              className="pagination-btn"
+              title="Next page"
+            >
+              ⟩
+            </button>
+            
+            {/* Last page button */}
+            <button
+              onClick={() => handlePageChange(doctorsData.totalPages)}
+              disabled={!doctorsData.hasNextPage || searchLoading}
+              className="pagination-btn"
+              title="Last page"
+            >
+              ⟫
+            </button>
+          </div>
+        </div>
+      )}
+      
+      {/* View Doctor Modal */}
+      {viewModalOpen && selectedDoctor && (
+        <div className="modal-overlay" onClick={() => setViewModalOpen(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Doctor Details</h2>
+              <button 
+                className="modal-close-btn"
+                onClick={() => setViewModalOpen(false)}
+              >
+                ×
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="doctor-detail-grid">
+                <div className="detail-section">
+                  <h3>Personal Information</h3>
+                  <div className="detail-item">
+                    <span className="detail-label">Name:</span>
+                    <span className="detail-value">{selectedDoctor.doctorName || selectedDoctor.DoctorName}</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Email:</span>
+                    <span className="detail-value">{selectedDoctor.doctorEmail || selectedDoctor.DoctorEmail}</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Phone:</span>
+                    <span className="detail-value">{selectedDoctor.doctorContectNo || selectedDoctor.DoctorContectNo}</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Address:</span>
+                    <span className="detail-value">{selectedDoctor.doctorAddress || selectedDoctor.DoctorAddress || 'N/A'}</span>
+                  </div>
+                </div>
+                
+                <div className="detail-section">
+                  <h3>Professional Information</h3>
+                  <div className="detail-item">
+                    <span className="detail-label">Specialization:</span>
+                    <span className="detail-value">{selectedDoctor.specializationName || 'N/A'}</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Qualification:</span>
+                    <span className="detail-value">{selectedDoctor.qualification || selectedDoctor.Qualification || 'N/A'}</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Experience:</span>
+                    <span className="detail-value">{selectedDoctor.doctorExperienceYears || selectedDoctor.DoctorExperienceYears || 'N/A'} years</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Consultation Fee:</span>
+                    <span className="detail-value">₹{selectedDoctor.consultationFee || selectedDoctor.ConsultationFee || 'N/A'}</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Rating:</span>
+                    <span className="detail-value">⭐ {selectedDoctor.rating || selectedDoctor.Rating || 'N/A'}</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Total Patients:</span>
+                    <span className="detail-value">{selectedDoctor.totalPatient || selectedDoctor.TotalPatient || 'N/A'}</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Status:</span>
+                    <span className={`detail-value status-${(selectedDoctor.availabilityStatus || selectedDoctor.AvailabilityStatus || '').toLowerCase()}`}>
+                      {selectedDoctor.availabilityStatus || selectedDoctor.AvailabilityStatus || 'N/A'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button 
+                className="btn-secondary"
+                onClick={() => setViewModalOpen(false)}
+              >
+                Close
+              </button>
+              <button 
+                className="btn-primary"
+                onClick={() => {
+                  setViewModalOpen(false);
+                  handleEditDoctor(selectedDoctor);
+                }}
+              >
+                Edit Doctor
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Delete Confirmation Modal */}
+      {deleteModalOpen && doctorToDelete && (
+        <div className="modal-overlay" onClick={() => setDeleteModalOpen(false)}>
+          <div className="modal-content delete-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Confirm Delete</h2>
+              <button 
+                className="modal-close-btn"
+                onClick={() => setDeleteModalOpen(false)}
+              >
+                ×
+              </button>
+            </div>
+            <div className="modal-body">
+              <p>Are you sure you want to delete Dr. {doctorToDelete.doctorName || doctorToDelete.DoctorName}?</p>
+              <p className="warning-text">This action cannot be undone.</p>
+            </div>
+            <div className="modal-footer">
+              <button 
+                className="btn-secondary"
+                onClick={() => setDeleteModalOpen(false)}
+                disabled={deleteLoading}
+              >
+                Cancel
+              </button>
+              <button 
+                className="btn-danger"
+                onClick={confirmDeleteDoctor}
+                disabled={deleteLoading}
+              >
+                {deleteLoading ? "Deleting..." : "Delete Doctor"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
