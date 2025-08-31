@@ -98,48 +98,420 @@ body {
 }
 
 .footer {
-    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
     color: white;
-    padding: 3rem 0 2rem;
+    padding: 4rem 0 2rem;
+    margin-top: 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Footer Brand Section */
+.footer-brand {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 1;
 }
 
 .footer-logo {
-    font-size: 2rem;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.footer-tagline {
+    font-size: 1.1rem;
+    color: #cbd5e1;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+/* Footer Links */
 .footer-links {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .footer-links li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    transition: all 0.2s ease;
 }
 
 .footer-links a {
     color: #cbd5e1;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    font-weight: 400;
+    transition: all 0.3s ease;
+    display: inline-block;
+    position: relative;
 }
 
 .footer-links a:hover {
     color: white;
+    transform: translateX(5px);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.footer-links a::before {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #60a5fa, #3b82f6);
+    transition: width 0.3s ease;
+}
+
+.footer-links a:hover::before {
+    width: 10px;
 }
 
 .footer-heading {
     color: white;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    padding-bottom: 0.5rem;
 }
 
+.footer-heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30px;
+    height: 3px;
+    background: linear-gradient(90deg, #60a5fa, #3b82f6);
+    border-radius: 2px;
+}
+
+/* Footer Bottom Section */
+.footer-bottom {
+    margin-top: 3rem;
+    position: relative;
+    z-index: 1;
+}
+
+.footer-bottom-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 4rem;
+    padding: 2rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Social Media Section */
+.social-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 250px;
+}
+
+.social-heading,
+.apps-heading {
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.social-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* App Download Section */
+.apps-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 300px;
+}
+
+.download-apps {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.app-link {
+    display: block;
+    transition: all 0.3s ease;
+    filter: brightness(0.9);
+}
+
+.app-link:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.1);
+}
+
+.app-badge {
+    height: 50px;
+    width: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.app-badge:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Copyright Section */
 .footer-copyright {
     text-align: center;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem 0 1rem;
+}
+
+.copyright-content p {
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+}
+
+.copyright-content p:first-child {
+    color: #e2e8f0;
+    font-weight: 500;
+}
+
+.copyright-sub {
     color: #94a3b8;
     font-size: 0.9rem;
+    font-weight: 300;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .footer-bottom-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .social-section,
+    .apps-section {
+        min-width: auto;
+        width: 100%;
+    }
+}
+
+@media (max-width: 992px) {
+    .footer {
+        padding: 3rem 0 2rem;
+    }
+    
+    .footer-logo {
+        font-size: 2.2rem;
+    }
+    
+    .footer-tagline {
+        font-size: 1rem;
+    }
+    
+    .footer-heading {
+        font-size: 1.1rem;
+        margin-bottom: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer {
+        padding: 2.5rem 0 1.5rem;
+    }
+    
+    .footer-brand {
+        margin-bottom: 2.5rem;
+    }
+    
+    .footer-logo {
+        font-size: 2rem;
+    }
+    
+    .footer-tagline {
+        font-size: 0.95rem;
+        padding: 0 1rem;
+    }
+    
+    .footer-heading {
+        font-size: 1rem;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    
+    .footer-heading::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .footer-links {
+        text-align: center;
+    }
+    
+    .footer-links a::before {
+        display: none;
+    }
+    
+    .footer-links a:hover {
+        transform: none;
+    }
+    
+    .footer-bottom-content {
+        gap: 1.5rem;
+        padding: 1.5rem 0;
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+    
+    .download-apps {
+        justify-content: center;
+    }
+    
+    .app-badge {
+        height: 45px;
+    }
+}
+
+@media (max-width: 576px) {
+    .footer {
+        padding: 2rem 0 1rem;
+        margin-top: 2rem;
+    }
+    
+    .footer-brand {
+        margin-bottom: 2rem;
+    }
+    
+    .footer-logo {
+        font-size: 1.8rem;
+    }
+    
+    .footer-tagline {
+        font-size: 0.9rem;
+        padding: 0 0.5rem;
+    }
+    
+    .footer-heading {
+        font-size: 0.95rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .footer-links a {
+        font-size: 0.9rem;
+    }
+    
+    .social-link {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .social-links {
+        gap: 0.8rem;
+    }
+    
+    .download-apps {
+        gap: 0.8rem;
+    }
+    
+    .app-badge {
+        height: 40px;
+    }
+    
+    .footer-bottom-content {
+        gap: 1rem;
+        padding: 1rem 0;
+    }
+    
+    .footer-copyright {
+        padding: 1rem 0 0.5rem;
+    }
+    
+    .copyright-content p {
+        font-size: 0.85rem;
+    }
+    
+    .copyright-sub {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .footer-links a {
+        font-size: 0.85rem;
+    }
+    
+    .social-link {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .app-badge {
+        height: 36px;
+    }
+    
+    .footer-logo {
+        font-size: 1.6rem;
+    }
 }

@@ -80,11 +80,12 @@ const PatientDashboard = () => {
             {/* <!-- Instant Appointment Section --> */}
             <section className="py-5 bg-body">
                 <div className="container">
-                    <div className="row align-items-center">
+                    <div className="row align-items-center justify-content-center">
                         <div className="col-lg-6">
-                            <h2 className="section-title">
-                                Instant appointment with doctors.<span className="text-primary">Guaranteed.</span>
-                            </h2>
+                            <div className="instant-appointment-content">
+                                <h2 className="section-title">
+                                    Instant appointment with doctors.<span className="text-primary">Guaranteed.</span>
+                                </h2>
 
                             <div className="mb-4">
                                 <div className="d-flex align-items-center mb-3">
@@ -118,6 +119,7 @@ const PatientDashboard = () => {
                                     <div className="testimonial-avatar"></div>
                                     <span>Amit Sharma</span>
                                 </div>
+                            </div>
                             </div>
                         </div>
 
@@ -211,11 +213,12 @@ const PatientDashboard = () => {
                                 </div>
                             </div>
 
-                            <div className="d-flex align-items-center mb-4">
-                                <Link className="btn btn-primary-custom me-4" to='/patient/consult'>Consult now</Link>
-                                <Link className="btn btn-outline-primary me-4" to='/patient/specialities'>View Specialities</Link>
-                                <div className="d-flex align-items-center">
-                                    <div className="online-indicator"></div>
+                            <div className="consult-actions mb-4">
+                                <div className="d-flex flex-wrap gap-3 mb-3">
+                                    <Link className="btn btn-primary-custom" to='/patient/consult'>Consult now</Link>
+                                    <Link className="btn btn-outline-primary" to='/patient/specialities'>View Specialities</Link>
+                                </div>
+                                <div className="doctors-online-info">
                                     <span className="text-muted">88434 doctors online</span>
                                 </div>
                             </div>
