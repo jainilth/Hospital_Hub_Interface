@@ -7,7 +7,7 @@ export default function AdminDashboard() {
   return (
     <div className="admin-dashboard">
       {/* Authentication Test Component */}
-      {/* <AuthTest /> */}
+      <AuthTest />
 
       {/* Dashboard Header */}
       <div className="dashboard-header">
