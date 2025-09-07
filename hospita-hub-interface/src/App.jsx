@@ -34,11 +34,11 @@ import PatientDashboard from "./Pages/Patient/PatientDashboard";
 import Consult from "./Pages/Patient/Consult";
 import Specialities from "./Pages/Patient/Specialities";
 import Doctors from "./Pages/Patient/Doctors";
+import ChatWithDoctorInterface from "./Pages/Patient/ChatWithDoctorInterface";
 
 // Other Pages
 import LoginPage from "./LoginPage";
 import LoadingFallback from "./components/LoadingFallback";
-import ChatConnect from "./Pages/Patient/chat/ChatConnect";
 
 function App() {
   return (
@@ -100,7 +100,7 @@ function App() {
               <Route path="consult" element={<Consult />} />
               <Route path="specialities" element={<Specialities />} />
               <Route path="doctors" element={<Doctors />} />
-              <Route path="chat" element={<ChatConnect/>} />
+              <Route path="chat" element={<ChatWithDoctorInterface />} />
             </Route>
 
             {/* Fallback */}
