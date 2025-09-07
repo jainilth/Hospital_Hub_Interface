@@ -28,13 +28,13 @@ const AdminLayout = () => {
               </div>
             </div>
 
-            <Link to="/admin/emergency">Emergency</Link>
+            {/* <Link to="/admin/emergency">Emergency</Link>
             <Link to="/admin/medicine">Medicines</Link>
             <Link to="/admin/user">Users</Link>
             <Link to="/admin/hospital">Hospitals</Link>
             <Link to="/admin/appointment">Appointments</Link>
             <Link to="/admin/country">Country</Link>
-            <Link to="#">Labs</Link>
+            <Link to="#">Labs</Link> */}
             {/* <div className="dropdown">
               <Link to="#">For Corporates ▾</Link>
               <div className="dropdown-content">
@@ -50,7 +50,7 @@ const AdminLayout = () => {
               </div>
             </div> */}
             <div className="dropdown">
-              <Link to="#">Security & Help ▾</Link>
+              {/* <Link to="#">Security & Help ▾</Link> */}
               <div className="dropdown-content">
                 <Link to="#">Privacy</Link>
                 <Link to="#">Contact</Link>
@@ -60,7 +60,7 @@ const AdminLayout = () => {
           
           {/* User info and logout */}
           <div className="user-section">
-            <span className="user-name">Welcome, {user?.UserName}</span>
+            {/* <span className="user-name">Welcome, {user?.UserName}</span> */}
             <button className="logout-btn" onClick={handleLogout}>
               Logout
             </button>
