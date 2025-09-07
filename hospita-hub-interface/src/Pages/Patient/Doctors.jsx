@@ -133,7 +133,7 @@ const Doctors = () => {
       <div className="doctors-filters">
         <div className="container-xxl">
           <div className="row g-3">
-            <div className="col-md-3 mb-3">
+            {/* <div className="col-md-3 mb-3">
               <select
                 className="form-select"
                 value={filters.speciality}
@@ -147,7 +147,7 @@ const Doctors = () => {
                 <option value="Gynecologist">Gynecologist</option>
                 <option value="Psychiatrist">Psychiatrist</option>
               </select>
-            </div>
+            </div> */}
             <div className="col-md-3 mb-3">
               <select
                 className="form-select"
@@ -262,7 +262,10 @@ const Doctors = () => {
                         <i className="fas fa-calendar me-2"></i>
                         Book Appointment
                       </button>
-                      <Link to="/patient/chatInterface">
+                      <Link 
+                        to={`/patient/chat?doctorId=${doctor.id}`} 
+                        className="btn btn-outline-primary"
+                      >
                         Chat Now
                       </Link>
                     </div>
