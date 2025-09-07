@@ -13,7 +13,7 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('jwtToken') || localStorage.getItem('token');
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
   },
@@ -25,11 +25,17 @@ api.interceptors.response.use(
   (error) => {
     const status = error.response?.status;
     const url = error.config?.url || '';
-    const hasToken = Boolean(localStorage.getItem('token'));
+    const hasToken = Boolean(localStorage.getItem('jwtToken') || localStorage.getItem('token'));
     const isAuth = url.includes('/auth/login') || url.includes('/auth/register') || url.includes('/auth/validate');
 
     if (status === 401 && hasToken && !isAuth) {
+      localStorage.removeItem('jwtToken');
       localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('UserId');
+      localStorage.removeItem('UserName');
+      localStorage.removeItem('UserEmail');
+      localStorage.removeItem('UserRole');
       window.location.href = '/';
       return;
     }

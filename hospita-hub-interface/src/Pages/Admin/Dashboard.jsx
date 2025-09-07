@@ -6,10 +6,6 @@ import AuthTest from "../../components/AuthTest";
 export default function AdminDashboard() {
   return (
     <div className="admin-dashboard">
-      {/* Authentication Test Component */}
-      {/* <AuthTest /> */}
-
-      {/* Dashboard Header */}
       <div className="dashboard-header">
         <div className="header-content">
           <h1 className="dashboard-title">Health Hub Admin Portal</h1>

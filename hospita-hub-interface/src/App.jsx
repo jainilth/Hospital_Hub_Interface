@@ -20,6 +20,10 @@ import Hospital from "./Pages/Admin/Hospital";
 import Appointment from "./Pages/Admin/Appointment";
 import Country from "./Pages/Admin/Country";
 
+//chat Page
+import PatientByDoctor from "./Pages/Admin/PatientListByDoctorID";
+import AuthTest from "./Pages/Admin/AuthTest";
+
 // Location Management Components
 import LocationManagement from "./Pages/Admin/DashboardSubComponent/LocationManagement";
 import AddCountry from "./Pages/Admin/LocationSubComponent/AddCountry";
@@ -48,7 +52,7 @@ function App() {
           <Routes>
             {/* Login */}
             <Route path="/" element={<LoginPage />} />
-            
+
             {/* Debug route - temporarily add this */}
             <Route path="/debug" element={<LoadingFallback />} />
 
@@ -72,18 +76,50 @@ function App() {
               <Route path="hospital" element={<Hospital />} />
               <Route path="appointment" element={<Appointment />} />
               <Route path="country" element={<Country />} />
-              
+
               {/* Location Management Routes */}
-              <Route path="locationmanagement" element={<LocationManagement />} />
-              <Route path="locationmanagement/addCountry" element={<AddCountry />} />
-              <Route path="locationmanagement/addCountry/:countryId" element={<AddCountry />} />
-              <Route path="locationmanagement/addState" element={<AddState />} />
-              <Route path="locationmanagement/addState/:stateId" element={<AddState />} />
+              <Route
+                path="locationmanagement"
+                element={<LocationManagement />}
+              />
+              <Route
+                path="locationmanagement/addCountry"
+                element={<AddCountry />}
+              />
+              <Route
+                path="locationmanagement/addCountry/:countryId"
+                element={<AddCountry />}
+              />
+              <Route
+                path="locationmanagement/addState"
+                element={<AddState />}
+              />
+              <Route
+                path="locationmanagement/addState/:stateId"
+                element={<AddState />}
+              />
               <Route path="locationmanagement/addCity" element={<AddCity />} />
-              <Route path="locationmanagement/addCity/:cityId" element={<AddCity />} />
-              <Route path="locationmanagement/getCountry/:countryId" element={<CountryDetails />} />
-              <Route path="locationmanagement/getState/:stateId" element={<StateDetails />} />
-              <Route path="locationmanagement/getCity/:cityId" element={<CityDetails />} />
+              <Route
+                path="locationmanagement/addCity/:cityId"
+                element={<AddCity />}
+              />
+              <Route
+                path="locationmanagement/getCountry/:countryId"
+                element={<CountryDetails />}
+              />
+              <Route
+                path="locationmanagement/getState/:stateId"
+                element={<StateDetails />}
+              />
+              <Route
+                path="locationmanagement/getCity/:cityId"
+                element={<CityDetails />}
+              />
+              <Route
+                path="patientListByDoctorID"
+                element={<PatientByDoctor />}
+              />
+              <Route path="auth-test" element={<AuthTest />} />
             </Route>
 
             {/* Patient Area */}

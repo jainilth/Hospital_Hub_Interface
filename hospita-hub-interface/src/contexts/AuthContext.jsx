@@ -1,12 +1,18 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import api from '../services/api';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
+import api from "../services/api";
 
 const AuthContext = createContext();
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
@@ -14,25 +20,30 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     // Try to get user from localStorage on initialization
-    const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [token, setToken] = useState(localStorage.getItem("jwtToken"));
   const [loading, setLoading] = useState(true);
 
   const logout = useCallback(() => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem("jwtToken");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("UserId");
+    localStorage.removeItem("UserName");
+    localStorage.removeItem("UserEmail");
+    localStorage.removeItem("UserRole");
     setToken(null);
     setUser(null);
-    delete api.defaults.headers.common['Authorization'];
+    delete api.defaults.headers.common["Authorization"];
   }, []);
 
   useEffect(() => {
     if (token) {
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     } else {
-      delete api.defaults.headers.common['Authorization'];
+      delete api.defaults.headers.common["Authorization"];
     }
   }, [token]);
 
@@ -40,9 +51,9 @@ export const AuthProvider = ({ children }) => {
     const validateToken = async () => {
       // Temporarily disable token validation to prevent logout issues
       // The user data is now persisted in localStorage, so we don't need to validate every time
-      console.log('Token validation disabled - using stored user data');
-      console.log('Stored user:', user);
-      
+      console.log("Token validation disabled - using stored user data");
+      console.log("Stored user:", user);
+
       // Just set loading to false without validating
       setLoading(false);
     };
@@ -52,9 +63,9 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await api.post('/auth/login', {
+      const response = await api.post("/auth/login", {
         email: email.trim(),
-        password
+        password,
       });
 
       const payload = response?.data || {};
@@ -62,11 +73,11 @@ export const AuthProvider = ({ children }) => {
       const userPayload = payload.User || payload.user;
 
       // Debug logging
-      console.log('Login Response Debug:', {
+      console.log("Login Response Debug:", {
         fullResponse: response,
         responseData: response.data,
         payload,
-        token: token ? 'Present' : 'Missing',
+        token: token ? "Present" : "Missing",
         userPayload,
         userRole: userPayload?.UserRole,
         userPayloadKeys: userPayload ? Object.keys(userPayload) : [],
@@ -76,51 +87,63 @@ export const AuthProvider = ({ children }) => {
           role: userPayload?.role,
           Role: userPayload?.Role,
           type: userPayload?.type,
-          Type: userPayload?.Type
-        }
+          Type: userPayload?.Type,
+        },
       });
 
       if (!token || !userPayload) {
-        if (import.meta?.env?.MODE !== 'production') {
+        if (import.meta?.env?.MODE !== "production") {
           // Non-intrusive debug for development
           // eslint-disable-next-line no-console
-          console.warn('Unexpected login payload shape:', payload);
+          console.warn("Unexpected login payload shape:", payload);
         }
-        return { success: false, error: 'Invalid server response' };
+        return { success: false, error: "Invalid server response" };
       }
 
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(userPayload));
+      localStorage.setItem("jwtToken", token);
+      localStorage.setItem("token", token); // Keep both for compatibility
+      console.log("**********************");
+      const userId = userPayload.userId;
+      const userName = userPayload.userName;
+      const userEmail = userPayload.userEmail;
+      const userRole = userPayload.userRole;
+      localStorage.setItem("user", JSON.stringify(userPayload));
+      localStorage.setItem("UserId", userId);
+      localStorage.setItem("UserName", userName);
+      localStorage.setItem("UserEmail", userEmail);
+      localStorage.setItem("UserRole", userRole);
+
       setToken(token);
       setUser(userPayload);
 
-      console.log('User set in AuthContext:', userPayload);
+      console.log("User set in AuthContext:", userPayload);
       return { success: true, user: userPayload };
     } catch (error) {
-      console.error('Login error:', error);
+      console.error("Login error:", error);
       const backendMessage = error.response?.data?.Message;
-      let message = backendMessage || 'Login failed';
-      if (error.code === 'ERR_NETWORK') message = 'Network error';
-      if (error.message?.includes('timeout')) message = 'Server timeout, try again';
+      let message = backendMessage || "Login failed";
+      if (error.code === "ERR_NETWORK") message = "Network error";
+      if (error.message?.includes("timeout"))
+        message = "Server timeout, try again";
       return { success: false, error: message };
     }
   };
 
-  const register = async (name, email, password, role = 'User') => {
+  const register = async (name, email, password, role = "User") => {
     try {
-      const response = await api.post('/auth/register', {
+      const response = await api.post("/auth/register", {
         name,
         email,
         password,
-        role
+        role,
       });
 
       return { success: true, message: response.data.Message };
     } catch (error) {
-      console.error('Registration error:', error);
+      console.error("Registration error:", error);
       return {
         success: false,
-        error: error.response?.data?.Message || 'Registration failed'
+        error: error.response?.data?.Message || "Registration failed",
       };
     }
   };
@@ -132,12 +155,8 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
-    isAuthenticated: !!token
+    isAuthenticated: !!token,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
