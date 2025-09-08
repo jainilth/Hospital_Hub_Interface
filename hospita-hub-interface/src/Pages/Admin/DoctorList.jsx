@@ -6,8 +6,12 @@ import { useDebounce } from "../../hooks/useDebounce";
 
 export default function DoctorList() {
   const navigate = useNavigate();
-  
-  // Pagination and search states
+  const API_BASE_URL = "http://localhost:5220/api";
+
+  // JWT Token
+  const [jwtToken, setJwtToken] = useState("");
+
+  // Doctors data and pagination
   const [doctorsData, setDoctorsData] = useState({
     data: [],
     totalRecords: 0,
@@ -17,11 +21,9 @@ export default function DoctorList() {
     hasPreviousPage: false,
     hasNextPage: false,
   });
-  const [specializations, setSpecializations] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [searchLoading, setSearchLoading] = useState(false);
 
-  // Filter and search states
+  // Filters, sorting, search
+  const [specializations, setSpecializations] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [specializationFilter, setSpecializationFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
@@ -29,7 +31,9 @@ export default function DoctorList() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [sortBy, setSortBy] = useState("DoctorName");
   const [sortDirection, setSortDirection] = useState("asc");
-  
+  const [loading, setLoading] = useState(true);
+  const [searchLoading, setSearchLoading] = useState(false);
+
   // Modal states
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
@@ -37,17 +41,20 @@ export default function DoctorList() {
   const [doctorToDelete, setDoctorToDelete] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  // Debounce search term to avoid excessive API calls
+  // Debounced search
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const API_BASE_URL = "http://localhost:5220/api";
+  // Load JWT
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setJwtToken(token);
+    console.log("JWT Token:", token);
+  }, []);
 
-  // Function to fetch doctors with pagination
+  // Fetch doctors with pagination
   const fetchDoctors = useCallback(async (showLoading = true) => {
     try {
-      if (showLoading) {
-        setSearchLoading(true);
-      }
+      if (showLoading) setSearchLoading(true);
 
       const params = new URLSearchParams({
         pageNumber: currentPage.toString(),
@@ -59,191 +66,94 @@ export default function DoctorList() {
         sortDirection: sortDirection,
       });
 
-      console.log("Fetching doctors with params:", params.toString());
       const response = await axios.get(
-        `${API_BASE_URL}/Doctor/GetDoctorsWithPagination?${params}`
+        `${API_BASE_URL}/Doctor/GetDoctorsWithPagination?${params}`,
+        {
+          headers: { Authorization: `Bearer ${jwtToken}` },
+        }
       );
-      
-      console.log("API Response:", response.data);
+
       setDoctorsData(response.data);
     } catch (err) {
       console.error("API Error:", err);
-      console.error("API Error Details:", err.response?.data);
-      
-      // If the pagination endpoint fails, try the regular endpoint as fallback
+      // Fallback
       try {
-        console.log("Trying fallback endpoint...");
-        const fallbackResponse = await axios.get(`${API_BASE_URL}/Doctor/GetAllDoctors`);
-        console.log("Fallback response:", fallbackResponse.data);
-        
+        const fallback = await axios.get(`${API_BASE_URL}/Doctor/GetAllDoctors`, {
+          headers: { Authorization: `Bearer ${jwtToken}` },
+        });
         setDoctorsData({
-          data: fallbackResponse.data || [],
-          totalRecords: fallbackResponse.data?.length || 0,
+          data: fallback.data || [],
+          totalRecords: fallback.data?.length || 0,
           pageNumber: 1,
           pageSize: itemsPerPage,
           totalPages: 1,
           hasPreviousPage: false,
           hasNextPage: false,
           startRecord: 1,
-          endRecord: fallbackResponse.data?.length || 0
+          endRecord: fallback.data?.length || 0,
         });
       } catch (fallbackErr) {
         console.error("Fallback API Error:", fallbackErr);
-        setDoctorsData({
-          data: [],
-          totalRecords: 0,
-          pageNumber: 1,
-          pageSize: 10,
-          totalPages: 0,
-          hasPreviousPage: false,
-          hasNextPage: false,
-        });
+        setDoctorsData({ data: [], totalRecords: 0, pageNumber: 1, pageSize: 10, totalPages: 0, hasPreviousPage: false, hasNextPage: false });
       }
     } finally {
       setLoading(false);
       setSearchLoading(false);
     }
-  }, [currentPage, itemsPerPage, debouncedSearchTerm, specializationFilter, statusFilter, sortBy, sortDirection]);
+  }, [currentPage, itemsPerPage, debouncedSearchTerm, specializationFilter, statusFilter, sortBy, sortDirection, jwtToken]);
 
-  // Initial data load
-  useEffect(() => {
-    fetchDoctors();
-  }, [fetchDoctors]);
+  // Initial load
+  useEffect(() => { fetchDoctors(); }, [fetchDoctors]);
 
   // Fetch specializations
   useEffect(() => {
-    axios
-      .get(`${API_BASE_URL}/Specialization/GetAllSpecializations`)
-      .then((res) => {
-        console.log("Specializations loaded:", res.data);
-        setSpecializations(res.data);
-      })
-      .catch((err) => {
-        console.error("Specialization API Error:", err);
-        setSpecializations([]);
-      });
-  }, []);
+    if (!jwtToken) return;
+    axios.get(`${API_BASE_URL}/Specialization/GetAllSpecializations`, { headers: { Authorization: `Bearer ${jwtToken}` } })
+      .then(res => setSpecializations(res.data))
+      .catch(err => setSpecializations([]));
+  }, [jwtToken]);
 
-  // Reset to first page when filters change
-  useEffect(() => {
-    if (currentPage !== 1) {
-      setCurrentPage(1);
-    }
-  }, [debouncedSearchTerm, specializationFilter, statusFilter]);
+  // Reset page when filters change
+  useEffect(() => { if (currentPage !== 1) setCurrentPage(1); }, [debouncedSearchTerm, specializationFilter, statusFilter]);
 
-  // Handle page change
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
+  // Pagination handlers
+  const handleItemsPerPageChange = (value) => setItemsPerPage(Number(value));
+  const handlePageChange = (page) => {
+    if (page < 1 || page > doctorsData.totalPages) return;
+    setCurrentPage(page);
+  };
+  const getPageNumbers = () => {
+    const pages = [];
+    for (let i = 1; i <= doctorsData.totalPages; i++) pages.push(i);
+    return pages;
   };
 
-  // Handle items per page change
-  const handleItemsPerPageChange = (newSize) => {
-    setItemsPerPage(parseInt(newSize));
-    setCurrentPage(1); // Reset to first page
-  };
-
-  // Handle sorting
-  const handleSort = (field) => {
-    if (sortBy === field) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-    } else {
-      setSortBy(field);
-      setSortDirection("asc");
-    }
-    setCurrentPage(1); // Reset to first page
-  };
-
-  // Handle View Doctor
-  const handleViewDoctor = (doctor) => {
-    setSelectedDoctor(doctor);
-    setViewModalOpen(true);
-  };
-
-  // Handle Edit Doctor
-  const handleEditDoctor = (doctor) => {
-    // Navigate to edit page with doctor ID
-    navigate(`/admin/doctorEdit/${doctor.doctorId || doctor.DoctorId}`);
-  };
-
-  // Handle Delete Doctor
-  const handleDeleteDoctor = (doctor) => {
-    setDoctorToDelete(doctor);
-    setDeleteModalOpen(true);
-  };
-
-  // Confirm Delete Doctor
+  // Modal handlers
+  const handleViewDoctor = (doctor) => { setSelectedDoctor(doctor); setViewModalOpen(true); };
+  const handleEditDoctor = (doctor) => { navigate(`/admin/doctorEdit/${doctor.doctorId || doctor.DoctorId}`); };
+  const handleDeleteDoctor = (doctor) => { setDoctorToDelete(doctor); setDeleteModalOpen(true); };
   const confirmDeleteDoctor = async () => {
-    if (!doctorToDelete) return;
-    
     setDeleteLoading(true);
     try {
-      await axios.delete(`${API_BASE_URL}/Doctor/DeleteDoctor/${doctorToDelete.doctorId || doctorToDelete.DoctorId}`);
-      
-      // Refresh the doctors list
-      await fetchDoctors();
-      
+      await axios.delete(`${API_BASE_URL}/Doctor/Delete/${doctorToDelete.doctorId || doctorToDelete.DoctorId}`, { headers: { Authorization: `Bearer ${jwtToken}` } });
       setDeleteModalOpen(false);
-      setDoctorToDelete(null);
+      fetchDoctors();
     } catch (err) {
-      console.error("Error deleting doctor:", err);
-      alert("Error deleting doctor. Please try again.");
+      console.error(err);
     } finally {
       setDeleteLoading(false);
     }
   };
 
-  // Handle Consult Now
-  const handleConsultNow = (doctor) => {
-    // Navigate to patient chat interface
-    navigate(`/patient/chat?doctorId=${doctor.doctorId || doctor.DoctorId}`);
-  };
-
-  // Handle Message
-  const handleMessage = (doctor) => {
-    // Navigate to messaging interface
-    navigate(`/patient/chat?doctorId=${doctor.doctorId || doctor.DoctorId}&mode=message`);
-  };
-
-  // Generate page numbers for pagination
-  const getPageNumbers = () => {
-    const pages = [];
-    const totalPages = doctorsData.totalPages;
-    const current = currentPage;
-    
-    // Show up to 5 page numbers around current page
-    let start = Math.max(1, current - 2);
-    let end = Math.min(totalPages, current + 2);
-    
-    // Adjust if we're near the beginning or end
-    if (end - start < 4) {
-      if (start === 1) {
-        end = Math.min(totalPages, start + 4);
-      } else {
-        start = Math.max(1, end - 4);
-      }
-    }
-    
-    for (let i = start; i <= end; i++) {
-      pages.push(i);
-    }
-    
-    return pages;
-  };
-
-  if (loading) {
-    return (
-      <div className="doctor-list-container">
-        <div style={{ textAlign: "center", padding: "50px" }}>
-          <h2>Loading doctors...</h2>
-        </div>
-      </div>
-    );
-  }
-
   const doctors = doctorsData.data || [];
 
   return (
     <div className="doctor-list-container">
+      {/* JWT Token display */}
+      <div style={{ background: "#f3f3f3", padding: "10px", marginBottom: "10px" }}>
+        <strong>JWT Token:</strong> {jwtToken || "Not Found"}
+      </div>
+      
       {/* Header Section */}
       <div className="doctor-list-header">
         <h1>Doctor Management</h1>
@@ -582,18 +492,18 @@ export default function DoctorList() {
                   </button>
                 </div>
               </div>
-              <button 
-                className="specialty-practo-link consult-btn"
-                onClick={() => handleConsultNow(doc)}
-              >
-                Consult now &gt;
-              </button>
-              <button 
+
+              <Link
                 className="message-btn"
-                onClick={() => handleMessage(doc)}
+                to="/admin/patientListByDoctorID"
+                onClick={() => {
+                  // Store the doctor ID to localStorage before navigating
+                  localStorage.setItem("doctorId", doc.doctorId || doc.DoctorId);
+                }}
               >
                 Message
-              </button>
+              </Link>
+
             </div>
           ))
         )}
