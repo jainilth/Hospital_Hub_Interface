@@ -49,7 +49,7 @@ export default function PatientListByDoctorID() {
         }
 
         const data = await response.json();
-        setPatients(data.patients); // because backend returns { patients = [...] }
+        setPatients(data.patients); 
         setLoading(false);
       } catch (err) {
         console.error(err);
@@ -76,7 +76,7 @@ export default function PatientListByDoctorID() {
                 marginTop: "5px",
                 cursor: "pointer",
               }}
-              // ✅ use doctorId from localStorage instead of doctor.id
+              
               onClick={() =>
                 navigate(
                   `/patient/chat?doctorId=${doctorId}&patientId=${patientId}`
