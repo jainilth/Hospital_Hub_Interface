@@ -101,7 +101,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       localStorage.setItem("jwtToken", token);
-      localStorage.setItem("token", token); // Keep both for compatibility
+      localStorage.setItem("token", token);
       console.log("**********************");
       const userId = userPayload.userId;
       const userName = userPayload.userName;
