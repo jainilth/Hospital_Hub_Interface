@@ -28,13 +28,13 @@ const AdminLayout = () => {
               </div>
             </div>
 
-            {/* <Link to="/admin/emergency">Emergency</Link>
+            <Link to="/admin/emergency">Emergency</Link>
             <Link to="/admin/medicine">Medicines</Link>
             <Link to="/admin/user">Users</Link>
             <Link to="/admin/hospital">Hospitals</Link>
             <Link to="/admin/appointment">Appointments</Link>
             <Link to="/admin/country">Country</Link>
-            <Link to="#">Labs</Link> */}
+            <Link to="#">Labs</Link>
             {/* <div className="dropdown">
               <Link to="#">For Corporates ▾</Link>
               <div className="dropdown-content">

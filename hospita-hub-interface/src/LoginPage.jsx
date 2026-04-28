@@ -115,7 +115,7 @@ export default function LoginPage() {
         <div className="col-12">
           <div className="card shadow-sm">
             <div className="card-body p-4">
-              <h3 className="mb-1 text-center">Hospital Hub</h3>
+              <h3 className="mb-1 text-center">Health-Hub</h3>
               <p className="text-muted mb-4 text-center">
                 {isLogin ? 'Sign in to continue' : 'Create your account'}
               </p>
